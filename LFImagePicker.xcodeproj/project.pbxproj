@@ -17,6 +17,7 @@
 		ABB34C001BB3D17B00C290A7 /* LFImagePickerUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = ABB34BFF1BB3D17B00C290A7 /* LFImagePickerUITests.m */; };
 		ABB34C111BB554F900C290A7 /* UIView+LayoutMethods.m in Sources */ = {isa = PBXBuildFile; fileRef = ABB34C101BB554F900C290A7 /* UIView+LayoutMethods.m */; settings = {ASSET_TAGS = (); }; };
 		ABB34C161BB55CD200C290A7 /* LFPhotoCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = ABB34C151BB55CD200C290A7 /* LFPhotoCollectionViewCell.m */; settings = {ASSET_TAGS = (); }; };
+		ABEAC0541BB9358700C94E44 /* LFPhotoData.m in Sources */ = {isa = PBXBuildFile; fileRef = ABEAC0531BB9358700C94E44 /* LFPhotoData.m */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +58,8 @@
 		ABB34C101BB554F900C290A7 /* UIView+LayoutMethods.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+LayoutMethods.m"; sourceTree = "<group>"; };
 		ABB34C141BB55CD200C290A7 /* LFPhotoCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LFPhotoCollectionViewCell.h; sourceTree = "<group>"; };
 		ABB34C151BB55CD200C290A7 /* LFPhotoCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LFPhotoCollectionViewCell.m; sourceTree = "<group>"; };
+		ABEAC0521BB9358700C94E44 /* LFPhotoData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LFPhotoData.h; sourceTree = "<group>"; };
+		ABEAC0531BB9358700C94E44 /* LFPhotoData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LFPhotoData.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,6 +111,7 @@
 			isa = PBXGroup;
 			children = (
 				ABB34C0D1BB554F900C290A7 /* Categories */,
+				ABEAC0501BB9350400C94E44 /* Datas */,
 				ABB34C121BB55C9200C290A7 /* Views */,
 				ABB34BE01BB3D17A00C290A7 /* LFImagePickerViewController.h */,
 				ABB34BE11BB3D17A00C290A7 /* LFImagePickerViewController.m */,
@@ -180,6 +184,23 @@
 				ABB34C151BB55CD200C290A7 /* LFPhotoCollectionViewCell.m */,
 			);
 			path = photoCell;
+			sourceTree = "<group>";
+		};
+		ABEAC0501BB9350400C94E44 /* Datas */ = {
+			isa = PBXGroup;
+			children = (
+				ABEAC0511BB9355500C94E44 /* PhotoData */,
+			);
+			path = Datas;
+			sourceTree = "<group>";
+		};
+		ABEAC0511BB9355500C94E44 /* PhotoData */ = {
+			isa = PBXGroup;
+			children = (
+				ABEAC0521BB9358700C94E44 /* LFPhotoData.h */,
+				ABEAC0531BB9358700C94E44 /* LFPhotoData.m */,
+			);
+			path = PhotoData;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -313,6 +334,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ABEAC0541BB9358700C94E44 /* LFPhotoData.m in Sources */,
 				ABB34BE21BB3D17A00C290A7 /* LFImagePickerViewController.m in Sources */,
 				ABB34BDF1BB3D17A00C290A7 /* AppDelegate.m in Sources */,
 				ABB34C161BB55CD200C290A7 /* LFPhotoCollectionViewCell.m in Sources */,
@@ -543,6 +565,7 @@
 				ABB34C061BB3D17B00C290A7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		ABB34C071BB3D17B00C290A7 /* Build configuration list for PBXNativeTarget "LFImagePickerTests" */ = {
 			isa = XCConfigurationList;
@@ -551,6 +574,7 @@
 				ABB34C091BB3D17B00C290A7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		ABB34C0A1BB3D17B00C290A7 /* Build configuration list for PBXNativeTarget "LFImagePickerUITests" */ = {
 			isa = XCConfigurationList;
@@ -559,6 +583,7 @@
 				ABB34C0C1BB3D17B00C290A7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

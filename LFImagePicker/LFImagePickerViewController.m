@@ -41,79 +41,90 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.view addSubview:self.collectionView];
-    
-    if (self.authorizationStatus == PHAuthorizationStatusNotDetermined) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status) {
-                status = PHAuthorizationStatusAuthorized;
-            }];
-        });
-    } else if (self.authorizationStatus == PHAuthorizationStatusAuthorized) {
-        
-    } else if (self.authorizationStatus == PHAuthorizationStatusRestricted) {
-        [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status) {
-            status = PHAuthorizationStatusAuthorized;
-        }];
-    } else if (self.authorizationStatus == PHAuthorizationStatusDenied) {
-        [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status) {
-            status = PHAuthorizationStatusAuthorized;
-        }];
-    } else {
-        [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status) {
-            status = PHAuthorizationStatusAuthorized;
-        }];
-    }
-    
-    PHFetchResult *smartAlbums = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum
-                                                                          subtype:PHAssetCollectionSubtypeAlbumRegular
-                                                                          options:nil];
-    [smartAlbums enumerateObjectsUsingBlock:^(PHAssetCollection * _Nonnull collection, NSUInteger idx, BOOL * _Nonnull stop) {
-        if ([collection.localizedTitle isEqualToString:@"Camera Roll"]) {
-            self.album = collection;
-            NSLog(@"////////////////////%@ //////////////////////// %@", collection.localizedTitle, collection.localIdentifier);
-            PHFetchResult *assetsFetchResult = [PHAsset fetchAssetsInAssetCollection:collection options:nil];
-            self.photos = assetsFetchResult;
-            [assetsFetchResult enumerateObjectsUsingBlock:^(PHAsset * _Nonnull asset, NSUInteger idx, BOOL * _Nonnull stop) {
-                NSLog(@"%@", asset);
-            }];
-        }
-    }];
-    
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
     [self.collectionView fill];
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    
+    [self configAlbums];
 }
 
 #pragma mark - UICollectionViewDataSource
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return [self.photos count];
+    return [self.photos count] + 1;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     LFPhotoCollectionViewCell *cell = (LFPhotoCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:kLFPhotoCollectionViewCellIdentifier forIndexPath:indexPath];
-    if (indexPath.item == 6) {
-        NSLog(@"");
+    if (indexPath.item == 0) {
+        
+    } else {
+        [cell configWithDataWithAsset:self.photos[[self.photos count] - indexPath.item]];
     }
-    [cell configWithDataWithAsset:self.photos[indexPath.item]];
     return cell;
+}
+
+#pragma mark - UICollectionViewDelegate
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    LFPhotoCollectionViewCell *cell = (LFPhotoCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
+    if (!cell.isChose) {
+        [cell addChosen];
+    } else {
+        [cell removeChosen];
+    }
+    
 }
 
 #pragma mark - PHPhotoLibraryChangeObserver
 - (void)photoLibraryDidChange:(PHChange *)changeInstance
 {
     [self.collectionView reloadData];
+}
+
+#pragma mark - private
+
+- (void)configAlbums
+{
+    [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status) {
+        if (status == PHAuthorizationStatusAuthorized) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                PHFetchResult *smartAlbums = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum
+                                                                                      subtype:PHAssetCollectionSubtypeAlbumRegular
+                                                                                      options:nil];
+                self.smartAlbums = smartAlbums;
+                [self configAlbumByAlbums:smartAlbums];
+                [self.collectionView reloadData];
+            });
+        }
+    }];
+}
+
+- (void)configAlbumByAlbums:(PHFetchResult *)albums
+{
+    [albums enumerateObjectsUsingBlock:^(PHAssetCollection * _Nonnull collection, NSUInteger idx, BOOL * _Nonnull stop) {
+        if ([collection.localizedTitle isEqualToString:@"Camera Roll"]) {
+            self.album = collection;
+            PHFetchResult *assetsFetchResult = [PHAsset fetchAssetsInAssetCollection:collection options:nil];
+            [self configPhotosByAlbum:assetsFetchResult];
+        }
+    }];
+}
+
+- (void)configPhotosByAlbum:(PHFetchResult *)album
+{
+    self.photos = album;
 }
 
 #pragma mark - getters & setters
@@ -132,8 +143,6 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
         _collectionView.showsHorizontalScrollIndicator = NO;
         _collectionView.showsVerticalScrollIndicator = NO;
         [_collectionView registerClass:[LFPhotoCollectionViewCell class] forCellWithReuseIdentifier:kLFPhotoCollectionViewCellIdentifier];
-        
-        
     }
     return _collectionView;
 }
