@@ -37,8 +37,9 @@
 
 - (void)configWithDataWithAsset:(PHAsset *)asset
 {
+    CGFloat scale = [UIScreen mainScreen].scale;
     [self.cachingImageManager requestImageForAsset:asset
-                                        targetSize:CGSizeMake(asset.pixelWidth, asset.pixelHeight)
+                                        targetSize:CGSizeMake(self.width * scale, self.height * scale)
                                        contentMode:PHImageContentModeAspectFit
                                            options:nil
                                      resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {

@@ -15,11 +15,12 @@
 
 NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewCell";
 
-@interface LFImagePickerViewController () <UICollectionViewDataSource, UICollectionViewDelegate>
+@interface LFImagePickerViewController () <UICollectionViewDataSource, UICollectionViewDelegate, PHPhotoLibraryChangeObserver>
 
 @property (nonatomic, strong) PHFetchResult *smartAlbums;
 @property (nonatomic, strong) PHAssetCollection *album;
 @property (nonatomic, strong) PHFetchResult *photos;
+@property (nonatomic, assign) PHAuthorizationStatus authorizationStatus;
 
 @property (nonatomic, strong) UICollectionView *collectionView;
 
@@ -29,8 +30,39 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
 
 #pragma mark - life cycle
 
+- (instancetype)init
+{
+    if (self = [super init]) {
+        
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self.view addSubview:self.collectionView];
+    
+    if (self.authorizationStatus == PHAuthorizationStatusNotDetermined) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status) {
+                status = PHAuthorizationStatusAuthorized;
+            }];
+        });
+    } else if (self.authorizationStatus == PHAuthorizationStatusAuthorized) {
+        
+    } else if (self.authorizationStatus == PHAuthorizationStatusRestricted) {
+        [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status) {
+            status = PHAuthorizationStatusAuthorized;
+        }];
+    } else if (self.authorizationStatus == PHAuthorizationStatusDenied) {
+        [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status) {
+            status = PHAuthorizationStatusAuthorized;
+        }];
+    } else {
+        [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status) {
+            status = PHAuthorizationStatusAuthorized;
+        }];
+    }
     
     PHFetchResult *smartAlbums = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum
                                                                           subtype:PHAssetCollectionSubtypeAlbumRegular
@@ -47,8 +79,6 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
         }
     }];
     
-    [self.view addSubview:self.collectionView];
-    
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -58,8 +88,9 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
     [self.collectionView fill];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
 }
 
 #pragma mark - UICollectionViewDataSource
@@ -79,6 +110,11 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
     return cell;
 }
 
+#pragma mark - PHPhotoLibraryChangeObserver
+- (void)photoLibraryDidChange:(PHChange *)changeInstance
+{
+    [self.collectionView reloadData];
+}
 
 #pragma mark - getters & setters
 - (UICollectionView *)collectionView
@@ -100,6 +136,12 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
         
     }
     return _collectionView;
+}
+
+- (PHAuthorizationStatus)authorizationStatus
+{
+    _authorizationStatus = [PHPhotoLibrary authorizationStatus];
+    return _authorizationStatus;
 }
 
 
