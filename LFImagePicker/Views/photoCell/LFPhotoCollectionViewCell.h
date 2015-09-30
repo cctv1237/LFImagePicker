@@ -11,8 +11,12 @@
 
 @interface LFPhotoCollectionViewCell : UICollectionViewCell
 
+@property (nonatomic, assign) BOOL isChose;
 @property (nonatomic, strong) UIImageView *contentImageView;
 
 - (void)configWithDataWithAsset:(PHAsset *)asset;
+- (void)addChosen;
+- (void)removeChosen;
+
 
 @end

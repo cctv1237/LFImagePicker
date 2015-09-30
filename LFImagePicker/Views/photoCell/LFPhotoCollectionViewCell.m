@@ -24,13 +24,23 @@
 {
     if (self = [super initWithFrame:frame]) {
         [self addSubview:self.contentImageView];
+        self.isChose = NO;
     }
     return self;
 }
 
 - (void)layoutSubviews
 {
-    [self.contentImageView fill];
+    self.contentImageView.width = self.width - 2;
+    self.contentImageView.height = self.height - 2;
+    [self.contentImageView centerXEqualToView:self];
+    [self.contentImageView centerYEqualToView:self];
+}
+
+- (void)prepareForReuse
+{
+    self.contentImageView.image = nil;
+    self.contentImageView.layer.borderWidth = 0;
 }
 
 #pragma mark - public
@@ -39,12 +49,35 @@
 {
     CGFloat scale = [UIScreen mainScreen].scale;
     [self.cachingImageManager requestImageForAsset:asset
-                                        targetSize:CGSizeMake(self.width * scale, self.height * scale)
+                                        targetSize:CGSizeMake((self.width - 2) * scale, (self.height - 2) * scale)
                                        contentMode:PHImageContentModeAspectFit
                                            options:nil
                                      resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
                                          self.contentImageView.image = result;
                                      }];
+}
+
+- (void)addChosen
+{
+    self.contentImageView.layer.borderWidth = 2;
+    self.isChose = YES;
+    [self bounce];
+}
+
+- (void)removeChosen
+{
+    self.contentImageView.layer.borderWidth = 0;
+    self.isChose = NO;
+    [self bounce];
+}
+
+- (void)bounce
+{
+    self.contentImageView.transform = CGAffineTransformMakeScale(0.97, 0.97);
+    [UIView animateWithDuration:0.8 delay:0.0 usingSpringWithDamping:0.3 initialSpringVelocity:1 options:UIViewAnimationOptionCurveEaseInOut | UIViewAnimationOptionAllowUserInteraction animations:^{
+        self.contentImageView.transform = CGAffineTransformIdentity;
+    } completion:nil];
+    
 }
 
 #pragma mark - getters & setters
@@ -55,6 +88,7 @@
         _contentImageView = [[UIImageView alloc] init];
         _contentImageView.contentMode = UIViewContentModeScaleAspectFill;
         _contentImageView.clipsToBounds = YES;
+        _contentImageView.layer.borderColor = [UIColor cyanColor].CGColor;
     }
     return _contentImageView;
 }
