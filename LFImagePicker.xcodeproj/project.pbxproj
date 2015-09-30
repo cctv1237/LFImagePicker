@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AB2C973F1BBA6686004F9E9A /* LFImagePickerTopBar.m in Sources */ = {isa = PBXBuildFile; fileRef = AB2C973E1BBA6686004F9E9A /* LFImagePickerTopBar.m */; settings = {ASSET_TAGS = (); }; };
 		ABB34BDC1BB3D17A00C290A7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = ABB34BDB1BB3D17A00C290A7 /* main.m */; };
 		ABB34BDF1BB3D17A00C290A7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = ABB34BDE1BB3D17A00C290A7 /* AppDelegate.m */; };
 		ABB34BE21BB3D17A00C290A7 /* LFImagePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ABB34BE11BB3D17A00C290A7 /* LFImagePickerViewController.m */; };
@@ -38,6 +39,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		AB2C973D1BBA6686004F9E9A /* LFImagePickerTopBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LFImagePickerTopBar.h; sourceTree = "<group>"; };
+		AB2C973E1BBA6686004F9E9A /* LFImagePickerTopBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LFImagePickerTopBar.m; sourceTree = "<group>"; };
 		ABB34BD71BB3D17A00C290A7 /* LFImagePicker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LFImagePicker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ABB34BDB1BB3D17A00C290A7 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		ABB34BDD1BB3D17A00C290A7 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -87,6 +90,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		AB2C973C1BBA6654004F9E9A /* topBar */ = {
+			isa = PBXGroup;
+			children = (
+				AB2C973D1BBA6686004F9E9A /* LFImagePickerTopBar.h */,
+				AB2C973E1BBA6686004F9E9A /* LFImagePickerTopBar.m */,
+			);
+			path = topBar;
+			sourceTree = "<group>";
+		};
 		ABB34BCE1BB3D17A00C290A7 = {
 			isa = PBXGroup;
 			children = (
@@ -172,6 +184,7 @@
 		ABB34C121BB55C9200C290A7 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				AB2C973C1BBA6654004F9E9A /* topBar */,
 				ABB34C131BB55C9200C290A7 /* photoCell */,
 			);
 			path = Views;
@@ -334,6 +347,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AB2C973F1BBA6686004F9E9A /* LFImagePickerTopBar.m in Sources */,
 				ABEAC0541BB9358700C94E44 /* LFPhotoData.m in Sources */,
 				ABB34BE21BB3D17A00C290A7 /* LFImagePickerViewController.m in Sources */,
 				ABB34BDF1BB3D17A00C290A7 /* AppDelegate.m in Sources */,
@@ -478,6 +492,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = LFImagePicker/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -490,6 +505,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = LFImagePicker/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
