@@ -11,12 +11,10 @@
 
 @interface LFPhotoCollectionViewCell : UICollectionViewCell
 
-@property (nonatomic, assign) BOOL isChose;
-@property (nonatomic, strong) UIImageView *contentImageView;
-
-- (void)configWithDataWithAsset:(PHAsset *)asset;
-- (void)addChosen;
-- (void)removeChosen;
+- (void)configWithDataWithAsset:(PHAsset *)asset themeColor:(UIColor *)color;
+- (void)bounceAnimation;
+- (void)addSelectionSign;
+- (void)removeSelectionSign;
 
 
 @end

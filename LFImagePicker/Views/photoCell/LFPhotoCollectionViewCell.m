@@ -14,6 +14,13 @@
 
 @property (nonatomic, strong) PHCachingImageManager *cachingImageManager;
 
+@property (nonatomic, strong) UIImageView *contentImageView;
+@property (nonatomic, strong) UIView *indexBadge;
+@property (nonatomic, strong) UILabel *indexLabel;
+
+@property (nonatomic, assign) CGFloat gap;
+@property (nonatomic, strong) UIColor *themeColor;
+
 @end
 
 @implementation LFPhotoCollectionViewCell
@@ -23,33 +30,49 @@
 - (instancetype)initWithFrame:(CGRect)frame
 {
     if (self = [super initWithFrame:frame]) {
-        [self addSubview:self.contentImageView];
-        self.isChose = NO;
+        [self.contentView addSubview:self.contentImageView];
+        [self.contentImageView addSubview:self.indexBadge];
+        self.gap = 2.0f;
     }
     return self;
 }
 
 - (void)layoutSubviews
 {
-    self.contentImageView.width = self.width - 2;
-    self.contentImageView.height = self.height - 2;
+    self.contentImageView.width = self.width - self.gap;
+    self.contentImageView.height = self.height - self.gap;
     [self.contentImageView centerXEqualToView:self];
     [self.contentImageView centerYEqualToView:self];
+    
+    [self.indexBadge topInContainer:10 shouldResize:NO];
+    [self.indexBadge rightInContainer:10 shouldResize:NO];
 }
 
 - (void)prepareForReuse
 {
+    [super prepareForReuse];
     self.contentImageView.image = nil;
-    self.contentImageView.layer.borderWidth = 0;
+}
+
+- (void)setSelected:(BOOL)selected
+{
+    [super setSelected:selected];
+    if (selected) {
+        [self addSelectionSign];
+    } else {
+        [self removeSelectionSign];
+    }
+
 }
 
 #pragma mark - public
 
-- (void)configWithDataWithAsset:(PHAsset *)asset
+- (void)configWithDataWithAsset:(PHAsset *)asset themeColor:(UIColor *)color
 {
+    self.themeColor = color;
     CGFloat scale = [UIScreen mainScreen].scale;
     [self.cachingImageManager requestImageForAsset:asset
-                                        targetSize:CGSizeMake((self.width - 2) * scale, (self.height - 2) * scale)
+                                        targetSize:CGSizeMake((self.width - self.gap) * scale, (self.height - self.gap) * scale)
                                        contentMode:PHImageContentModeAspectFit
                                            options:nil
                                      resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
@@ -57,27 +80,23 @@
                                      }];
 }
 
-- (void)addChosen
-{
-    self.contentImageView.layer.borderWidth = 2;
-    self.isChose = YES;
-    [self bounce];
-}
-
-- (void)removeChosen
-{
-    self.contentImageView.layer.borderWidth = 0;
-    self.isChose = NO;
-    [self bounce];
-}
-
-- (void)bounce
+- (void)bounceAnimation
 {
     self.contentImageView.transform = CGAffineTransformMakeScale(0.97, 0.97);
     [UIView animateWithDuration:0.8 delay:0.0 usingSpringWithDamping:0.3 initialSpringVelocity:1 options:UIViewAnimationOptionCurveEaseInOut | UIViewAnimationOptionAllowUserInteraction animations:^{
         self.contentImageView.transform = CGAffineTransformIdentity;
     } completion:nil];
     
+}
+
+- (void)addSelectionSign
+{
+    self.contentImageView.layer.borderWidth = 3;
+}
+
+- (void)removeSelectionSign
+{
+    self.contentImageView.layer.borderWidth = 0;
 }
 
 #pragma mark - getters & setters
@@ -88,9 +107,20 @@
         _contentImageView = [[UIImageView alloc] init];
         _contentImageView.contentMode = UIViewContentModeScaleAspectFill;
         _contentImageView.clipsToBounds = YES;
-        _contentImageView.layer.borderColor = [UIColor cyanColor].CGColor;
+        _contentImageView.layer.borderColor = self.themeColor.CGColor;
     }
     return _contentImageView;
+}
+
+- (UIView *)indexBadge
+{
+    if (_indexBadge == nil) {
+        _indexBadge = [[UIView alloc] init];
+        _indexBadge.backgroundColor = self.themeColor;
+        _indexBadge.size = CGSizeMake(20, 20);
+        _indexBadge.layer.cornerRadius = 10;
+    }
+    return _indexBadge;
 }
 
 - (PHCachingImageManager *)cachingImageManager

@@ -15,12 +15,14 @@
 
 NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewCell";
 
-@interface LFImagePickerViewController () <UICollectionViewDataSource, UICollectionViewDelegate, PHPhotoLibraryChangeObserver>
+@interface LFImagePickerViewController () <UICollectionViewDataSource, UICollectionViewDelegate>
 
 @property (nonatomic, strong) PHFetchResult *smartAlbums;
 @property (nonatomic, strong) PHAssetCollection *album;
 @property (nonatomic, strong) PHFetchResult *photos;
 @property (nonatomic, assign) PHAuthorizationStatus authorizationStatus;
+
+@property (nonatomic, strong) NSMutableArray *selectedPhotos;
 
 @property (nonatomic, strong) UICollectionView *collectionView;
 
@@ -65,11 +67,11 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    LFPhotoCollectionViewCell *cell = (LFPhotoCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:kLFPhotoCollectionViewCellIdentifier forIndexPath:indexPath];
+    LFPhotoCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kLFPhotoCollectionViewCellIdentifier forIndexPath:indexPath];
     if (indexPath.item == 0) {
         
     } else {
-        [cell configWithDataWithAsset:self.photos[[self.photos count] - indexPath.item]];
+        [cell configWithDataWithAsset:self.photos[[self.photos count] - indexPath.item] themeColor:[UIColor cyanColor]];
     }
     return cell;
 }
@@ -79,18 +81,15 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     LFPhotoCollectionViewCell *cell = (LFPhotoCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
-    if (!cell.isChose) {
-        [cell addChosen];
-    } else {
-        [cell removeChosen];
-    }
-    
+    [self.selectedPhotos addObject:self.photos[[self.photos count] - indexPath.item]];
+    [cell bounceAnimation];
 }
 
-#pragma mark - PHPhotoLibraryChangeObserver
-- (void)photoLibraryDidChange:(PHChange *)changeInstance
+- (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    [self.collectionView reloadData];
+    LFPhotoCollectionViewCell *cell = (LFPhotoCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
+    [self.selectedPhotos removeObject:self.photos[[self.photos count] - indexPath.item]];
+    [cell bounceAnimation];
 }
 
 #pragma mark - private
@@ -142,6 +141,7 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
         _collectionView.dataSource = self;
         _collectionView.showsHorizontalScrollIndicator = NO;
         _collectionView.showsVerticalScrollIndicator = NO;
+        _collectionView.allowsMultipleSelection = YES;
         [_collectionView registerClass:[LFPhotoCollectionViewCell class] forCellWithReuseIdentifier:kLFPhotoCollectionViewCellIdentifier];
     }
     return _collectionView;
@@ -153,5 +153,12 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
     return _authorizationStatus;
 }
 
+- (NSMutableArray *)selectedPhotos
+{
+    if (_selectedPhotos == nil) {
+        _selectedPhotos = [NSMutableArray array];
+    }
+    return _selectedPhotos;
+}
 
 @end
