@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol LFImagePickerTopBarDelegate;
+
 @interface LFImagePickerTopBar : UIView
 
 @end

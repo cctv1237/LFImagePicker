@@ -10,6 +10,7 @@
 
 @interface LFImagePickerViewController : UIViewController
 
+@property (nonatomic, assign) NSInteger maxSelectedCount;
 
 @end
 

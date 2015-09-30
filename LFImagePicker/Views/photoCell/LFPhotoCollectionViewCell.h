@@ -11,7 +11,7 @@
 
 @interface LFPhotoCollectionViewCell : UICollectionViewCell
 
-- (void)configWithDataWithAsset:(PHAsset *)asset themeColor:(UIColor *)color;
+- (void)configDataWithAsset:(PHAsset *)asset themeColor:(UIColor *)color;
 - (void)bounceAnimation;
 - (void)addSelectionSign;
 - (void)removeSelectionSign;

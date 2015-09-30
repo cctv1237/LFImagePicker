@@ -43,6 +43,8 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.view addSubview:self.collectionView];
+    
+    self.maxSelectedCount = 10;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -71,7 +73,7 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
     if (indexPath.item == 0) {
         
     } else {
-        [cell configWithDataWithAsset:self.photos[[self.photos count] - indexPath.item] themeColor:[UIColor cyanColor]];
+        [cell configDataWithAsset:self.photos[[self.photos count] - indexPath.item] themeColor:[UIColor cyanColor]];
     }
     return cell;
 }
@@ -80,6 +82,11 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (self.selectedPhotos.count == self.maxSelectedCount) {
+        [collectionView deselectItemAtIndexPath:indexPath animated:NO];
+        return;
+    }
+    
     LFPhotoCollectionViewCell *cell = (LFPhotoCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
     [self.selectedPhotos addObject:self.photos[[self.photos count] - indexPath.item]];
     [cell bounceAnimation];
@@ -93,6 +100,11 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
 }
 
 #pragma mark - private
+
+- (void)refreshSelectedCellIndex
+{
+    
+}
 
 - (void)configAlbums
 {

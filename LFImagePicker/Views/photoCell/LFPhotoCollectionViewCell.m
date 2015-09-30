@@ -16,7 +16,6 @@
 
 @property (nonatomic, strong) UIImageView *contentImageView;
 @property (nonatomic, strong) UIView *indexBadge;
-@property (nonatomic, strong) UILabel *indexLabel;
 
 @property (nonatomic, assign) CGFloat gap;
 @property (nonatomic, strong) UIColor *themeColor;
@@ -46,6 +45,7 @@
     
     [self.indexBadge topInContainer:8 shouldResize:NO];
     [self.indexBadge rightInContainer:8 shouldResize:NO];
+    
 }
 
 - (void)prepareForReuse
@@ -54,20 +54,9 @@
     self.contentImageView.image = nil;
 }
 
-- (void)setSelected:(BOOL)selected
-{
-    [super setSelected:selected];
-    if (selected) {
-        [self addSelectionSign];
-    } else {
-        [self removeSelectionSign];
-    }
-
-}
-
 #pragma mark - public
 
-- (void)configWithDataWithAsset:(PHAsset *)asset themeColor:(UIColor *)color
+- (void)configDataWithAsset:(PHAsset *)asset themeColor:(UIColor *)color
 {
     self.themeColor = color;
     CGFloat scale = [UIScreen mainScreen].scale;
@@ -89,6 +78,8 @@
     
 }
 
+#pragma mark - private
+
 - (void)addSelectionSign
 {
     self.contentImageView.layer.borderColor = self.themeColor.CGColor;
@@ -102,9 +93,18 @@
     self.indexBadge.backgroundColor = [UIColor clearColor];
 }
 
-
-
 #pragma mark - getters & setters
+- (void)setSelected:(BOOL)selected
+{
+    [super setSelected:selected];
+    if (selected) {
+        [self addSelectionSign];
+    } else {
+        [self removeSelectionSign];
+    }
+    
+}
+
 - (UIImageView *)contentImageView
 {
     if (_contentImageView == nil) {
@@ -124,15 +124,6 @@
         _indexBadge.layer.cornerRadius = 10;
     }
     return _indexBadge;
-}
-
-- (UILabel *)indexLabel
-{
-    if (_indexLabel == nil) {
-        _indexLabel = [[UILabel alloc] init];
-        _indexLabel.textColor = [UIColor whiteColor];
-    }
-    return _indexLabel;
 }
 
 - (PHCachingImageManager *)cachingImageManager
