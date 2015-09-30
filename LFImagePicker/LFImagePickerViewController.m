@@ -8,6 +8,7 @@
 
 #import "LFImagePickerViewController.h"
 #import "LFPhotoCollectionViewCell.h"
+#import "LFImagePickerTopBar.h"
 
 #import "UIView+LayoutMethods.h"
 
@@ -15,7 +16,7 @@
 
 NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewCell";
 
-@interface LFImagePickerViewController () <UICollectionViewDataSource, UICollectionViewDelegate>
+@interface LFImagePickerViewController () <UICollectionViewDataSource, UICollectionViewDelegate, LFImagePickerTopBarDelegate>
 
 @property (nonatomic, strong) PHFetchResult *smartAlbums;
 @property (nonatomic, strong) PHAssetCollection *album;
@@ -25,6 +26,7 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
 @property (nonatomic, strong) NSMutableArray *selectedPhotos;
 
 @property (nonatomic, strong) UICollectionView *collectionView;
+@property (nonatomic, strong) LFImagePickerTopBar *topBar;
 
 @end
 
@@ -42,6 +44,7 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self.view addSubview:self.topBar];
     [self.view addSubview:self.collectionView];
     
     self.maxSelectedCount = 10;
@@ -50,14 +53,37 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self.collectionView fill];
+    
+    self.topBar.size = CGSizeMake(SCREEN_WIDTH, 44);
+    [self.topBar topInContainer:0 shouldResize:NO];
+    [self.topBar centerXEqualToView:self.view];
+    
+    [self.collectionView fillWidth];
+    [self.collectionView topInContainer:44 shouldResize:YES];
+    [self.collectionView bottomInContainer:0 shouldResize:YES];
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    
     [self configAlbums];
+}
+
+#pragma mark - LFImagePickerTopBarDelegate
+
+- (void)topBar:(LFImagePickerTopBar *)bar didTappedImportButton:(UIButton *)button
+{
+    
+}
+
+- (void)topBar:(LFImagePickerTopBar *)bar didTappedCancelButton:(UIButton *)button
+{
+    
+}
+
+- (void)topBar:(LFImagePickerTopBar *)bar didTappedAlbumsButton:(UIButton *)button
+{
+    
 }
 
 #pragma mark - UICollectionViewDataSource
@@ -157,6 +183,15 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
         [_collectionView registerClass:[LFPhotoCollectionViewCell class] forCellWithReuseIdentifier:kLFPhotoCollectionViewCellIdentifier];
     }
     return _collectionView;
+}
+
+- (LFImagePickerTopBar *)topBar
+{
+    if (_topBar == nil) {
+        _topBar = [[LFImagePickerTopBar alloc] init];
+        _topBar.delegate = self;
+    }
+    return _topBar;
 }
 
 - (PHAuthorizationStatus)authorizationStatus

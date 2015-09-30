@@ -12,6 +12,8 @@
 
 @interface LFImagePickerTopBar : UIView
 
+@property (nonatomic, weak) id<LFImagePickerTopBarDelegate> delegate;
+
 @end
 
 @protocol LFImagePickerTopBarDelegate <NSObject>
