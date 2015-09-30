@@ -44,8 +44,8 @@
     [self.contentImageView centerXEqualToView:self];
     [self.contentImageView centerYEqualToView:self];
     
-    [self.indexBadge topInContainer:10 shouldResize:NO];
-    [self.indexBadge rightInContainer:10 shouldResize:NO];
+    [self.indexBadge topInContainer:8 shouldResize:NO];
+    [self.indexBadge rightInContainer:8 shouldResize:NO];
 }
 
 - (void)prepareForReuse
@@ -91,12 +91,15 @@
 
 - (void)addSelectionSign
 {
-    self.contentImageView.layer.borderWidth = 3;
+    self.contentImageView.layer.borderColor = self.themeColor.CGColor;
+    self.contentImageView.layer.borderWidth = 2;
+    self.indexBadge.backgroundColor = self.themeColor;
 }
 
 - (void)removeSelectionSign
 {
     self.contentImageView.layer.borderWidth = 0;
+    self.indexBadge.backgroundColor = [UIColor clearColor];
 }
 
 #pragma mark - getters & setters
@@ -107,7 +110,6 @@
         _contentImageView = [[UIImageView alloc] init];
         _contentImageView.contentMode = UIViewContentModeScaleAspectFill;
         _contentImageView.clipsToBounds = YES;
-        _contentImageView.layer.borderColor = self.themeColor.CGColor;
     }
     return _contentImageView;
 }
@@ -121,6 +123,15 @@
         _indexBadge.layer.cornerRadius = 10;
     }
     return _indexBadge;
+}
+
+- (UILabel *)indexLabel
+{
+    if (_indexLabel == nil) {
+        _indexLabel = [[UILabel alloc] init];
+        _indexLabel.textColor = [UIColor whiteColor];
+    }
+    return _indexLabel;
 }
 
 - (PHCachingImageManager *)cachingImageManager
