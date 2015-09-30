@@ -105,7 +105,6 @@
 
 
 #pragma mark - getters & setters
-
 - (UIImageView *)contentImageView
 {
     if (_contentImageView == nil) {
