@@ -6,7 +6,7 @@
 //  Copyright © 2015年 LongFan. All rights reserved.
 //
 
-#import "LFImagePickerViewController.h"
+#import "LFImagePicker.h"
 #import "LFPhotoCollectionViewCell.h"
 #import "LFImagePickerTopBar.h"
 
@@ -16,12 +16,13 @@
 
 NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewCell";
 
-@interface LFImagePickerViewController () <UICollectionViewDataSource, UICollectionViewDelegate, LFImagePickerTopBarDelegate>
+@interface LFImagePicker () <UICollectionViewDataSource, UICollectionViewDelegate, LFImagePickerTopBarDelegate>
 
 @property (nonatomic, strong) PHFetchResult *smartAlbums;
 @property (nonatomic, strong) PHAssetCollection *album;
 @property (nonatomic, strong) PHFetchResult *photos;
 @property (nonatomic, assign) PHAuthorizationStatus authorizationStatus;
+@property (nonatomic, strong) PHCachingImageManager *cachingImageManager;
 
 @property (nonatomic, strong) NSMutableArray *selectedPhotos;
 
@@ -30,7 +31,7 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
 
 @end
 
-@implementation LFImagePickerViewController
+@implementation LFImagePicker
 
 #pragma mark - life cycle
 
@@ -73,7 +74,20 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
 
 - (void)topBar:(LFImagePickerTopBar *)bar didTappedImportButton:(UIButton *)button
 {
+    __block NSMutableArray *exportImageList = [NSMutableArray array];
+    [self.selectedPhotos enumerateObjectsUsingBlock:^(PHAsset * _Nonnull asset, NSUInteger idx, BOOL * _Nonnull stop) {
+        [self.cachingImageManager requestImageForAsset:asset
+                                            targetSize:PHImageManagerMaximumSize
+                                           contentMode:PHImageContentModeDefault
+                                               options:nil
+                                         resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
+                                             [exportImageList addObject:result];
+                                         }];
+    }];
     
+    if (self.delegate && [self.delegate respondsToSelector:@selector(lf_imagePicker:didImportImages:)]) {
+        [self.delegate lf_imagePicker:self didImportImages:exportImageList];
+    }
 }
 
 - (void)topBar:(LFImagePickerTopBar *)bar didTappedCancelButton:(UIButton *)button
@@ -126,11 +140,6 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
 }
 
 #pragma mark - private
-
-- (void)refreshSelectedCellIndex
-{
-    
-}
 
 - (void)configAlbums
 {
@@ -206,6 +215,14 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
         _selectedPhotos = [NSMutableArray array];
     }
     return _selectedPhotos;
+}
+
+- (PHCachingImageManager *)cachingImageManager
+{
+    if (_cachingImageManager == nil) {
+        _cachingImageManager = [[PHCachingImageManager alloc] init];
+    }
+    return _cachingImageManager;
 }
 
 @end

@@ -10,7 +10,7 @@
 		AB2C973F1BBA6686004F9E9A /* LFImagePickerTopBar.m in Sources */ = {isa = PBXBuildFile; fileRef = AB2C973E1BBA6686004F9E9A /* LFImagePickerTopBar.m */; settings = {ASSET_TAGS = (); }; };
 		ABB34BDC1BB3D17A00C290A7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = ABB34BDB1BB3D17A00C290A7 /* main.m */; };
 		ABB34BDF1BB3D17A00C290A7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = ABB34BDE1BB3D17A00C290A7 /* AppDelegate.m */; };
-		ABB34BE21BB3D17A00C290A7 /* LFImagePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ABB34BE11BB3D17A00C290A7 /* LFImagePickerViewController.m */; };
+		ABB34BE21BB3D17A00C290A7 /* LFImagePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = ABB34BE11BB3D17A00C290A7 /* LFImagePicker.m */; };
 		ABB34BE51BB3D17B00C290A7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ABB34BE31BB3D17B00C290A7 /* Main.storyboard */; };
 		ABB34BE71BB3D17B00C290A7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ABB34BE61BB3D17B00C290A7 /* Assets.xcassets */; };
 		ABB34BEA1BB3D17B00C290A7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ABB34BE81BB3D17B00C290A7 /* LaunchScreen.storyboard */; };
@@ -45,8 +45,8 @@
 		ABB34BDB1BB3D17A00C290A7 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		ABB34BDD1BB3D17A00C290A7 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		ABB34BDE1BB3D17A00C290A7 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		ABB34BE01BB3D17A00C290A7 /* LFImagePickerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LFImagePickerViewController.h; sourceTree = "<group>"; };
-		ABB34BE11BB3D17A00C290A7 /* LFImagePickerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LFImagePickerViewController.m; sourceTree = "<group>"; };
+		ABB34BE01BB3D17A00C290A7 /* LFImagePicker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LFImagePicker.h; sourceTree = "<group>"; };
+		ABB34BE11BB3D17A00C290A7 /* LFImagePicker.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LFImagePicker.m; sourceTree = "<group>"; };
 		ABB34BE41BB3D17B00C290A7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		ABB34BE61BB3D17B00C290A7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		ABB34BE91BB3D17B00C290A7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -125,8 +125,8 @@
 				ABB34C0D1BB554F900C290A7 /* Categories */,
 				ABEAC0501BB9350400C94E44 /* Datas */,
 				ABB34C121BB55C9200C290A7 /* Views */,
-				ABB34BE01BB3D17A00C290A7 /* LFImagePickerViewController.h */,
-				ABB34BE11BB3D17A00C290A7 /* LFImagePickerViewController.m */,
+				ABB34BE01BB3D17A00C290A7 /* LFImagePicker.h */,
+				ABB34BE11BB3D17A00C290A7 /* LFImagePicker.m */,
 				ABB34BDA1BB3D17A00C290A7 /* Supporting Files */,
 			);
 			path = LFImagePicker;
@@ -349,7 +349,7 @@
 			files = (
 				AB2C973F1BBA6686004F9E9A /* LFImagePickerTopBar.m in Sources */,
 				ABEAC0541BB9358700C94E44 /* LFPhotoData.m in Sources */,
-				ABB34BE21BB3D17A00C290A7 /* LFImagePickerViewController.m in Sources */,
+				ABB34BE21BB3D17A00C290A7 /* LFImagePicker.m in Sources */,
 				ABB34BDF1BB3D17A00C290A7 /* AppDelegate.m in Sources */,
 				ABB34C161BB55CD200C290A7 /* LFPhotoCollectionViewCell.m in Sources */,
 				ABB34BDC1BB3D17A00C290A7 /* main.m in Sources */,
