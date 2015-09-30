@@ -102,6 +102,8 @@
     self.indexBadge.backgroundColor = [UIColor clearColor];
 }
 
+
+
 #pragma mark - getters & setters
 
 - (UIImageView *)contentImageView
