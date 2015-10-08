@@ -20,9 +20,9 @@
 
 @protocol LFimagePickerDelegate <NSObject>
 
-- (void)lf_imagePicker:(LFImagePicker *)picker didImportImages:(NSArray *)imageList;
-- (void)lf_imagePicker:(LFImagePicker *)picker didSelectDefaultAlbumName:(NSString *)albumName;
-- (void)lf_imagePicker:(LFImagePicker *)picker didReachMaxSelectedCount:(NSInteger)maxCount;
+- (void)imagePicker:(LFImagePicker *)picker didImportImages:(NSArray *)imageList;
+- (void)imagePicker:(LFImagePicker *)picker didSelectDefaultAlbumName:(NSString *)albumName;
+- (void)imagePicker:(LFImagePicker *)picker didReachMaxSelectedCount:(NSInteger)maxCount;
 
 @end
 

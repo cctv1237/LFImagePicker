@@ -35,10 +35,10 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
 
 #pragma mark - life cycle
 
-- (instancetype)init
+- (instancetype)initWithCoder:(NSCoder *)aDecoder
 {
-    if (self = [super init]) {
-        
+    if (self = [super initWithCoder:aDecoder]) {
+        self.maxSelectedCount = 10;
     }
     return self;
 }
@@ -48,7 +48,7 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
     [self.view addSubview:self.topBar];
     [self.view addSubview:self.collectionView];
     
-    self.maxSelectedCount = 10;
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -60,7 +60,7 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
     [self.topBar centerXEqualToView:self.view];
     
     [self.collectionView fillWidth];
-    [self.collectionView topInContainer:44 shouldResize:YES];
+    [self.collectionView top:0 FromView:self.topBar];
     [self.collectionView bottomInContainer:0 shouldResize:YES];
 }
 
@@ -74,7 +74,7 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
 
 - (void)topBar:(LFImagePickerTopBar *)bar didTappedImportButton:(UIButton *)button
 {
-    __block NSMutableArray *exportImageList = [NSMutableArray array];
+    NSMutableArray *exportImageList = [NSMutableArray array];
     [self.selectedPhotos enumerateObjectsUsingBlock:^(PHAsset * _Nonnull asset, NSUInteger idx, BOOL * _Nonnull stop) {
         [self.cachingImageManager requestImageForAsset:asset
                                             targetSize:PHImageManagerMaximumSize
@@ -85,19 +85,19 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
                                          }];
     }];
     
-    if (self.delegate && [self.delegate respondsToSelector:@selector(lf_imagePicker:didImportImages:)]) {
-        [self.delegate lf_imagePicker:self didImportImages:exportImageList];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(imagePicker:didImportImages:)]) {
+        [self.delegate imagePicker:self didImportImages:exportImageList];
     }
 }
 
 - (void)topBar:(LFImagePickerTopBar *)bar didTappedCancelButton:(UIButton *)button
 {
-    
+    #warning todo
 }
 
 - (void)topBar:(LFImagePickerTopBar *)bar didTappedAlbumsButton:(UIButton *)button
 {
-    
+    #warning todo
 }
 
 #pragma mark - UICollectionViewDataSource

@@ -70,7 +70,7 @@
         _importButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [_importButton addTarget:self action:@selector(didTappedImportButton:) forControlEvents:UIControlEventTouchUpInside];
         _importButton.backgroundColor = [UIColor redColor];
-        _importButton.titleLabel.text = @"import";
+        _importButton.titleLabel.text = NSLocalizedString(@"import", @"importButton");
         _importButton.titleLabel.textColor = [UIColor whiteColor];
     }
     return _importButton;
@@ -81,7 +81,7 @@
     if (_cancelButton == nil) {
         _cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [_cancelButton addTarget:self action:@selector(didTappedCancelButton:) forControlEvents:UIControlEventTouchUpInside];
-        _cancelButton.titleLabel.text = @"cancel";
+        _cancelButton.titleLabel.text = NSLocalizedString(@"cancel", @"cancelButton") ;
         _cancelButton.titleLabel.textColor = [UIColor whiteColor];
     }
     return _cancelButton;
@@ -92,7 +92,7 @@
     if (_albumsButton == nil) {
         _albumsButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [_albumsButton addTarget:self action:@selector(didTappedAlbumsButton:) forControlEvents:UIControlEventTouchUpInside];
-        _albumsButton.titleLabel.text = @"albums";
+        _albumsButton.titleLabel.text = NSLocalizedString(@"albums", @"albumsButton");
         _albumsButton.titleLabel.textColor = [UIColor whiteColor];
     }
     return _albumsButton;
