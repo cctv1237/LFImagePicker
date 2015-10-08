@@ -48,8 +48,6 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
     [super viewDidLoad];
     [self.view addSubview:self.topBar];
     [self.view addSubview:self.collectionView];
-    
-    
 }
 
 - (void)viewWillAppear:(BOOL)animated

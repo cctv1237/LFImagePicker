@@ -8,7 +8,9 @@
 
 #import "LFAlbumListViewController.h"
 
-@interface LFAlbumListViewController () <UIPopoverPresentationControllerDelegate>
+@interface LFAlbumListViewController () <UIPopoverPresentationControllerDelegate, UITableViewDataSource, UITableViewDelegate>
+
+@property (nonatomic, strong) UITableView *tableView;
 
 @end
 
@@ -40,10 +42,44 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+#pragma mark - UITableViewDataSource
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return 1;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"AlbumListreuseIdentifier" forIndexPath:indexPath];
+    
+    // Configure the cell...
+    
+    return cell;
+}
+
+#pragma mark - UITableViewDelegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+}
+
 #pragma mark - UIPopoverPresentationControllerDelegate
 
 - (UIModalPresentationStyle)adaptivePresentationStyleForPresentationController:(UIPresentationController *)controller {
     return UIModalPresentationNone;
+}
+
+#pragma mark - getters & setters
+
+- (UITableView *)tableView
+{
+    if (_tableView == nil) {
+        _tableView = [[UITableView alloc] init];
+        
+    }
+    return _tableView;
 }
 
 @end
