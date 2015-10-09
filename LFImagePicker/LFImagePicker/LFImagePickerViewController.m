@@ -91,7 +91,7 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
 
 - (void)topBar:(LFImagePickerTopBar *)bar didTappedCancelButton:(UIButton *)button
 {
-    #warning todo
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)topBar:(LFImagePickerTopBar *)bar didTappedAlbumsButton:(UIButton *)button

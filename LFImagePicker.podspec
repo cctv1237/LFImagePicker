@@ -17,15 +17,15 @@ Pod::Spec.new do |s|
 
   s.name         = "LFImagePicker"
   s.version      = "0.0.1"
-  s.summary      = “A iOS8+ PhotoKit Multiple Image Picker”
+  s.summary      = "A iOS8+ PhotoKit Multiple Image Picker"
 
   s.description  = <<-DESC
                    A iOS8+ PhotoKit Multiple Image Picker.
 
-                   * PhotoKit Image Picker for Multiple Pick
+                   PhotoKit Image Picker for Multiple Pick
                    DESC
 
-  s.homepage     = "http://longfan.me”
+  s.homepage     = "http://longfan.me"
   # s.screenshots  = "www.example.com/screenshots_1.gif", "www.example.com/screenshots_2.gif"
 
 
@@ -50,9 +50,9 @@ Pod::Spec.new do |s|
   #  profile URL.
   #
 
-  s.author             = { “LongFan” => "marklf@163.com" }
-  # Or just: s.author    = “LongFan”
-  # s.authors            = { “LongFan” => "marklf@163.com" }
+  s.author             = { "LongFan" => "marklf@163.com" }
+  # Or just: s.author    = "LongFan"
+  # s.authors            = { "LongFan" => "marklf@163.com" }
   # s.social_media_url   = "https://twitter.com/cctv1237”
 
   # ――― Platform Specifics ――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
@@ -62,7 +62,7 @@ Pod::Spec.new do |s|
   #
 
   # s.platform     = :ios
-  # s.platform     = :ios, “8.0”
+  s.platform     = :ios, "8.0"
 
   #  When using multiple platforms
   # s.ios.deployment_target = "5.0"
@@ -113,7 +113,7 @@ Pod::Spec.new do |s|
   #  the lib prefix of their name.
   #
 
-  s.framework  = “UIKit”
+  s.framework  = "UIKit"
   # s.frameworks = "SomeFramework", "AnotherFramework"
 
   # s.library   = "iconv"
