@@ -24,6 +24,8 @@
 		ABD782AC1BC7A43900A3E49A /* BSImageCompressView.m in Sources */ = {isa = PBXBuildFile; fileRef = ABD782A81BC7A43900A3E49A /* BSImageCompressView.m */; settings = {ASSET_TAGS = (); }; };
 		ABD782AD1BC7A43900A3E49A /* BSImageCompressTool.m in Sources */ = {isa = PBXBuildFile; fileRef = ABD782AB1BC7A43900A3E49A /* BSImageCompressTool.m */; settings = {ASSET_TAGS = (); }; };
 		ABD782B11BC7AE3B00A3E49A /* UIImage+Compress.m in Sources */ = {isa = PBXBuildFile; fileRef = ABD782B01BC7AE3B00A3E49A /* UIImage+Compress.m */; settings = {ASSET_TAGS = (); }; };
+		ABD782B51BC7B1BC00A3E49A /* BSTransactionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = ABD782B41BC7B1BC00A3E49A /* BSTransactionManager.m */; settings = {ASSET_TAGS = (); }; };
+		ABD782B91BC7B28800A3E49A /* LFFetchSelectedImageTransaction.m in Sources */ = {isa = PBXBuildFile; fileRef = ABD782B81BC7B28800A3E49A /* LFFetchSelectedImageTransaction.m */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -78,6 +80,10 @@
 		ABD782AB1BC7A43900A3E49A /* BSImageCompressTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSImageCompressTool.m; sourceTree = "<group>"; };
 		ABD782AF1BC7AE3B00A3E49A /* UIImage+Compress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Compress.h"; sourceTree = "<group>"; };
 		ABD782B01BC7AE3B00A3E49A /* UIImage+Compress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Compress.m"; sourceTree = "<group>"; };
+		ABD782B31BC7B1BC00A3E49A /* BSTransactionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSTransactionManager.h; sourceTree = "<group>"; };
+		ABD782B41BC7B1BC00A3E49A /* BSTransactionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSTransactionManager.m; sourceTree = "<group>"; };
+		ABD782B71BC7B28800A3E49A /* LFFetchSelectedImageTransaction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LFFetchSelectedImageTransaction.h; sourceTree = "<group>"; };
+		ABD782B81BC7B28800A3E49A /* LFFetchSelectedImageTransaction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LFFetchSelectedImageTransaction.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,6 +114,7 @@
 		AB633E461BC658DD004818B4 /* LFImagePicker */ = {
 			isa = PBXGroup;
 			children = (
+				ABD782B21BC7B1BC00A3E49A /* Transaction */,
 				AB633E471BC658DD004818B4 /* Categories */,
 				AB633E4B1BC658DD004818B4 /* Datas */,
 				AB633E511BC658DD004818B4 /* Views */,
@@ -281,6 +288,25 @@
 			path = Images;
 			sourceTree = "<group>";
 		};
+		ABD782B21BC7B1BC00A3E49A /* Transaction */ = {
+			isa = PBXGroup;
+			children = (
+				ABD782B61BC7B26E00A3E49A /* TransactionList */,
+				ABD782B31BC7B1BC00A3E49A /* BSTransactionManager.h */,
+				ABD782B41BC7B1BC00A3E49A /* BSTransactionManager.m */,
+			);
+			path = Transaction;
+			sourceTree = "<group>";
+		};
+		ABD782B61BC7B26E00A3E49A /* TransactionList */ = {
+			isa = PBXGroup;
+			children = (
+				ABD782B71BC7B28800A3E49A /* LFFetchSelectedImageTransaction.h */,
+				ABD782B81BC7B28800A3E49A /* LFFetchSelectedImageTransaction.m */,
+			);
+			path = TransactionList;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -412,6 +438,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ABD782B91BC7B28800A3E49A /* LFFetchSelectedImageTransaction.m in Sources */,
 				AB633E5C1BC658DD004818B4 /* LFPhotoData.m in Sources */,
 				ABD782B11BC7AE3B00A3E49A /* UIImage+Compress.m in Sources */,
 				AB633E5F1BC658DD004818B4 /* LFPhotoCollectionViewCell.m in Sources */,
@@ -421,6 +448,7 @@
 				AB633E601BC658DD004818B4 /* LFImagePickerTopBar.m in Sources */,
 				ABD782AC1BC7A43900A3E49A /* BSImageCompressView.m in Sources */,
 				AB633E5D1BC658DD004818B4 /* LFImagePickerViewController.m in Sources */,
+				ABD782B51BC7B1BC00A3E49A /* BSTransactionManager.m in Sources */,
 				ABB34BDC1BB3D17A00C290A7 /* main.m in Sources */,
 				AB633E451BC65866004818B4 /* LFDemoViewController.m in Sources */,
 				AB633E5B1BC658DD004818B4 /* UIView+LayoutMethods.m in Sources */,

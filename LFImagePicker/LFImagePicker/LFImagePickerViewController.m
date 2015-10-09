@@ -15,6 +15,7 @@
 #import "UIView+LayoutMethods.h"
 
 #import <Photos/Photos.h>
+#import "BSTransactionManager.h"
 
 
 
@@ -78,20 +79,28 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
 
 - (void)topBar:(LFImagePickerTopBar *)bar didTappedImportButton:(UIButton *)button
 {
-    NSMutableArray *exportImageList = [NSMutableArray array];
-    __weak __typeof(self)weakSelf = self;
-    [self.selectedPhotos enumerateObjectsUsingBlock:^(PHAsset * _Nonnull asset, NSUInteger idx, BOOL * _Nonnull stop) {
-        __strong __typeof(weakSelf)strongSelf = weakSelf;
-        [strongSelf.cachingImageManager requestImageForAsset:asset
-                                            targetSize:PHImageManagerMaximumSize
-                                           contentMode:PHImageContentModeDefault
-                                               options:nil
-                                         resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
-                                             [exportImageList addObject:result];
-                                         }];
+//    NSMutableArray *exportImageList = [NSMutableArray array];
+//    __weak __typeof(self)weakSelf = self;
+//    [self.selectedPhotos enumerateObjectsUsingBlock:^(PHAsset * _Nonnull asset, NSUInteger idx, BOOL * _Nonnull stop) {
+//        __strong __typeof(weakSelf)strongSelf = weakSelf;
+//        [strongSelf.cachingImageManager requestImageForAsset:asset
+//                                            targetSize:PHImageManagerMaximumSize
+//                                           contentMode:PHImageContentModeDefault
+//                                               options:nil
+//                                         resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
+//                                             [exportImageList addObject:result];
+//                                         }];
+//    }];
+    
+    [[BSTransactionManager sharedInstance] fetchSelectedImage:self.selectedPhotos success:^(NSDictionary *info) {
+        NSLog(@"success info is %@", info);
+    } fail:^(NSDictionary *info) {
+        NSLog(@"fail");
+    } progress:^(NSDictionary *info) {
+        NSLog(@"progress is %@", info);
     }];
     
-    [self doneWithSelectedImages];
+//    [self doneWithSelectedImages];
 }
 
 - (void)topBar:(LFImagePickerTopBar *)bar didTappedCancelButton:(UIButton *)button
