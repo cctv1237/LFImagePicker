@@ -23,6 +23,7 @@
 		ABB34C001BB3D17B00C290A7 /* LFImagePickerUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = ABB34BFF1BB3D17B00C290A7 /* LFImagePickerUITests.m */; };
 		ABD782AC1BC7A43900A3E49A /* BSImageCompressView.m in Sources */ = {isa = PBXBuildFile; fileRef = ABD782A81BC7A43900A3E49A /* BSImageCompressView.m */; settings = {ASSET_TAGS = (); }; };
 		ABD782AD1BC7A43900A3E49A /* BSImageCompressTool.m in Sources */ = {isa = PBXBuildFile; fileRef = ABD782AB1BC7A43900A3E49A /* BSImageCompressTool.m */; settings = {ASSET_TAGS = (); }; };
+		ABD782B11BC7AE3B00A3E49A /* UIImage+Compress.m in Sources */ = {isa = PBXBuildFile; fileRef = ABD782B01BC7AE3B00A3E49A /* UIImage+Compress.m */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,6 +76,8 @@
 		ABD782A81BC7A43900A3E49A /* BSImageCompressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSImageCompressView.m; sourceTree = "<group>"; };
 		ABD782AA1BC7A43900A3E49A /* BSImageCompressTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSImageCompressTool.h; sourceTree = "<group>"; };
 		ABD782AB1BC7A43900A3E49A /* BSImageCompressTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSImageCompressTool.m; sourceTree = "<group>"; };
+		ABD782AF1BC7AE3B00A3E49A /* UIImage+Compress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Compress.h"; sourceTree = "<group>"; };
+		ABD782B01BC7AE3B00A3E49A /* UIImage+Compress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Compress.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,6 +120,7 @@
 		AB633E471BC658DD004818B4 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
+				ABD782AE1BC7AE3B00A3E49A /* Images */,
 				AB633E481BC658DD004818B4 /* Views */,
 			);
 			path = Categories;
@@ -268,6 +272,15 @@
 			path = ImageCompressTool;
 			sourceTree = "<group>";
 		};
+		ABD782AE1BC7AE3B00A3E49A /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				ABD782AF1BC7AE3B00A3E49A /* UIImage+Compress.h */,
+				ABD782B01BC7AE3B00A3E49A /* UIImage+Compress.m */,
+			);
+			path = Images;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -400,6 +413,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AB633E5C1BC658DD004818B4 /* LFPhotoData.m in Sources */,
+				ABD782B11BC7AE3B00A3E49A /* UIImage+Compress.m in Sources */,
 				AB633E5F1BC658DD004818B4 /* LFPhotoCollectionViewCell.m in Sources */,
 				ABB34BDF1BB3D17A00C290A7 /* AppDelegate.m in Sources */,
 				AB633E5E1BC658DD004818B4 /* LFAlbumListViewController.m in Sources */,
