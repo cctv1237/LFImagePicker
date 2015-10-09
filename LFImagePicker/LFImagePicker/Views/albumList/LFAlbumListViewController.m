@@ -7,6 +7,7 @@
 //
 
 #import "LFAlbumListViewController.h"
+#import "UIView+LayoutMethods.h"
 
 @interface LFAlbumListViewController () <UIPopoverPresentationControllerDelegate, UITableViewDataSource, UITableViewDelegate>
 
@@ -31,10 +32,17 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    UIButton *a = [[UIButton alloc] initWithFrame:CGRectMake(100, 100, 100, 100)];
-    a.backgroundColor = [UIColor redColor];
-    [a addTarget:self action:@selector(didTappeds) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:a];
+//    UIButton *a = [[UIButton alloc] initWithFrame:CGRectMake(100, 100, 100, 100)];
+//    a.backgroundColor = [UIColor redColor];
+//    [a addTarget:self action:@selector(didTappeds) forControlEvents:UIControlEventTouchUpInside];
+//    [self.view addSubview:a];
+    [self.view addSubview:self.tableView];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self.tableView fill];
 }
 
 - (void)didTappeds
@@ -46,15 +54,13 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 1;
+    return self.smartAlbums.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"AlbumListreuseIdentifier" forIndexPath:indexPath];
-    
-    // Configure the cell...
-    
+    cell.textLabel.text = [self.smartAlbums[indexPath.item] localizedTitle];
     return cell;
 }
 
@@ -62,7 +68,10 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
+    if (self.delegate && [self.delegate respondsToSelector:@selector(albumListViewController:didSelectAlbumIndex:)]) {
+        [self.delegate albumListViewController:self didSelectAlbumIndex:indexPath.item];
+    }
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - UIPopoverPresentationControllerDelegate
@@ -77,7 +86,9 @@
 {
     if (_tableView == nil) {
         _tableView = [[UITableView alloc] init];
-        
+        _tableView.dataSource = self;
+        _tableView.delegate = self;
+        [_tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"AlbumListreuseIdentifier"];
     }
     return _tableView;
 }

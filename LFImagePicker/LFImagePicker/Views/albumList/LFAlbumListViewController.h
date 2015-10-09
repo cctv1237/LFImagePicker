@@ -7,7 +7,20 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <Photos/Photos.h>
+
+@protocol LFAlbumListViewControllerDelegate;
 
 @interface LFAlbumListViewController : UIViewController
+
+@property (nonatomic, weak) id<LFAlbumListViewControllerDelegate> delegate;
+
+@property (nonatomic, strong) PHFetchResult *smartAlbums;
+
+@end
+
+@protocol LFAlbumListViewControllerDelegate <NSObject>
+
+- (void)albumListViewController:(LFAlbumListViewController *)albumListViewController didSelectAlbumIndex:(NSInteger)index;
 
 @end

@@ -17,7 +17,7 @@
 
 NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewCell";
 
-@interface LFImagePickerViewController () <UICollectionViewDataSource, UICollectionViewDelegate, LFImagePickerTopBarDelegate>
+@interface LFImagePickerViewController () <UICollectionViewDataSource, UICollectionViewDelegate, LFImagePickerTopBarDelegate, LFAlbumListViewControllerDelegate>
 
 @property (nonatomic, strong) PHFetchResult *smartAlbums;
 @property (nonatomic, strong) PHAssetCollection *album;
@@ -99,7 +99,23 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
     LFAlbumListViewController *albumListTable = [[LFAlbumListViewController alloc] init];
     albumListTable.popoverPresentationController.sourceView = self.topBar;
     albumListTable.popoverPresentationController.sourceRect = self.topBar.bounds;
+    albumListTable.smartAlbums = self.smartAlbums;
+    albumListTable.delegate = self;
     [self presentViewController:albumListTable animated:YES completion:nil];
+}
+
+#pragma mark - LFAlbumListViewControllerDelegate
+
+- (void)albumListViewController:(LFAlbumListViewController *)albumListViewController didSelectAlbumIndex:(NSInteger)index
+{
+    [self.smartAlbums enumerateObjectsUsingBlock:^(PHAssetCollection * _Nonnull collection, NSUInteger idx, BOOL * _Nonnull stop) {
+        if (idx == index) {
+            self.album = collection;
+            PHFetchResult *assetsFetchResult = [PHAsset fetchAssetsInAssetCollection:collection options:nil];
+            [self configPhotosByAlbum:assetsFetchResult];
+            [self.collectionView reloadData];
+        }
+    }];
 }
 
 #pragma mark - UICollectionViewDataSource
@@ -162,7 +178,7 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
 - (void)configAlbumByAlbums:(PHFetchResult *)albums
 {
     [albums enumerateObjectsUsingBlock:^(PHAssetCollection * _Nonnull collection, NSUInteger idx, BOOL * _Nonnull stop) {
-        if ([collection.localizedTitle isEqualToString:@"Camera Roll"]) {
+        if ([collection.localizedTitle isEqualToString:NSLocalizedString(@"Camera Roll", @"")]) {
             self.album = collection;
             PHFetchResult *assetsFetchResult = [PHAsset fetchAssetsInAssetCollection:collection options:nil];
             [self configPhotosByAlbum:assetsFetchResult];
