@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@protocol LFimagePickerDelegate;
+@protocol LFimagePickerDelegate, LFImagePickerCompressorProtocol;
 
 @interface LFImagePickerViewController : UIViewController
 
@@ -23,6 +23,12 @@
 - (void)imagePicker:(LFImagePickerViewController *)picker didImportImages:(NSArray *)imageList;
 - (void)imagePicker:(LFImagePickerViewController *)picker didSelectDefaultAlbumName:(NSString *)albumName;
 - (void)imagePicker:(LFImagePickerViewController *)picker didReachMaxSelectedCount:(NSInteger)maxCount;
+
+@end
+
+@protocol LFImagePickerCompressorProtocol <NSObject>
+
+
 
 @end
 
