@@ -10,14 +10,18 @@
 #import "LFPhotoCollectionViewCell.h"
 #import "LFImagePickerTopBar.h"
 #import "LFAlbumListViewController.h"
+#import "BSImageCompressView.h"
 
 #import "UIView+LayoutMethods.h"
 
 #import <Photos/Photos.h>
 
+
+
+
 NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewCell";
 
-@interface LFImagePickerViewController () <UICollectionViewDataSource, UICollectionViewDelegate, LFImagePickerTopBarDelegate, LFAlbumListViewControllerDelegate>
+@interface LFImagePickerViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, LFImagePickerTopBarDelegate, LFAlbumListViewControllerDelegate, BSImageCompressViewDelegate>
 
 @property (nonatomic, strong) PHFetchResult *smartAlbums;
 @property (nonatomic, strong) PHAssetCollection *album;
@@ -26,6 +30,7 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
 @property (nonatomic, strong) PHCachingImageManager *cachingImageManager;
 
 @property (nonatomic, strong) NSMutableArray *selectedPhotos;
+@property (nonatomic, strong) UIImage *captureImage;
 
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) LFImagePickerTopBar *topBar;
@@ -74,8 +79,10 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
 - (void)topBar:(LFImagePickerTopBar *)bar didTappedImportButton:(UIButton *)button
 {
     NSMutableArray *exportImageList = [NSMutableArray array];
+    __weak __typeof(self)weakSelf = self;
     [self.selectedPhotos enumerateObjectsUsingBlock:^(PHAsset * _Nonnull asset, NSUInteger idx, BOOL * _Nonnull stop) {
-        [self.cachingImageManager requestImageForAsset:asset
+        __strong __typeof(weakSelf)strongSelf = weakSelf;
+        [strongSelf.cachingImageManager requestImageForAsset:asset
                                             targetSize:PHImageManagerMaximumSize
                                            contentMode:PHImageContentModeDefault
                                                options:nil
@@ -84,9 +91,7 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
                                          }];
     }];
     
-    if (self.delegate && [self.delegate respondsToSelector:@selector(imagePicker:didImportImages:)]) {
-        [self.delegate imagePicker:self didImportImages:exportImageList];
-    }
+    [self doneWithSelectedImages];
 }
 
 - (void)topBar:(LFImagePickerTopBar *)bar didTappedCancelButton:(UIButton *)button
@@ -118,6 +123,35 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
     }];
 }
 
+#pragma mark - UIImagePickerControllerDelegate
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(nonnull NSDictionary<NSString *,id> *)info
+{
+    self.captureImage = [info objectForKey:UIImagePickerControllerEditedImage];
+    if (!self.captureImage) {
+        self.captureImage = [info objectForKey:UIImagePickerControllerOriginalImage];
+    }
+    [picker dismissViewControllerAnimated:YES completion:^{
+        [self doneWithSelectedImages];
+    }];
+}
+
+#pragma mark - BSImageCompressViewDelegate
+
+- (void)imageCompressViewController:(BSImageCompressView *)compressView didFinishedCompressedImage:(NSArray *)compressedImage
+{
+    if ([self.delegate respondsToSelector:@selector(imagePicker:didImportImages:)]) {
+        [self.delegate imagePicker:self didImportImages:compressedImage];
+    }
+    
+    [UIView animateWithDuration:0.3f animations:^{
+        compressView.alpha = 0.0f;
+    } completion:^(BOOL finished) {
+        [compressView removeFromSuperview];
+    }];
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 #pragma mark - UICollectionViewDataSource
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
@@ -140,14 +174,25 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (self.selectedPhotos.count == self.maxSelectedCount) {
+    if (indexPath.item == 0) {
         [collectionView deselectItemAtIndexPath:indexPath animated:NO];
-        return;
+        UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+        picker.delegate = self;
+        picker.allowsEditing = YES;
+        picker.sourceType = UIImagePickerControllerSourceTypeCamera;
+        [self presentViewController:picker animated:YES completion:nil];
+    } else {
+        if (self.selectedPhotos.count == self.maxSelectedCount) {
+            [collectionView deselectItemAtIndexPath:indexPath animated:NO];
+            if (self.delegate && [self.delegate respondsToSelector:@selector(imagePicker:didReachMaxSelectedCount:)]) {
+                [self.delegate imagePicker:self didReachMaxSelectedCount:self.maxSelectedCount];
+            }
+            return;
+        }
+        LFPhotoCollectionViewCell *cell = (LFPhotoCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
+        [self.selectedPhotos addObject:self.photos[[self.photos count] - indexPath.item]];
+        [cell bounceAnimation];
     }
-    
-    LFPhotoCollectionViewCell *cell = (LFPhotoCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
-    [self.selectedPhotos addObject:self.photos[[self.photos count] - indexPath.item]];
-    [cell bounceAnimation];
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath
@@ -189,6 +234,19 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
 - (void)configPhotosByAlbum:(PHFetchResult *)album
 {
     self.photos = album;
+}
+
+- (void)doneWithSelectedImages
+{
+    BSImageCompressView *compressView = [[BSImageCompressView alloc] initWithImageList:self.selectedPhotos cameraImage:self.captureImage];
+    compressView.delegate = self;
+    compressView.alpha = 0.0f;
+    [self.view addSubview:compressView];
+    [compressView fill];
+    [UIView animateWithDuration:0.3f animations:^{
+        self.navigationController.navigationBar.alpha = 0.0f;
+        compressView.alpha = 1.0f;
+    }];
 }
 
 -(BOOL)prefersStatusBarHidden{

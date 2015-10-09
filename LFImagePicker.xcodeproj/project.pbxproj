@@ -21,6 +21,8 @@
 		ABB34BEA1BB3D17B00C290A7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ABB34BE81BB3D17B00C290A7 /* LaunchScreen.storyboard */; };
 		ABB34BF51BB3D17B00C290A7 /* LFImagePickerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = ABB34BF41BB3D17B00C290A7 /* LFImagePickerTests.m */; };
 		ABB34C001BB3D17B00C290A7 /* LFImagePickerUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = ABB34BFF1BB3D17B00C290A7 /* LFImagePickerUITests.m */; };
+		ABD782AC1BC7A43900A3E49A /* BSImageCompressView.m in Sources */ = {isa = PBXBuildFile; fileRef = ABD782A81BC7A43900A3E49A /* BSImageCompressView.m */; settings = {ASSET_TAGS = (); }; };
+		ABD782AD1BC7A43900A3E49A /* BSImageCompressTool.m in Sources */ = {isa = PBXBuildFile; fileRef = ABD782AB1BC7A43900A3E49A /* BSImageCompressTool.m */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,6 +71,10 @@
 		ABB34BFB1BB3D17B00C290A7 /* LFImagePickerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LFImagePickerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		ABB34BFF1BB3D17B00C290A7 /* LFImagePickerUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LFImagePickerUITests.m; sourceTree = "<group>"; };
 		ABB34C011BB3D17B00C290A7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		ABD782A71BC7A43900A3E49A /* BSImageCompressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSImageCompressView.h; sourceTree = "<group>"; };
+		ABD782A81BC7A43900A3E49A /* BSImageCompressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSImageCompressView.m; sourceTree = "<group>"; };
+		ABD782AA1BC7A43900A3E49A /* BSImageCompressTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSImageCompressTool.h; sourceTree = "<group>"; };
+		ABD782AB1BC7A43900A3E49A /* BSImageCompressTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSImageCompressTool.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -145,6 +151,7 @@
 		AB633E511BC658DD004818B4 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				ABD782A61BC7A43900A3E49A /* ImageCompressView */,
 				AB633E521BC658DD004818B4 /* albumList */,
 				AB633E551BC658DD004818B4 /* photoCell */,
 				AB633E581BC658DD004818B4 /* topBar */,
@@ -240,6 +247,25 @@
 				ABB34C011BB3D17B00C290A7 /* Info.plist */,
 			);
 			path = LFImagePickerUITests;
+			sourceTree = "<group>";
+		};
+		ABD782A61BC7A43900A3E49A /* ImageCompressView */ = {
+			isa = PBXGroup;
+			children = (
+				ABD782A71BC7A43900A3E49A /* BSImageCompressView.h */,
+				ABD782A81BC7A43900A3E49A /* BSImageCompressView.m */,
+				ABD782A91BC7A43900A3E49A /* ImageCompressTool */,
+			);
+			path = ImageCompressView;
+			sourceTree = "<group>";
+		};
+		ABD782A91BC7A43900A3E49A /* ImageCompressTool */ = {
+			isa = PBXGroup;
+			children = (
+				ABD782AA1BC7A43900A3E49A /* BSImageCompressTool.h */,
+				ABD782AB1BC7A43900A3E49A /* BSImageCompressTool.m */,
+			);
+			path = ImageCompressTool;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -377,7 +403,9 @@
 				AB633E5F1BC658DD004818B4 /* LFPhotoCollectionViewCell.m in Sources */,
 				ABB34BDF1BB3D17A00C290A7 /* AppDelegate.m in Sources */,
 				AB633E5E1BC658DD004818B4 /* LFAlbumListViewController.m in Sources */,
+				ABD782AD1BC7A43900A3E49A /* BSImageCompressTool.m in Sources */,
 				AB633E601BC658DD004818B4 /* LFImagePickerTopBar.m in Sources */,
+				ABD782AC1BC7A43900A3E49A /* BSImageCompressView.m in Sources */,
 				AB633E5D1BC658DD004818B4 /* LFImagePickerViewController.m in Sources */,
 				ABB34BDC1BB3D17A00C290A7 /* main.m in Sources */,
 				AB633E451BC65866004818B4 /* LFDemoViewController.m in Sources */,
