@@ -8,7 +8,6 @@
 
 #import "BSImageCompressView.h"
 #import "UIView+LayoutMethods.h"
-#import "BSImageCompressTool.h"
 
 @interface BSImageCompressView ()
 

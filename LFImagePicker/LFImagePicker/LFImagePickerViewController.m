@@ -9,6 +9,7 @@
 #import "LFImagePickerViewController.h"
 #import "LFPhotoCollectionViewCell.h"
 #import "LFImagePickerTopBar.h"
+#import "LFImagePickerBottomBar.h"
 #import "LFAlbumListViewController.h"
 #import "BSImageCompressView.h"
 
@@ -32,6 +33,7 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
 
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) LFImagePickerTopBar *topBar;
+@property (nonatomic, strong) LFImagePickerBottomBar *bottomBar;
 @property (nonatomic, strong) BSImageCompressView *compressView;
 
 @end
@@ -50,8 +52,9 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self.view addSubview:self.topBar];
     [self.view addSubview:self.collectionView];
+    [self.view addSubview:self.topBar];
+    [self.view addSubview:self.bottomBar];
     [self.view addSubview:self.compressView];
 }
 
@@ -63,9 +66,11 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
     [self.topBar topInContainer:0 shouldResize:NO];
     [self.topBar centerXEqualToView:self.view];
     
-    [self.collectionView fillWidth];
-    [self.collectionView top:0 FromView:self.topBar];
-    [self.collectionView bottomInContainer:0 shouldResize:YES];
+    [self.bottomBar sizeEqualToView:self.topBar];
+    [self.bottomBar bottomInContainer:0 shouldResize:NO];
+    [self.bottomBar centerXEqualToView:self.view];
+    
+    [self.collectionView fill];
     
     [self.compressView fill];
 }
@@ -206,10 +211,9 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
         [self.selectedPhotos addObject:self.photos[[self.photos count] - indexPath.item]];
         [cell bounceAnimation];
         
+        [self.bottomBar refreshSelectedCount:self.selectedPhotos.count];
         if (self.selectedPhotos.count) {
             self.topBar.importButton.enabled = YES;
-        } else {
-            self.topBar.importButton.enabled = NO;
         }
     }
 }
@@ -219,6 +223,11 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
     LFPhotoCollectionViewCell *cell = (LFPhotoCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
     [self.selectedPhotos removeObject:self.photos[[self.photos count] - indexPath.item]];
     [cell bounceAnimation];
+    
+    [self.bottomBar refreshSelectedCount:self.selectedPhotos.count];
+    if (!self.selectedPhotos.count) {
+        self.topBar.importButton.enabled = NO;
+    }
 }
 
 #pragma mark - private
@@ -271,6 +280,7 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
         _collectionView.showsHorizontalScrollIndicator = NO;
         _collectionView.showsVerticalScrollIndicator = NO;
         _collectionView.allowsMultipleSelection = YES;
+        _collectionView.contentInset = UIEdgeInsetsMake(44, 0, 44, 0);
         [_collectionView registerClass:[LFPhotoCollectionViewCell class] forCellWithReuseIdentifier:kLFPhotoCollectionViewCellIdentifier];
     }
     return _collectionView;
@@ -283,6 +293,15 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
         _topBar.delegate = self;
     }
     return _topBar;
+}
+
+- (LFImagePickerBottomBar *)bottomBar
+{
+    if (_bottomBar == nil) {
+        _bottomBar = [[LFImagePickerBottomBar alloc] init];
+        
+    }
+    return _bottomBar;
 }
 
 - (BSImageCompressView *)compressView

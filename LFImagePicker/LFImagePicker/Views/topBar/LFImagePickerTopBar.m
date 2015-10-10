@@ -23,7 +23,7 @@
 {
     if (self = [super init]) {
         self.backgroundColor = [UIColor blackColor];
-        
+        self.alpha = 0.5;
         [self addSubview:self.importButton];
         [self addSubview:self.cancelButton];
         [self addSubview:self.albumsButton];
