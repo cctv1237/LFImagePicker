@@ -40,10 +40,6 @@
     NSLog(@"%@", imageList);
     self.picker = nil;
 }
-- (void)imagePicker:(LFImagePickerViewController *)picker didSelectDefaultAlbumName:(NSString *)albumName
-{
-    
-}
 - (void)imagePicker:(LFImagePickerViewController *)picker didReachMaxSelectedCount:(NSInteger)maxCount
 {
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Notice", @"提醒") message:[NSString stringWithFormat:NSLocalizedString(@"You can select no more than %lu images", @"你最多只能选择 {number} 张图片"), maxCount] delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", nil) otherButtonTitles:nil];

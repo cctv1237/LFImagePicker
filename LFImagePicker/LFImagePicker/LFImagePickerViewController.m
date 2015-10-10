@@ -213,16 +213,16 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
             if (self.delegate && [self.delegate respondsToSelector:@selector(imagePicker:didReachMaxSelectedCount:)]) {
                 [self.delegate imagePicker:self didReachMaxSelectedCount:self.maxSelectedCount];
             }
-            return;
-        }
-        LFPhotoCollectionViewCell *cell = (LFPhotoCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
-        [self.selectedPhotos addObject:self.photos[[self.photos count] - indexPath.item]];
-        [self.selectedIndexPath addObject:indexPath];
-        [cell bounceAnimation];
-        
-        [self.bottomBar refreshSelectedCount:self.selectedPhotos.count];
-        if (self.selectedPhotos.count) {
-            self.topBar.importButton.enabled = YES;
+        } else {
+            LFPhotoCollectionViewCell *cell = (LFPhotoCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
+            [self.selectedPhotos addObject:self.photos[[self.photos count] - indexPath.item]];
+            [self.selectedIndexPath addObject:indexPath];
+            [cell bounceAnimation];
+            
+            [self.bottomBar refreshSelectedCount:self.selectedPhotos.count];
+            if (self.selectedPhotos.count) {
+                self.topBar.importButton.enabled = YES;
+            }
         }
     }
 }

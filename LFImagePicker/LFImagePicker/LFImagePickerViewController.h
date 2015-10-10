@@ -8,12 +8,18 @@
 
 #import <UIKit/UIKit.h>
 
+typedef NS_ENUM(NSUInteger, LFImagePickerTargetType) {
+    LFImagePickerTargetTypeCoverImage,
+    LFImagePickerTargetTypeItemImage
+};
+
 @protocol LFimagePickerDelegate, LFImagePickerCompressorProtocol;
 
 @interface LFImagePickerViewController : UIViewController
 
 @property (nonatomic, assign) NSInteger maxSelectedCount;
 @property (nonatomic, strong) UIColor *themeColor;
+@property (nonatomic, assign) LFImagePickerTargetType targetType;
 
 @property (nonatomic, weak) id<LFimagePickerDelegate> delegate;
 
@@ -22,7 +28,6 @@
 @protocol LFimagePickerDelegate <NSObject>
 
 - (void)imagePicker:(LFImagePickerViewController *)picker didImportImages:(NSArray *)imageList;
-- (void)imagePicker:(LFImagePickerViewController *)picker didSelectDefaultAlbumName:(NSString *)albumName;
 - (void)imagePicker:(LFImagePickerViewController *)picker didReachMaxSelectedCount:(NSInteger)maxCount;
 
 @end
