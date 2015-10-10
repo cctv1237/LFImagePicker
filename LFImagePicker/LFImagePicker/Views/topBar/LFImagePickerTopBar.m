@@ -11,7 +11,6 @@
 
 @interface LFImagePickerTopBar ()
 
-@property (nonatomic, strong) UIButton *importButton;
 @property (nonatomic, strong) UIButton *cancelButton;
 @property (nonatomic, strong) UIButton *albumsButton;
 
@@ -81,6 +80,8 @@
         [_importButton setTitle:NSLocalizedString(@"Import", @"importButton") forState:UIControlStateNormal];
         [_importButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [_importButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateHighlighted];
+        [_importButton setTitleColor:[UIColor grayColor] forState:UIControlStateDisabled];
+        _importButton.enabled = NO;
     }
     return _importButton;
 }

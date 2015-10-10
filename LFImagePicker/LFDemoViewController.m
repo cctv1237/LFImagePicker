@@ -8,10 +8,11 @@
 
 #import "LFDemoViewController.h"
 #import "LFImagePickerViewController.h"
+#import "UIView+LayoutMethods.h"
 
 @interface LFDemoViewController () <LFimagePickerDelegate>
 
-@property (nonatomic, strong) LFImagePickerViewController *e;
+@property (nonatomic, strong) LFImagePickerViewController *picker;
 
 @end
 
@@ -20,7 +21,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    UIButton *a = [[UIButton alloc] initWithFrame:CGRectMake(100, 100, 100, 100)];
+    UIButton *a = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
+    [a centerXEqualToView:self.view];
+    [a centerYEqualToView:self.view];
     [a setTitle:@"start" forState:UIControlStateNormal];
     [a setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
     [a addTarget:self action:@selector(didTappeds) forControlEvents:UIControlEventTouchUpInside];
@@ -29,12 +32,13 @@
 
 - (void)didTappeds
 {
-    [self presentViewController:self.e animated:YES completion:nil];
+    [self presentViewController:self.picker animated:YES completion:nil];
 }
 
 - (void)imagePicker:(LFImagePickerViewController *)picker didImportImages:(NSArray *)imageList
 {
     NSLog(@"%@", imageList);
+    self.picker = nil;
 }
 - (void)imagePicker:(LFImagePickerViewController *)picker didSelectDefaultAlbumName:(NSString *)albumName
 {
@@ -46,14 +50,14 @@
     [alertView show];
 }
 
-- (LFImagePickerViewController *)e
+- (LFImagePickerViewController *)picker
 {
-    if (_e == nil) {
-        _e = [[LFImagePickerViewController alloc] init];
-        _e.maxSelectedCount = 12;
-        _e.delegate = self;
+    if (_picker == nil) {
+        _picker = [[LFImagePickerViewController alloc] init];
+        _picker.maxSelectedCount = 12;
+        _picker.delegate = self;
     }
-    return _e;
+    return _picker;
 }
 
 

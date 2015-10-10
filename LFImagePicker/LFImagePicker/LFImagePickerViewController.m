@@ -17,9 +17,6 @@
 #import <Photos/Photos.h>
 #import "BSTransactionManager.h"
 
-
-
-
 NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewCell";
 
 @interface LFImagePickerViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, LFImagePickerTopBarDelegate, LFAlbumListViewControllerDelegate, BSImageCompressViewDelegate>
@@ -98,6 +95,7 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
         if (self.delegate && [self.delegate respondsToSelector:@selector(imagePicker:didImportImages:)]) {
             [self.delegate imagePicker:self didImportImages:info[@"processedImageList"]];
             [self dismissViewControllerAnimated:YES completion:nil];
+            self.compressView.alpha = 0.0f;
         }
     } fail:^(NSDictionary *info) {
     } progress:^(NSDictionary *info) {
@@ -207,6 +205,12 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
         LFPhotoCollectionViewCell *cell = (LFPhotoCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
         [self.selectedPhotos addObject:self.photos[[self.photos count] - indexPath.item]];
         [cell bounceAnimation];
+        
+        if (self.selectedPhotos.count) {
+            self.topBar.importButton.enabled = YES;
+        } else {
+            self.topBar.importButton.enabled = NO;
+        }
     }
 }
 
