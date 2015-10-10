@@ -18,7 +18,7 @@ typedef CGFloat UIScreenType;
 
 static UIScreenType UIScreenType_iPhone6 = 375.0f;
 
-@interface UIView (LayoutMethods)
+@interface UIView (PickerLayoutMethods)
 
 // coordinator getters
 - (CGFloat)height;

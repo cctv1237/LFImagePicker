@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		AB633E451BC65866004818B4 /* LFDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AB633E441BC65866004818B4 /* LFDemoViewController.m */; settings = {ASSET_TAGS = (); }; };
-		AB633E5B1BC658DD004818B4 /* UIView+LayoutMethods.m in Sources */ = {isa = PBXBuildFile; fileRef = AB633E4A1BC658DD004818B4 /* UIView+LayoutMethods.m */; settings = {ASSET_TAGS = (); }; };
+		AB633E5B1BC658DD004818B4 /* UIView+PickerLayoutMethods.m in Sources */ = {isa = PBXBuildFile; fileRef = AB633E4A1BC658DD004818B4 /* UIView+PickerLayoutMethods.m */; settings = {ASSET_TAGS = (); }; };
 		AB633E5C1BC658DD004818B4 /* LFPhotoData.m in Sources */ = {isa = PBXBuildFile; fileRef = AB633E4E1BC658DD004818B4 /* LFPhotoData.m */; settings = {ASSET_TAGS = (); }; };
 		AB633E5D1BC658DD004818B4 /* LFImagePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AB633E501BC658DD004818B4 /* LFImagePickerViewController.m */; settings = {ASSET_TAGS = (); }; };
 		AB633E5E1BC658DD004818B4 /* LFAlbumListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AB633E541BC658DD004818B4 /* LFAlbumListViewController.m */; settings = {ASSET_TAGS = (); }; };
@@ -21,10 +21,9 @@
 		ABB34BEA1BB3D17B00C290A7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ABB34BE81BB3D17B00C290A7 /* LaunchScreen.storyboard */; };
 		ABB34BF51BB3D17B00C290A7 /* LFImagePickerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = ABB34BF41BB3D17B00C290A7 /* LFImagePickerTests.m */; };
 		ABB34C001BB3D17B00C290A7 /* LFImagePickerUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = ABB34BFF1BB3D17B00C290A7 /* LFImagePickerUITests.m */; };
-		ABD782AC1BC7A43900A3E49A /* BSImageCompressView.m in Sources */ = {isa = PBXBuildFile; fileRef = ABD782A81BC7A43900A3E49A /* BSImageCompressView.m */; settings = {ASSET_TAGS = (); }; };
-		ABD782AD1BC7A43900A3E49A /* BSImageCompressTool.m in Sources */ = {isa = PBXBuildFile; fileRef = ABD782AB1BC7A43900A3E49A /* BSImageCompressTool.m */; settings = {ASSET_TAGS = (); }; };
-		ABD782B11BC7AE3B00A3E49A /* UIImage+Compress.m in Sources */ = {isa = PBXBuildFile; fileRef = ABD782B01BC7AE3B00A3E49A /* UIImage+Compress.m */; settings = {ASSET_TAGS = (); }; };
-		ABD782B51BC7B1BC00A3E49A /* BSTransactionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = ABD782B41BC7B1BC00A3E49A /* BSTransactionManager.m */; settings = {ASSET_TAGS = (); }; };
+		ABD782AC1BC7A43900A3E49A /* LFImageCompressView.m in Sources */ = {isa = PBXBuildFile; fileRef = ABD782A81BC7A43900A3E49A /* LFImageCompressView.m */; settings = {ASSET_TAGS = (); }; };
+		ABD782B11BC7AE3B00A3E49A /* UIImage+PickerCompress.m in Sources */ = {isa = PBXBuildFile; fileRef = ABD782B01BC7AE3B00A3E49A /* UIImage+PickerCompress.m */; settings = {ASSET_TAGS = (); }; };
+		ABD782B51BC7B1BC00A3E49A /* LFTransactionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = ABD782B41BC7B1BC00A3E49A /* LFTransactionManager.m */; settings = {ASSET_TAGS = (); }; };
 		ABD782B91BC7B28800A3E49A /* LFFetchSelectedImageTransaction.m in Sources */ = {isa = PBXBuildFile; fileRef = ABD782B81BC7B28800A3E49A /* LFFetchSelectedImageTransaction.m */; settings = {ASSET_TAGS = (); }; };
 		ABD782BD1BC8E1EA00A3E49A /* LFImagePickerBottomBar.m in Sources */ = {isa = PBXBuildFile; fileRef = ABD782BC1BC8E1EA00A3E49A /* LFImagePickerBottomBar.m */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
@@ -49,8 +48,8 @@
 /* Begin PBXFileReference section */
 		AB633E431BC65866004818B4 /* LFDemoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LFDemoViewController.h; sourceTree = "<group>"; };
 		AB633E441BC65866004818B4 /* LFDemoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LFDemoViewController.m; sourceTree = "<group>"; };
-		AB633E491BC658DD004818B4 /* UIView+LayoutMethods.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+LayoutMethods.h"; sourceTree = "<group>"; };
-		AB633E4A1BC658DD004818B4 /* UIView+LayoutMethods.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+LayoutMethods.m"; sourceTree = "<group>"; };
+		AB633E491BC658DD004818B4 /* UIView+PickerLayoutMethods.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+PickerLayoutMethods.h"; sourceTree = "<group>"; };
+		AB633E4A1BC658DD004818B4 /* UIView+PickerLayoutMethods.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+PickerLayoutMethods.m"; sourceTree = "<group>"; };
 		AB633E4D1BC658DD004818B4 /* LFPhotoData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LFPhotoData.h; sourceTree = "<group>"; };
 		AB633E4E1BC658DD004818B4 /* LFPhotoData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LFPhotoData.m; sourceTree = "<group>"; };
 		AB633E4F1BC658DD004818B4 /* LFImagePickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LFImagePickerViewController.h; sourceTree = "<group>"; };
@@ -75,14 +74,12 @@
 		ABB34BFB1BB3D17B00C290A7 /* LFImagePickerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LFImagePickerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		ABB34BFF1BB3D17B00C290A7 /* LFImagePickerUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LFImagePickerUITests.m; sourceTree = "<group>"; };
 		ABB34C011BB3D17B00C290A7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		ABD782A71BC7A43900A3E49A /* BSImageCompressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSImageCompressView.h; sourceTree = "<group>"; };
-		ABD782A81BC7A43900A3E49A /* BSImageCompressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSImageCompressView.m; sourceTree = "<group>"; };
-		ABD782AA1BC7A43900A3E49A /* BSImageCompressTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSImageCompressTool.h; sourceTree = "<group>"; };
-		ABD782AB1BC7A43900A3E49A /* BSImageCompressTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSImageCompressTool.m; sourceTree = "<group>"; };
-		ABD782AF1BC7AE3B00A3E49A /* UIImage+Compress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Compress.h"; sourceTree = "<group>"; };
-		ABD782B01BC7AE3B00A3E49A /* UIImage+Compress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Compress.m"; sourceTree = "<group>"; };
-		ABD782B31BC7B1BC00A3E49A /* BSTransactionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSTransactionManager.h; sourceTree = "<group>"; };
-		ABD782B41BC7B1BC00A3E49A /* BSTransactionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSTransactionManager.m; sourceTree = "<group>"; };
+		ABD782A71BC7A43900A3E49A /* LFImageCompressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LFImageCompressView.h; sourceTree = "<group>"; };
+		ABD782A81BC7A43900A3E49A /* LFImageCompressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LFImageCompressView.m; sourceTree = "<group>"; };
+		ABD782AF1BC7AE3B00A3E49A /* UIImage+PickerCompress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+PickerCompress.h"; sourceTree = "<group>"; };
+		ABD782B01BC7AE3B00A3E49A /* UIImage+PickerCompress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+PickerCompress.m"; sourceTree = "<group>"; };
+		ABD782B31BC7B1BC00A3E49A /* LFTransactionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LFTransactionManager.h; sourceTree = "<group>"; };
+		ABD782B41BC7B1BC00A3E49A /* LFTransactionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LFTransactionManager.m; sourceTree = "<group>"; };
 		ABD782B71BC7B28800A3E49A /* LFFetchSelectedImageTransaction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LFFetchSelectedImageTransaction.h; sourceTree = "<group>"; };
 		ABD782B81BC7B28800A3E49A /* LFFetchSelectedImageTransaction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LFFetchSelectedImageTransaction.m; sourceTree = "<group>"; };
 		ABD782BB1BC8E1EA00A3E49A /* LFImagePickerBottomBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LFImagePickerBottomBar.h; sourceTree = "<group>"; };
@@ -139,8 +136,8 @@
 		AB633E481BC658DD004818B4 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				AB633E491BC658DD004818B4 /* UIView+LayoutMethods.h */,
-				AB633E4A1BC658DD004818B4 /* UIView+LayoutMethods.m */,
+				AB633E491BC658DD004818B4 /* UIView+PickerLayoutMethods.h */,
+				AB633E4A1BC658DD004818B4 /* UIView+PickerLayoutMethods.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -267,27 +264,17 @@
 		ABD782A61BC7A43900A3E49A /* ImageCompressView */ = {
 			isa = PBXGroup;
 			children = (
-				ABD782A71BC7A43900A3E49A /* BSImageCompressView.h */,
-				ABD782A81BC7A43900A3E49A /* BSImageCompressView.m */,
-				ABD782A91BC7A43900A3E49A /* ImageCompressTool */,
+				ABD782A71BC7A43900A3E49A /* LFImageCompressView.h */,
+				ABD782A81BC7A43900A3E49A /* LFImageCompressView.m */,
 			);
 			path = ImageCompressView;
-			sourceTree = "<group>";
-		};
-		ABD782A91BC7A43900A3E49A /* ImageCompressTool */ = {
-			isa = PBXGroup;
-			children = (
-				ABD782AA1BC7A43900A3E49A /* BSImageCompressTool.h */,
-				ABD782AB1BC7A43900A3E49A /* BSImageCompressTool.m */,
-			);
-			path = ImageCompressTool;
 			sourceTree = "<group>";
 		};
 		ABD782AE1BC7AE3B00A3E49A /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				ABD782AF1BC7AE3B00A3E49A /* UIImage+Compress.h */,
-				ABD782B01BC7AE3B00A3E49A /* UIImage+Compress.m */,
+				ABD782AF1BC7AE3B00A3E49A /* UIImage+PickerCompress.h */,
+				ABD782B01BC7AE3B00A3E49A /* UIImage+PickerCompress.m */,
 			);
 			path = Images;
 			sourceTree = "<group>";
@@ -296,8 +283,8 @@
 			isa = PBXGroup;
 			children = (
 				ABD782B61BC7B26E00A3E49A /* TransactionList */,
-				ABD782B31BC7B1BC00A3E49A /* BSTransactionManager.h */,
-				ABD782B41BC7B1BC00A3E49A /* BSTransactionManager.m */,
+				ABD782B31BC7B1BC00A3E49A /* LFTransactionManager.h */,
+				ABD782B41BC7B1BC00A3E49A /* LFTransactionManager.m */,
 			);
 			path = Transaction;
 			sourceTree = "<group>";
@@ -454,18 +441,17 @@
 				ABD782B91BC7B28800A3E49A /* LFFetchSelectedImageTransaction.m in Sources */,
 				ABD782BD1BC8E1EA00A3E49A /* LFImagePickerBottomBar.m in Sources */,
 				AB633E5C1BC658DD004818B4 /* LFPhotoData.m in Sources */,
-				ABD782B11BC7AE3B00A3E49A /* UIImage+Compress.m in Sources */,
+				ABD782B11BC7AE3B00A3E49A /* UIImage+PickerCompress.m in Sources */,
 				AB633E5F1BC658DD004818B4 /* LFPhotoCollectionViewCell.m in Sources */,
 				ABB34BDF1BB3D17A00C290A7 /* AppDelegate.m in Sources */,
 				AB633E5E1BC658DD004818B4 /* LFAlbumListViewController.m in Sources */,
-				ABD782AD1BC7A43900A3E49A /* BSImageCompressTool.m in Sources */,
 				AB633E601BC658DD004818B4 /* LFImagePickerTopBar.m in Sources */,
-				ABD782AC1BC7A43900A3E49A /* BSImageCompressView.m in Sources */,
+				ABD782AC1BC7A43900A3E49A /* LFImageCompressView.m in Sources */,
 				AB633E5D1BC658DD004818B4 /* LFImagePickerViewController.m in Sources */,
-				ABD782B51BC7B1BC00A3E49A /* BSTransactionManager.m in Sources */,
+				ABD782B51BC7B1BC00A3E49A /* LFTransactionManager.m in Sources */,
 				ABB34BDC1BB3D17A00C290A7 /* main.m in Sources */,
 				AB633E451BC65866004818B4 /* LFDemoViewController.m in Sources */,
-				AB633E5B1BC658DD004818B4 /* UIView+LayoutMethods.m in Sources */,
+				AB633E5B1BC658DD004818B4 /* UIView+PickerLayoutMethods.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

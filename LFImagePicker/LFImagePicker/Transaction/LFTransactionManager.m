@@ -6,25 +6,25 @@
 //  Copyright (c) 2015年 casa. All rights reserved.
 //
 
-#import "BSTransactionManager.h"
+#import "LFTransactionManager.h"
 #import "LFFetchSelectedImageTransaction.h"
-#import "UIImage+Compress.h"
+#import "UIImage+PickerCompress.h"
 
-@interface BSTransactionManager ()
+@interface LFTransactionManager ()
 
 @property (nonatomic, strong) NSOperationQueue *operationQueue;
 
 @end
 
-@implementation BSTransactionManager
+@implementation LFTransactionManager
 
 #pragma mark - public methods
 + (instancetype)sharedInstance
 {
-    static BSTransactionManager *sharedInstance;
+    static LFTransactionManager *sharedInstance;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        sharedInstance = [[BSTransactionManager alloc] init];
+        sharedInstance = [[LFTransactionManager alloc] init];
     });
     return sharedInstance;
 }
@@ -43,9 +43,9 @@
             CGFloat preferredWidth = 1080.0f;
             CGFloat factor = preferredWidth / cameraImage.size.width;
             if (factor < 1) {
-                compressedImage = [cameraImage compressImageWithNewSize:CGSizeMake(cameraImage.size.width * factor, cameraImage.size.height * factor) interpolationQuality:kCGInterpolationHigh];
+                compressedImage = [cameraImage lf_compressImageWithNewSize:CGSizeMake(cameraImage.size.width * factor, cameraImage.size.height * factor) interpolationQuality:kCGInterpolationHigh];
             }
-            compressedImage = [compressedImage compressImageWithPreferDataSize:300*1024];
+            compressedImage = [compressedImage lf_compressImageWithPreferDataSize:300*1024];
             
             finishedCount++;
             [processedImageList addObject:compressedImage];

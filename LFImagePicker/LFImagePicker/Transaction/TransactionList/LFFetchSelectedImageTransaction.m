@@ -8,7 +8,7 @@
 
 #import "LFFetchSelectedImageTransaction.h"
 #import <Photos/Photos.h>
-#import "UIImage+Compress.h"
+#import "UIImage+PickerCompress.h"
 
 NSString * const kLFFetchImageTransactionInfoKeySuccessCallback = @"kLFFetchImageTransactionInfoKeySuccessCallback";
 NSString * const kLFFetchImageTransactionInfoKeyFailCallback = @"kLFFetchImageTransactionInfoKeyFailCallback";
@@ -59,9 +59,9 @@ NSString * const kLFFetchImageTransactionInfoKeyAsset = @"kLFFetchImageTransacti
                                                    CGFloat preferredWidth = 1080.0f;
                                                    CGFloat factor = preferredWidth / image.size.width;
                                                    if (factor < 1) {
-                                                       compressedImage = [image compressImageWithNewSize:CGSizeMake(image.size.width * factor, image.size.height * factor) interpolationQuality:kCGInterpolationHigh];
+                                                       compressedImage = [image lf_compressImageWithNewSize:CGSizeMake(image.size.width * factor, image.size.height * factor) interpolationQuality:kCGInterpolationHigh];
                                                    }
-                                                   compressedImage = [compressedImage compressImageWithPreferDataSize:300*1024];
+                                                   compressedImage = [compressedImage lf_compressImageWithPreferDataSize:300*1024];
                                                    
                                                    LFFetchImageCallbackBlock progress = self.info[kLFFetchImageTransactionInfoKeyProgressCallback];
                                                    if (progress) {

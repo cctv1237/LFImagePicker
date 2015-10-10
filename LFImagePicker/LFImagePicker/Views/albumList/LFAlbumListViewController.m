@@ -7,7 +7,7 @@
 //
 
 #import "LFAlbumListViewController.h"
-#import "UIView+LayoutMethods.h"
+#import "UIView+PickerLayoutMethods.h"
 
 @interface LFAlbumListViewController () <UIPopoverPresentationControllerDelegate, UITableViewDataSource, UITableViewDelegate>
 

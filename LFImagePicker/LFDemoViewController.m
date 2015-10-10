@@ -8,7 +8,7 @@
 
 #import "LFDemoViewController.h"
 #import "LFImagePickerViewController.h"
-#import "UIView+LayoutMethods.h"
+#import "UIView+PickerLayoutMethods.h"
 
 @interface LFDemoViewController () <LFimagePickerDelegate>
 

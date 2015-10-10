@@ -7,7 +7,7 @@
 //
 
 #import "LFImagePickerBottomBar.h"
-#import "UIView+LayoutMethods.h"
+#import "UIView+PickerLayoutMethods.h"
 
 @interface LFImagePickerBottomBar ()
 

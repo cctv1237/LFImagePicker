@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <Photos/Photos.h>
 
-@interface BSTransactionManager : NSObject
+@interface LFTransactionManager : NSObject
 
 + (instancetype)sharedInstance;
 

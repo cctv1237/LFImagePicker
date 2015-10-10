@@ -6,10 +6,10 @@
 //  Copyright (c) 2015年 casa. All rights reserved.
 //
 
-#import "BSImageCompressView.h"
-#import "UIView+LayoutMethods.h"
+#import "LFImageCompressView.h"
+#import "UIView+PickerLayoutMethods.h"
 
-@interface BSImageCompressView ()
+@interface LFImageCompressView ()
 
 @property (nonatomic, strong) UILabel *tipLabel;
 @property (nonatomic, strong) UIProgressView *progressView;
@@ -20,7 +20,7 @@
 
 @end
 
-@implementation BSImageCompressView
+@implementation LFImageCompressView
 
 #pragma mark - life cycle
 - (instancetype)init

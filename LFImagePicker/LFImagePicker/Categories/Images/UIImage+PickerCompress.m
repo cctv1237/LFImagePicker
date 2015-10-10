@@ -6,11 +6,11 @@
 //  Copyright (c) 2015年 casa. All rights reserved.
 //
 
-#import "UIImage+Compress.h"
+#import "UIImage+PickerCompress.h"
 
-@implementation UIImage (Compress)
+@implementation UIImage (PickerCompress)
 
-- (UIImage *)compressImageWithPreferDataSize:(NSUInteger)dataSize
+- (UIImage *)lf_compressImageWithPreferDataSize:(NSUInteger)dataSize
 {
     CGFloat compression = 0.9f;
     CGFloat maxCompression = 0.1f;
@@ -27,7 +27,7 @@
 
 // Returns a rescaled copy of the image, taking into account its orientation
 // The image will be scaled disproportionately if necessary to fit the bounds specified by the parameter
-- (UIImage *)compressImageWithNewSize:(CGSize)newSize interpolationQuality:(CGInterpolationQuality)quality;
+- (UIImage *)lf_compressImageWithNewSize:(CGSize)newSize interpolationQuality:(CGInterpolationQuality)quality;
 {
     BOOL drawTransposed;
     

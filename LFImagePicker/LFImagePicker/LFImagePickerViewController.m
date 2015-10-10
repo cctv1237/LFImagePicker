@@ -11,16 +11,16 @@
 #import "LFImagePickerTopBar.h"
 #import "LFImagePickerBottomBar.h"
 #import "LFAlbumListViewController.h"
-#import "BSImageCompressView.h"
+#import "LFImageCompressView.h"
 
-#import "UIView+LayoutMethods.h"
+#import "UIView+PickerLayoutMethods.h"
 
 #import <Photos/Photos.h>
-#import "BSTransactionManager.h"
+#import "LFTransactionManager.h"
 
 NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewCell";
 
-@interface LFImagePickerViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, LFImagePickerTopBarDelegate, LFAlbumListViewControllerDelegate, BSImageCompressViewDelegate>
+@interface LFImagePickerViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, LFImagePickerTopBarDelegate, LFAlbumListViewControllerDelegate, LFImageCompressViewDelegate>
 
 @property (nonatomic, strong) PHFetchResult *smartAlbums;
 @property (nonatomic, strong) PHAssetCollection *album;
@@ -34,7 +34,7 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) LFImagePickerTopBar *topBar;
 @property (nonatomic, strong) LFImagePickerBottomBar *bottomBar;
-@property (nonatomic, strong) BSImageCompressView *compressView;
+@property (nonatomic, strong) LFImageCompressView *compressView;
 
 @end
 
@@ -96,7 +96,7 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
         self.compressView.alpha = 1.0f;
     }];
     
-    [[BSTransactionManager sharedInstance] fetchSelectedImage:self.selectedPhotos
+    [[LFTransactionManager sharedInstance] fetchSelectedImage:self.selectedPhotos
                                                   cameraImage:self.captureImage
                                                       success:^(NSDictionary *info) {
                                                           if (self.delegate && [self.delegate respondsToSelector:@selector(imagePicker:didImportImages:)]) {
@@ -156,7 +156,7 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
 
 #pragma mark - BSImageCompressViewDelegate
 
-- (void)imageCompressViewController:(BSImageCompressView *)compressView didFinishedCompressedImage:(NSArray *)compressedImage
+- (void)imageCompressViewController:(LFImageCompressView *)compressView didFinishedCompressedImage:(NSArray *)compressedImage
 {
     if ([self.delegate respondsToSelector:@selector(imagePicker:didImportImages:)]) {
         [self.delegate imagePicker:self didImportImages:compressedImage];
@@ -308,10 +308,10 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
     return _bottomBar;
 }
 
-- (BSImageCompressView *)compressView
+- (LFImageCompressView *)compressView
 {
     if (_compressView == nil) {
-        _compressView = [[BSImageCompressView alloc] init];
+        _compressView = [[LFImageCompressView alloc] init];
         _compressView.delegate = self;
         _compressView.alpha = 0.0f;
     }
