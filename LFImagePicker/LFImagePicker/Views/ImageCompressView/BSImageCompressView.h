@@ -13,7 +13,8 @@
 @interface BSImageCompressView : UIView
 
 @property (nonatomic, weak) id<BSImageCompressViewDelegate> delegate;
-- (instancetype)initWithImageList:(NSArray *)imageList cameraImage:(UIImage *)cameraImage;
+
+- (void)showCompressingProgress:(NSDictionary *)progress;
 
 @end
 

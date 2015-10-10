@@ -53,7 +53,8 @@ NSString * const kLFFetchImageTransactionInfoKeyAsset = @"kLFFetchImageTransacti
                                              contentMode:PHImageContentModeDefault
                                                  options:nil
                                            resultHandler:^(UIImage * _Nullable image, NSDictionary * _Nullable info) {
-                                               dispatch_async(dispatch_get_global_queue(0, 0), ^{
+                                               
+                                               dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                                                    UIImage *compressedImage = image;
                                                    CGFloat preferredWidth = 1080.0f;
                                                    CGFloat factor = preferredWidth / image.size.width;

@@ -10,7 +10,7 @@
 #import "UIView+LayoutMethods.h"
 #import "BSImageCompressTool.h"
 
-@interface BSImageCompressView () <BSImageCompressToolDelegate>
+@interface BSImageCompressView ()
 
 @property (nonatomic, strong) UILabel *tipLabel;
 @property (nonatomic, strong) UIProgressView *progressView;
@@ -18,20 +18,16 @@
 @property (nonatomic, strong) UIImage *cameraImage;
 @property (nonatomic, strong) NSArray *imageList;
 @property (nonatomic, strong) NSMutableArray *compressedImageList;
-@property (nonatomic, strong) BSImageCompressTool *imageCompressTool;
 
 @end
 
 @implementation BSImageCompressView
 
 #pragma mark - life cycle
-- (instancetype)initWithImageList:(NSArray *)imageList cameraImage:(UIImage *)cameraImage
+- (instancetype)init
 {
     self = [super init];
     if (self) {
-        self.imageList = imageList;
-        self.cameraImage = cameraImage;
-        
         self.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.8];
         [self addSubview:self.tipLabel];
         [self addSubview:self.progressView];
@@ -55,15 +51,15 @@
 - (void)didMoveToSuperview
 {
     [super didMoveToSuperview];
-    if (self.superview != nil) {
-        [self.imageCompressTool compressWithImageList:self.imageList cameraImage:self.cameraImage];
-    }
 }
 
-#pragma mark - BSImageCompressToolDelegate
-- (void)imageCompressTool:(BSImageCompressTool *)imageCompressTool didSuccessedCompressedImage:(UIImage *)compressedImage currentCount:(NSInteger)currentCount totalCount:(NSInteger)totalCount
+#pragma mark - public
+
+- (void)showCompressingProgress:(NSDictionary *)progress
 {
-    [self.compressedImageList addObject:compressedImage];
+    NSInteger currentCount = [progress[@"finishedCount"] floatValue];
+    NSInteger totalCount = [progress[@"totalCount"] floatValue];
+    
     [self.progressView setProgress:(CGFloat)currentCount/(CGFloat)totalCount animated:YES];
     
     self.tipLabel.text = [NSString stringWithFormat:NSLocalizedString(@"Importing %lu of %lu items", @"当前Count: {number} 总共Count：{total number}"), currentCount, totalCount];
@@ -94,15 +90,6 @@
         _progressView = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleBar];
     }
     return _progressView;
-}
-
-- (BSImageCompressTool *)imageCompressTool
-{
-    if (_imageCompressTool == nil) {
-        _imageCompressTool = [[BSImageCompressTool alloc] init];
-        _imageCompressTool.delegate = self;
-    }
-    return _imageCompressTool;
 }
 
 - (NSMutableArray *)compressedImageList

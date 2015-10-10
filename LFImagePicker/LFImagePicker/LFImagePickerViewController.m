@@ -35,6 +35,7 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
 
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) LFImagePickerTopBar *topBar;
+@property (nonatomic, strong) BSImageCompressView *compressView;
 
 @end
 
@@ -54,6 +55,7 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
     [super viewDidLoad];
     [self.view addSubview:self.topBar];
     [self.view addSubview:self.collectionView];
+    [self.view addSubview:self.compressView];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -67,6 +69,8 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
     [self.collectionView fillWidth];
     [self.collectionView top:0 FromView:self.topBar];
     [self.collectionView bottomInContainer:0 shouldResize:YES];
+    
+    [self.compressView fill];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -75,32 +79,31 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
     [self configAlbums];
 }
 
+- (BOOL)prefersStatusBarHidden
+{
+    return YES;
+}
+
 #pragma mark - LFImagePickerTopBarDelegate
 
 - (void)topBar:(LFImagePickerTopBar *)bar didTappedImportButton:(UIButton *)button
 {
-//    NSMutableArray *exportImageList = [NSMutableArray array];
-//    __weak __typeof(self)weakSelf = self;
-//    [self.selectedPhotos enumerateObjectsUsingBlock:^(PHAsset * _Nonnull asset, NSUInteger idx, BOOL * _Nonnull stop) {
-//        __strong __typeof(weakSelf)strongSelf = weakSelf;
-//        [strongSelf.cachingImageManager requestImageForAsset:asset
-//                                            targetSize:PHImageManagerMaximumSize
-//                                           contentMode:PHImageContentModeDefault
-//                                               options:nil
-//                                         resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
-//                                             [exportImageList addObject:result];
-//                                         }];
-//    }];
     
-    [[BSTransactionManager sharedInstance] fetchSelectedImage:self.selectedPhotos success:^(NSDictionary *info) {
-        NSLog(@"success info is %@", info);
-    } fail:^(NSDictionary *info) {
-        NSLog(@"fail");
-    } progress:^(NSDictionary *info) {
-        NSLog(@"progress is %@", info);
+    [UIView animateWithDuration:0.3f animations:^{
+        self.navigationController.navigationBar.alpha = 0.0f;
+        self.compressView.alpha = 1.0f;
     }];
     
-//    [self doneWithSelectedImages];
+    [[BSTransactionManager sharedInstance] fetchSelectedImage:self.selectedPhotos success:^(NSDictionary *info) {
+        if (self.delegate && [self.delegate respondsToSelector:@selector(imagePicker:didImportImages:)]) {
+            [self.delegate imagePicker:self didImportImages:info[@"processedImageList"]];
+            [self dismissViewControllerAnimated:YES completion:nil];
+        }
+    } fail:^(NSDictionary *info) {
+    } progress:^(NSDictionary *info) {
+        [self.compressView showCompressingProgress:info];
+    }];
+    
 }
 
 - (void)topBar:(LFImagePickerTopBar *)bar didTappedCancelButton:(UIButton *)button
@@ -141,7 +144,10 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
         self.captureImage = [info objectForKey:UIImagePickerControllerOriginalImage];
     }
     [picker dismissViewControllerAnimated:YES completion:^{
-        [self doneWithSelectedImages];
+        [UIView animateWithDuration:0.3f animations:^{
+            self.navigationController.navigationBar.alpha = 0.0f;
+            self.compressView.alpha = 1.0f;
+        }];
     }];
 }
 
@@ -245,23 +251,6 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
     self.photos = album;
 }
 
-- (void)doneWithSelectedImages
-{
-    BSImageCompressView *compressView = [[BSImageCompressView alloc] initWithImageList:self.selectedPhotos cameraImage:self.captureImage];
-    compressView.delegate = self;
-    compressView.alpha = 0.0f;
-    [self.view addSubview:compressView];
-    [compressView fill];
-    [UIView animateWithDuration:0.3f animations:^{
-        self.navigationController.navigationBar.alpha = 0.0f;
-        compressView.alpha = 1.0f;
-    }];
-}
-
--(BOOL)prefersStatusBarHidden{
-    return YES;
-}
-
 #pragma mark - getters & setters
 - (UICollectionView *)collectionView
 {
@@ -290,6 +279,16 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
         _topBar.delegate = self;
     }
     return _topBar;
+}
+
+- (BSImageCompressView *)compressView
+{
+    if (_compressView == nil) {
+        _compressView = [[BSImageCompressView alloc] init];
+        _compressView.delegate = self;
+        _compressView.alpha = 0.0f;
+    }
+    return _compressView;
 }
 
 - (PHAuthorizationStatus)authorizationStatus

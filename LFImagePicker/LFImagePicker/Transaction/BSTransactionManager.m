@@ -40,17 +40,19 @@
         
         transactionInfo[kLFFetchImageTransactionInfoKeyAsset] = asset;
         transactionInfo[kLFFetchImageTransactionInfoKeyProgressCallback] = ^(NSDictionary *info){
-            UIImage *image = info[@"compressedImage"];
-            finishedCount++;
-            [processedImageList addObject:image];
-            if (finishedCount == count) {
-                success(NSDictionaryOfVariableBindings(processedImageList));
-            } else {
-                outerProgress(@{
-                                @"totalCount":@(count),
-                                @"finishedCount":@(finishedCount)
-                                });
-            }
+            dispatch_async(dispatch_get_main_queue(), ^{
+                UIImage *image = info[@"compressedImage"];
+                finishedCount++;
+                [processedImageList addObject:image];
+                if (finishedCount == count) {
+                    success(NSDictionaryOfVariableBindings(processedImageList));
+                } else {
+                    outerProgress(@{
+                                    @"totalCount":@(count),
+                                    @"finishedCount":@(finishedCount)
+                                    });
+                }
+            });
         };
         
         LFFetchSelectedImageTransaction *transaction = [[LFFetchSelectedImageTransaction alloc] init];
