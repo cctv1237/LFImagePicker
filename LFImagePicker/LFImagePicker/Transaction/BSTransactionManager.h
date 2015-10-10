@@ -13,7 +13,7 @@
 
 + (instancetype)sharedInstance;
 
-- (void)fetchSelectedImage:(NSArray <PHAsset *> *)selectedImage success:(void(^)(NSDictionary *info))success fail:(void(^)(NSDictionary *info))fail progress:(void(^)(NSDictionary *info))progress;
+- (void)fetchSelectedImage:(NSArray <PHAsset *> *)selectedImage cameraImage:(UIImage *)cameraImage success:(void(^)(NSDictionary *info))success fail:(void(^)(NSDictionary *info))fail progress:(void(^)(NSDictionary *info))progress;
 
 
 @end

@@ -8,6 +8,7 @@
 
 #import "BSTransactionManager.h"
 #import "LFFetchSelectedImageTransaction.h"
+#import "UIImage+Compress.h"
 
 @interface BSTransactionManager ()
 
@@ -28,13 +29,40 @@
     return sharedInstance;
 }
 
-- (void)fetchSelectedImage:(NSArray<PHAsset *> *)selectedImage success:(void (^)(NSDictionary *))success fail:(void (^)(NSDictionary *))fail progress:(void (^)(NSDictionary *))outerProgress
+- (void)fetchSelectedImage:(NSArray<PHAsset *> *)selectedImage cameraImage:(UIImage *)cameraImage success:(void (^)(NSDictionary *))success fail:(void (^)(NSDictionary *))fail progress:(void (^)(NSDictionary *))outerProgress
 {
     NSInteger count = [selectedImage count];
     __block NSInteger finishedCount = 0;
-    
     NSMutableArray *processedImageList = [[NSMutableArray alloc] init];
     
+    //camera image processing
+    if (cameraImage) {
+        count++;
+        NSBlockOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
+            UIImage *compressedImage = cameraImage;
+            CGFloat preferredWidth = 1080.0f;
+            CGFloat factor = preferredWidth / cameraImage.size.width;
+            if (factor < 1) {
+                compressedImage = [cameraImage compressImageWithNewSize:CGSizeMake(cameraImage.size.width * factor, cameraImage.size.height * factor) interpolationQuality:kCGInterpolationHigh];
+            }
+            compressedImage = [compressedImage compressImageWithPreferDataSize:300*1024];
+            
+            finishedCount++;
+            [processedImageList addObject:compressedImage];
+            if (finishedCount == count) {
+                success(NSDictionaryOfVariableBindings(processedImageList));
+            } else {
+                outerProgress(@{
+                                @"totalCount":@(count),
+                                @"finishedCount":@(finishedCount)
+                                });
+            }
+        }];
+        [self.operationQueue addOperation:operation];
+    }
+    
+    
+    //selected image processing
     [selectedImage enumerateObjectsUsingBlock:^(PHAsset * _Nonnull asset, NSUInteger idx, BOOL * _Nonnull stop) {
         NSMutableDictionary *transactionInfo = [[NSMutableDictionary alloc] init];
         

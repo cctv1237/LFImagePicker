@@ -55,6 +55,7 @@
     if (_picker == nil) {
         _picker = [[LFImagePickerViewController alloc] init];
         _picker.maxSelectedCount = 12;
+        _picker.themeColor = [UIColor cyanColor];
         _picker.delegate = self;
     }
     return _picker;

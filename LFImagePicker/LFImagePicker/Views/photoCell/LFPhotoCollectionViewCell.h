@@ -12,9 +12,11 @@
 @interface LFPhotoCollectionViewCell : UICollectionViewCell
 
 - (void)configDataWithAsset:(PHAsset *)asset themeColor:(UIColor *)color;
+- (void)configDataWithImage:(UIImage *)image themeColor:(UIColor *)color;
 - (void)bounceAnimation;
 - (void)addSelectionSign;
 - (void)removeSelectionSign;
+- (void)isCameraButton;
 
 
 @end

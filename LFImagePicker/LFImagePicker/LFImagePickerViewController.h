@@ -13,6 +13,7 @@
 @interface LFImagePickerViewController : UIViewController
 
 @property (nonatomic, assign) NSInteger maxSelectedCount;
+@property (nonatomic, strong) UIColor *themeColor;
 
 @property (nonatomic, weak) id<LFimagePickerDelegate> delegate;
 

@@ -16,6 +16,7 @@
 
 @property (nonatomic, strong) UIImageView *contentImageView;
 @property (nonatomic, strong) UIView *indexBadge;
+@property (nonatomic, strong) UIImageView *cameraButton;
 
 @property (nonatomic, assign) CGFloat gap;
 @property (nonatomic, strong) UIColor *themeColor;
@@ -30,6 +31,7 @@
 {
     if (self = [super initWithFrame:frame]) {
         [self.contentView addSubview:self.contentImageView];
+        [self.contentImageView addSubview:self.cameraButton];
         [self.contentImageView addSubview:self.indexBadge];
         self.gap = 2.0f;
     }
@@ -43,6 +45,8 @@
     [self.contentImageView centerXEqualToView:self];
     [self.contentImageView centerYEqualToView:self];
     
+    [self.cameraButton fill];
+    
     [self.indexBadge topInContainer:8 shouldResize:NO];
     [self.indexBadge rightInContainer:8 shouldResize:NO];
     
@@ -52,6 +56,7 @@
 {
     [super prepareForReuse];
     self.contentImageView.image = nil;
+    self.cameraButton.alpha = 0;
 }
 
 #pragma mark - public
@@ -69,6 +74,12 @@
                                      }];
 }
 
+- (void)configDataWithImage:(UIImage *)image themeColor:(UIColor *)color
+{
+    self.themeColor = color;
+    self.contentImageView.image = image;
+}
+
 - (void)bounceAnimation
 {
     self.contentImageView.transform = CGAffineTransformMakeScale(0.97, 0.97);
@@ -77,8 +88,6 @@
     } completion:nil];
     
 }
-
-#pragma mark - private
 
 - (void)addSelectionSign
 {
@@ -91,6 +100,11 @@
 {
     self.contentImageView.layer.borderWidth = 0;
     self.indexBadge.backgroundColor = [UIColor clearColor];
+}
+
+- (void)isCameraButton
+{
+    self.cameraButton.alpha = 0.4;
 }
 
 #pragma mark - getters & setters
@@ -113,6 +127,17 @@
         _contentImageView.clipsToBounds = YES;
     }
     return _contentImageView;
+}
+
+- (UIImageView *)cameraButton
+{
+    if (_cameraButton == nil) {
+        _cameraButton = [[UIImageView alloc] init];
+        _cameraButton.backgroundColor = [UIColor blackColor];
+        _cameraButton.alpha = 0;
+        
+    }
+    return _cameraButton;
 }
 
 - (UIView *)indexBadge

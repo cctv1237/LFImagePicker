@@ -96,16 +96,19 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
         self.compressView.alpha = 1.0f;
     }];
     
-    [[BSTransactionManager sharedInstance] fetchSelectedImage:self.selectedPhotos success:^(NSDictionary *info) {
-        if (self.delegate && [self.delegate respondsToSelector:@selector(imagePicker:didImportImages:)]) {
-            [self.delegate imagePicker:self didImportImages:info[@"processedImageList"]];
-            [self dismissViewControllerAnimated:YES completion:nil];
-            self.compressView.alpha = 0.0f;
-        }
-    } fail:^(NSDictionary *info) {
-    } progress:^(NSDictionary *info) {
-        [self.compressView showCompressingProgress:info];
-    }];
+    [[BSTransactionManager sharedInstance] fetchSelectedImage:self.selectedPhotos
+                                                  cameraImage:self.captureImage
+                                                      success:^(NSDictionary *info) {
+                                                          if (self.delegate && [self.delegate respondsToSelector:@selector(imagePicker:didImportImages:)]) {
+                                                              [self.delegate imagePicker:self didImportImages:info[@"processedImageList"]];
+                                                              [self dismissViewControllerAnimated:YES completion:nil];
+                                                              self.compressView.alpha = 0.0f;
+                                                          }
+                                                      }
+                                                         fail:^(NSDictionary *info) {}
+                                                     progress:^(NSDictionary *info) {
+                                                         [self.compressView showCompressingProgress:info];
+                                                     }];
     
 }
 
@@ -146,12 +149,9 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
     if (!self.captureImage) {
         self.captureImage = [info objectForKey:UIImagePickerControllerOriginalImage];
     }
-    [picker dismissViewControllerAnimated:YES completion:^{
-        [UIView animateWithDuration:0.3f animations:^{
-            self.navigationController.navigationBar.alpha = 0.0f;
-            self.compressView.alpha = 1.0f;
-        }];
-    }];
+    [self.collectionView reloadData];
+    [self.bottomBar refreshSelectedCount:self.selectedPhotos.count + 1];
+    [picker dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - BSImageCompressViewDelegate
@@ -181,9 +181,13 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
 {
     LFPhotoCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kLFPhotoCollectionViewCellIdentifier forIndexPath:indexPath];
     if (indexPath.item == 0) {
-        
+        [cell isCameraButton];
+        if (self.captureImage) {
+            [cell configDataWithImage:self.captureImage themeColor:self.themeColor];
+            [cell addSelectionSign];
+        }
     } else {
-        [cell configDataWithAsset:self.photos[[self.photos count] - indexPath.item] themeColor:[UIColor cyanColor]];
+        [cell configDataWithAsset:self.photos[[self.photos count] - indexPath.item] themeColor:self.themeColor];
     }
     return cell;
 }
