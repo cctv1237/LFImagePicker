@@ -29,6 +29,7 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
 @property (nonatomic, strong) PHCachingImageManager *cachingImageManager;
 
 @property (nonatomic, strong) NSMutableArray *selectedPhotos;
+@property (nonatomic, strong) NSMutableSet *selectedIndexPath;
 @property (nonatomic, strong) UIImage *captureImage;
 
 @property (nonatomic, strong) UICollectionView *collectionView;
@@ -188,6 +189,9 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
         }
     } else {
         [cell configDataWithAsset:self.photos[[self.photos count] - indexPath.item] themeColor:self.themeColor];
+        if ([self.selectedIndexPath containsObject:indexPath]) {
+            [cell addSelectionSign];
+        }
     }
     return cell;
 }
@@ -213,6 +217,7 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
         }
         LFPhotoCollectionViewCell *cell = (LFPhotoCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
         [self.selectedPhotos addObject:self.photos[[self.photos count] - indexPath.item]];
+        [self.selectedIndexPath addObject:indexPath];
         [cell bounceAnimation];
         
         [self.bottomBar refreshSelectedCount:self.selectedPhotos.count];
@@ -226,6 +231,7 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
 {
     LFPhotoCollectionViewCell *cell = (LFPhotoCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
     [self.selectedPhotos removeObject:self.photos[[self.photos count] - indexPath.item]];
+    [self.selectedIndexPath removeObject:indexPath];
     [cell bounceAnimation];
     
     [self.bottomBar refreshSelectedCount:self.selectedPhotos.count];
@@ -330,6 +336,15 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
         _selectedPhotos = [NSMutableArray array];
     }
     return _selectedPhotos;
+}
+
+- (NSMutableSet *)selectedIndexPath
+{
+    if (_selectedIndexPath == nil) {
+        _selectedIndexPath = [NSMutableSet set];
+        
+    }
+    return _selectedIndexPath;
 }
 
 - (PHCachingImageManager *)cachingImageManager
