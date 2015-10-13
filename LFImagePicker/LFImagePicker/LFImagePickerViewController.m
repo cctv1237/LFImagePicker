@@ -17,17 +17,13 @@
 
 #import <Photos/Photos.h>
 #import "LFTransactionManager.h"
+#import "LFPhotoData.h"
 
 NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewCell";
 
 @interface LFImagePickerViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, LFImagePickerTopBarDelegate, LFAlbumListViewControllerDelegate, LFImageCompressViewDelegate>
 
-@property (nonatomic, strong) PHFetchResult *smartAlbums;
-@property (nonatomic, strong) PHAssetCollection *album;
-@property (nonatomic, strong) PHFetchResult *photos;
-@property (nonatomic, assign) PHAuthorizationStatus authorizationStatus;
-@property (nonatomic, strong) PHCachingImageManager *cachingImageManager;
-
+@property (nonatomic, strong) LFPhotoData *photoData;
 @property (nonatomic, strong) NSMutableArray *selectedPhotos;
 @property (nonatomic, strong) NSMutableSet *selectedIndexPath;
 @property (nonatomic, strong) UIImage *captureImage;
@@ -79,7 +75,9 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [self configAlbums];
+    [self.photoData configAlbums:^{
+        [self.collectionView reloadData];
+    }];
 }
 
 - (BOOL)prefersStatusBarHidden
@@ -124,7 +122,7 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
     albumListTable.popoverPresentationController.sourceView = self.topBar;
     albumListTable.popoverPresentationController.sourceRect = self.topBar.bounds;
     albumListTable.popoverPresentationController.popoverLayoutMargins = UIEdgeInsetsMake(50, 50, 50, 50);
-    albumListTable.smartAlbums = self.smartAlbums;
+    albumListTable.smartAlbums = self.photoData.smartAlbums;
     albumListTable.delegate = self;
     [self presentViewController:albumListTable animated:YES completion:nil];
 }
@@ -133,11 +131,11 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
 
 - (void)albumListViewController:(LFAlbumListViewController *)albumListViewController didSelectAlbumIndex:(NSInteger)index
 {
-    [self.smartAlbums enumerateObjectsUsingBlock:^(PHAssetCollection * _Nonnull collection, NSUInteger idx, BOOL * _Nonnull stop) {
+    [self.photoData.smartAlbums enumerateObjectsUsingBlock:^(PHAssetCollection * _Nonnull collection, NSUInteger idx, BOOL * _Nonnull stop) {
         if (idx == index) {
-            self.album = collection;
+            self.photoData.album = collection;
             PHFetchResult *assetsFetchResult = [PHAsset fetchAssetsInAssetCollection:collection options:nil];
-            [self configPhotosByAlbum:assetsFetchResult];
+            [self.photoData configPhotosByAlbum:assetsFetchResult];
             [self.collectionView reloadData];
         }
     }];
@@ -176,7 +174,7 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return [self.photos count] + 1;
+    return [self.photoData.photos count] + 1;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -189,7 +187,7 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
             [cell addSelectionSign];
         }
     } else {
-        [cell configDataWithAsset:self.photos[[self.photos count] - indexPath.item] themeColor:self.themeColor];
+        [cell configDataWithAsset:self.photoData.photos[[self.photoData.photos count] - indexPath.item] themeColor:self.themeColor];
         if ([self.selectedIndexPath containsObject:indexPath]) {
             [cell addSelectionSign];
         }
@@ -216,7 +214,7 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
             }
         } else {
             LFPhotoCollectionViewCell *cell = (LFPhotoCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
-            [self.selectedPhotos addObject:self.photos[[self.photos count] - indexPath.item]];
+            [self.selectedPhotos addObject:self.photoData.photos[[self.photoData.photos count] - indexPath.item]];
             [self.selectedIndexPath addObject:indexPath];
             [cell bounceAnimation];
             
@@ -231,7 +229,7 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
 - (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     LFPhotoCollectionViewCell *cell = (LFPhotoCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
-    [self.selectedPhotos removeObject:self.photos[[self.photos count] - indexPath.item]];
+    [self.selectedPhotos removeObject:self.photoData.photos[[self.photoData.photos count] - indexPath.item]];
     [self.selectedIndexPath removeObject:indexPath];
     [cell bounceAnimation];
     
@@ -239,40 +237,6 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
     if (!self.selectedPhotos.count) {
         self.topBar.importButton.enabled = NO;
     }
-}
-
-#pragma mark - private
-
-- (void)configAlbums
-{
-    [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status) {
-        if (status == PHAuthorizationStatusAuthorized) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                PHFetchResult *smartAlbums = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum
-                                                                                      subtype:PHAssetCollectionSubtypeAlbumRegular
-                                                                                      options:nil];
-                self.smartAlbums = smartAlbums;
-                [self configAlbumByAlbums:smartAlbums];
-                [self.collectionView reloadData];
-            });
-        }
-    }];
-}
-
-- (void)configAlbumByAlbums:(PHFetchResult *)albums
-{
-    [albums enumerateObjectsUsingBlock:^(PHAssetCollection * _Nonnull collection, NSUInteger idx, BOOL * _Nonnull stop) {
-        if ([collection.localizedTitle isEqualToString:NSLocalizedString(@"Camera Roll", @"")]) {
-            self.album = collection;
-            PHFetchResult *assetsFetchResult = [PHAsset fetchAssetsInAssetCollection:collection options:nil];
-            [self configPhotosByAlbum:assetsFetchResult];
-        }
-    }];
-}
-
-- (void)configPhotosByAlbum:(PHFetchResult *)album
-{
-    self.photos = album;
 }
 
 #pragma mark - getters & setters
@@ -325,10 +289,13 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
     return _compressView;
 }
 
-- (PHAuthorizationStatus)authorizationStatus
+- (LFPhotoData *)photoData
 {
-    _authorizationStatus = [PHPhotoLibrary authorizationStatus];
-    return _authorizationStatus;
+    if (_photoData == nil) {
+        _photoData = [[LFPhotoData alloc] init];
+        
+    }
+    return _photoData;
 }
 
 - (NSMutableArray *)selectedPhotos
@@ -346,14 +313,6 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
         
     }
     return _selectedIndexPath;
-}
-
-- (PHCachingImageManager *)cachingImageManager
-{
-    if (_cachingImageManager == nil) {
-        _cachingImageManager = [[PHCachingImageManager alloc] init];
-    }
-    return _cachingImageManager;
 }
 
 @end
