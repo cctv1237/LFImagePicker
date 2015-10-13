@@ -11,6 +11,8 @@
 
 @interface LFImagePickerTopBar ()
 
+@property (nonatomic, strong) UIVisualEffectView *blurBackground;
+
 @property (nonatomic, strong) UIButton *cancelButton;
 @property (nonatomic, strong) UIButton *albumsButton;
 
@@ -22,8 +24,7 @@
 - (instancetype)init
 {
     if (self = [super init]) {
-        self.backgroundColor = [UIColor blackColor];
-        self.alpha = 0.5;
+        [self addSubview:self.blurBackground];
         [self addSubview:self.importButton];
         [self addSubview:self.cancelButton];
         [self addSubview:self.albumsButton];
@@ -33,6 +34,8 @@
 
 - (void)layoutSubviews
 {
+    [self.blurBackground fill];
+    
     self.cancelButton.size = CGSizeMake(100, 44);
     [self.cancelButton centerYEqualToView:self];
     [self.cancelButton leftInContainer:0 shouldResize:NO];
@@ -72,13 +75,23 @@
 
 #pragma mark - getters & setters
 
+- (UIVisualEffectView *)blurBackground
+{
+    if (_blurBackground == nil) {
+        _blurBackground = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleDark]];
+        
+    }
+    return _blurBackground;
+}
+
+
 - (UIButton *)importButton
 {
     if (_importButton == nil) {
         _importButton = [UIButton buttonWithType:UIButtonTypeSystem];
         [_importButton addTarget:self action:@selector(didTappedImportButton:) forControlEvents:UIControlEventTouchUpInside];
         [_importButton setTitle:NSLocalizedString(@"Import", @"importButton") forState:UIControlStateNormal];
-        [_importButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [_importButton setTitleColor:self.themeColor forState:UIControlStateNormal];
         [_importButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateHighlighted];
         [_importButton setTitleColor:[UIColor grayColor] forState:UIControlStateDisabled];
         _importButton.enabled = NO;

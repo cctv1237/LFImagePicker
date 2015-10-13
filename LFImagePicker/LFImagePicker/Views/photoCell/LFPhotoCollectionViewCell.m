@@ -14,7 +14,7 @@
 @property (nonatomic, strong) PHCachingImageManager *cachingImageManager;
 
 @property (nonatomic, strong) UIImageView *contentImageView;
-@property (nonatomic, strong) UIView *indexBadge;
+@property (nonatomic, strong) UIImageView *indexBadge;
 @property (nonatomic, strong) UIImageView *cameraButton;
 
 @property (nonatomic, assign) CGFloat gap;
@@ -139,10 +139,10 @@
     return _cameraButton;
 }
 
-- (UIView *)indexBadge
+- (UIImageView *)indexBadge
 {
     if (_indexBadge == nil) {
-        _indexBadge = [[UIView alloc] init];
+        _indexBadge = [[UIImageView alloc] init];
         _indexBadge.backgroundColor = self.themeColor;
         _indexBadge.size = CGSizeMake(20, 20);
         _indexBadge.layer.cornerRadius = 10;

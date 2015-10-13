@@ -12,6 +12,7 @@
 @interface LFImagePickerBottomBar ()
 
 @property (nonatomic, strong) UILabel *selectedCountLabel;
+@property (nonatomic, strong) UIVisualEffectView *blurBackground;
 
 @end
 
@@ -21,8 +22,7 @@
 - (instancetype)init
 {
     if (self = [super init]) {
-        self.backgroundColor = [UIColor blackColor];
-        self.alpha = 0.5;
+        [self addSubview:self.blurBackground];
         [self addSubview:self.selectedCountLabel];
     }
     return self;
@@ -31,6 +31,9 @@
 - (void)layoutSubviews
 {
     [super layoutSubviews];
+    
+    [self.blurBackground fill];
+    
     [self.selectedCountLabel sizeToFit];
     [self.selectedCountLabel leftInContainer:10 shouldResize:NO];
     [self.selectedCountLabel centerYEqualToView:self];
@@ -52,6 +55,15 @@
         _selectedCountLabel.textColor = [UIColor whiteColor];
     }
     return _selectedCountLabel;
+}
+
+- (UIVisualEffectView *)blurBackground
+{
+    if (_blurBackground == nil) {
+        _blurBackground = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleDark]];
+        
+    }
+    return _blurBackground;
 }
 
 @end

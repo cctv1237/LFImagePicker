@@ -43,6 +43,7 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
 {
     if (self = [super init]) {
         self.maxSelectedCount = 10;
+        self.themeColor = [UIColor blueColor];
     }
     return self;
 }
@@ -136,7 +137,20 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
             self.photoData.album = collection;
             PHFetchResult *assetsFetchResult = [PHAsset fetchAssetsInAssetCollection:collection options:nil];
             [self.photoData configPhotosByAlbum:assetsFetchResult];
+            
+            [self.selectedPhotos removeAllObjects];
+            [self.selectedIndexPath removeAllObjects];
             [self.collectionView reloadData];
+            if (self.captureImage) {
+                [self.bottomBar refreshSelectedCount:self.selectedPhotos.count + 1];
+            } else {
+                [self.bottomBar refreshSelectedCount:self.selectedPhotos.count];
+            }
+            if (self.selectedPhotos.count) {
+                self.topBar.importButton.enabled = YES;
+            } else {
+                self.topBar.importButton.enabled = NO;
+            }
         }
     }];
 }
@@ -265,6 +279,7 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
 {
     if (_topBar == nil) {
         _topBar = [[LFImagePickerTopBar alloc] init];
+        _topBar.themeColor = self.themeColor;
         _topBar.delegate = self;
     }
     return _topBar;
