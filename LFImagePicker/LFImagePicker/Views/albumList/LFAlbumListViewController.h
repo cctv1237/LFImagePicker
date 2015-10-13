@@ -15,7 +15,7 @@
 
 @property (nonatomic, weak) id<LFAlbumListViewControllerDelegate> delegate;
 
-@property (nonatomic, strong) PHFetchResult *smartAlbums;
+@property (nonatomic, weak) PHFetchResult *smartAlbums;
 
 @end
 

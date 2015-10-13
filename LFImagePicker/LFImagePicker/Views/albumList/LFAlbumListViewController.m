@@ -23,7 +23,6 @@
 {
     if (self = [super init]) {
         self.modalPresentationStyle = UIModalPresentationPopover;
-        self.popoverPresentationController.popoverLayoutMargins = UIEdgeInsetsMake(10, 10, 10, 10);
         self.popoverPresentationController.delegate = self;
     }
     return self;
@@ -31,11 +30,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-//    UIButton *a = [[UIButton alloc] initWithFrame:CGRectMake(100, 100, 100, 100)];
-//    a.backgroundColor = [UIColor redColor];
-//    [a addTarget:self action:@selector(didTappeds) forControlEvents:UIControlEventTouchUpInside];
-//    [self.view addSubview:a];
     [self.view addSubview:self.tableView];
 }
 
@@ -59,8 +53,9 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"AlbumListreuseIdentifier" forIndexPath:indexPath];
+    UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"AlbumListreuseIdentifier"];
     cell.textLabel.text = [self.smartAlbums[indexPath.item] localizedTitle];
+//    cell.detailTextLabel.text = [NSString stringWithFormat:NSLocalizedString(@"%lu", @"albumCount"), (long)[self.smartAlbums[indexPath.item] estimatedAssetCount]];
     return cell;
 }
 
