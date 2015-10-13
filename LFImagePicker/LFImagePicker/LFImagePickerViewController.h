@@ -19,7 +19,11 @@ typedef NS_ENUM(NSUInteger, LFImagePickerTargetType) {
 
 @property (nonatomic, assign) NSInteger maxSelectedCount;
 @property (nonatomic, strong) UIColor *themeColor;
+
 @property (nonatomic, assign) LFImagePickerTargetType targetType;
+
+@property (nonatomic, assign) BOOL videoAvailable;
+@property (nonatomic, assign) BOOL audioAvailable;
 
 @property (nonatomic, weak) id<LFimagePickerDelegate> delegate;
 
@@ -29,6 +33,10 @@ typedef NS_ENUM(NSUInteger, LFImagePickerTargetType) {
 
 - (void)imagePicker:(LFImagePickerViewController *)picker didImportImages:(NSArray *)imageList;
 - (void)imagePicker:(LFImagePickerViewController *)picker didReachMaxSelectedCount:(NSInteger)maxCount;
+
+@optional
+- (void)imagePicker:(LFImagePickerViewController *)picker didRejectSelectVideoAtIndexPath:(NSIndexPath *)indexPath;
+- (void)imagePicker:(LFImagePickerViewController *)picker didRejectSelectAudioAtIndexPath:(NSIndexPath *)indexPath;
 
 @end
 

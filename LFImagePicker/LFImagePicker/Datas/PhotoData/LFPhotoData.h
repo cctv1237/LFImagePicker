@@ -13,7 +13,7 @@
 
 @property (nonatomic, strong) PHFetchResult *smartAlbums;
 @property (nonatomic, strong) PHAssetCollection *album;
-@property (nonatomic, strong) PHFetchResult *photos;
+@property (nonatomic, strong) PHFetchResult *assets;
 
 - (void)configAlbums:(void (^)(void))complete;
 - (void)configAlbumByAlbums:(PHFetchResult *)albums;

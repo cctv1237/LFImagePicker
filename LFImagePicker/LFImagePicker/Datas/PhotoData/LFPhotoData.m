@@ -48,7 +48,7 @@
 
 - (void)configPhotosByAlbum:(PHFetchResult *)album
 {
-    self.photos = album;
+    self.assets = album;
 }
 
 #pragma mark - getters&setters
