@@ -201,6 +201,8 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
         if (self.captureImage) {
             [cell configDataWithImage:self.captureImage themeColor:self.themeColor];
             [cell addSelectionSign];
+        } else {
+            [cell configDataWithImage:[UIImage imageNamed:@"LFImagePickerImage.bundle/pictures_take-photo_209"] themeColor:self.themeColor];
         }
     } else {
         [cell configDataWithAsset:self.photoData.assets[[self.photoData.assets count] - indexPath.item] themeColor:self.themeColor];

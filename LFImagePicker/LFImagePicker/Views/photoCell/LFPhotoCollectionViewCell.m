@@ -92,13 +92,13 @@
 {
     self.contentImageView.layer.borderColor = self.themeColor.CGColor;
     self.contentImageView.layer.borderWidth = 2;
-    self.indexBadge.backgroundColor = self.themeColor;
+    self.indexBadge.alpha = 1;
 }
 
 - (void)removeSelectionSign
 {
     self.contentImageView.layer.borderWidth = 0;
-    self.indexBadge.backgroundColor = [UIColor clearColor];
+    self.indexBadge.alpha = 0;
 }
 
 - (void)isCameraButton
@@ -144,6 +144,8 @@
     if (_indexBadge == nil) {
         _indexBadge = [[UIImageView alloc] init];
         _indexBadge.backgroundColor = self.themeColor;
+        _indexBadge.alpha = 0;
+        _indexBadge.image = [UIImage imageNamed:@"LFImagePickerImage.bundle/content_btn_selected_40"];
         _indexBadge.size = CGSizeMake(20, 20);
         _indexBadge.layer.cornerRadius = 10;
     }

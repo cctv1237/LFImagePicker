@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AB4F5ACB1BCE0AD20066BE2D /* LFImagePickerImage.bundle in Resources */ = {isa = PBXBuildFile; fileRef = AB4F5ACA1BCE0AD20066BE2D /* LFImagePickerImage.bundle */; settings = {ASSET_TAGS = (); }; };
 		AB633E451BC65866004818B4 /* LFDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AB633E441BC65866004818B4 /* LFDemoViewController.m */; settings = {ASSET_TAGS = (); }; };
 		AB633E5B1BC658DD004818B4 /* UIView+PickerLayoutMethods.m in Sources */ = {isa = PBXBuildFile; fileRef = AB633E4A1BC658DD004818B4 /* UIView+PickerLayoutMethods.m */; settings = {ASSET_TAGS = (); }; };
 		AB633E5C1BC658DD004818B4 /* LFPhotoData.m in Sources */ = {isa = PBXBuildFile; fileRef = AB633E4E1BC658DD004818B4 /* LFPhotoData.m */; settings = {ASSET_TAGS = (); }; };
@@ -46,6 +47,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		AB4F5ACA1BCE0AD20066BE2D /* LFImagePickerImage.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = LFImagePickerImage.bundle; sourceTree = "<group>"; };
 		AB633E431BC65866004818B4 /* LFDemoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LFDemoViewController.h; sourceTree = "<group>"; };
 		AB633E441BC65866004818B4 /* LFDemoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LFDemoViewController.m; sourceTree = "<group>"; };
 		AB633E491BC658DD004818B4 /* UIView+PickerLayoutMethods.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+PickerLayoutMethods.h"; sourceTree = "<group>"; };
@@ -114,6 +116,7 @@
 		AB633E461BC658DD004818B4 /* LFImagePicker */ = {
 			isa = PBXGroup;
 			children = (
+				AB4F5ACA1BCE0AD20066BE2D /* LFImagePickerImage.bundle */,
 				ABD782B21BC7B1BC00A3E49A /* Transaction */,
 				AB633E471BC658DD004818B4 /* Categories */,
 				AB633E4B1BC658DD004818B4 /* Datas */,
@@ -415,6 +418,7 @@
 				ABB34BEA1BB3D17B00C290A7 /* LaunchScreen.storyboard in Resources */,
 				ABB34BE71BB3D17B00C290A7 /* Assets.xcassets in Resources */,
 				ABB34BE51BB3D17B00C290A7 /* Main.storyboard in Resources */,
+				AB4F5ACB1BCE0AD20066BE2D /* LFImagePickerImage.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
