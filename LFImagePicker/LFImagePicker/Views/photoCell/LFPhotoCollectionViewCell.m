@@ -145,7 +145,7 @@
         _indexBadge = [[UIImageView alloc] init];
         _indexBadge.backgroundColor = self.themeColor;
         _indexBadge.alpha = 0;
-        _indexBadge.image = [UIImage imageNamed:@"LFImagePickerImage.bundle/content_btn_selected_40"];
+        _indexBadge.image = [UIImage imageNamed:@"content_btn_selected_40"];
         _indexBadge.size = CGSizeMake(20, 20);
         _indexBadge.layer.cornerRadius = 10;
     }
