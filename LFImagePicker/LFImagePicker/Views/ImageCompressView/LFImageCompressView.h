@@ -14,6 +14,7 @@
 
 @property (nonatomic, weak) id<LFImageCompressViewDelegate> delegate;
 
+- (instancetype)initWithThemeColor:(UIColor *)color;
 - (void)showCompressingProgress:(NSDictionary *)progress;
 
 @end

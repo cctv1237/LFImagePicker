@@ -27,6 +27,8 @@ typedef NS_ENUM(NSUInteger, LFImagePickerTargetType) {
 
 @property (nonatomic, weak) id<LFimagePickerDelegate> delegate;
 
+- (instancetype)initWithThemeColor:(UIColor *)color;
+
 @end
 
 @protocol LFimagePickerDelegate <NSObject>

@@ -13,6 +13,8 @@
 
 @property (nonatomic, strong) UIVisualEffectView *blurBackground;
 
+@property (nonatomic, weak) UIColor *themeColor;
+
 @property (nonatomic, strong) UIButton *cancelButton;
 @property (nonatomic, strong) UIButton *albumsButton;
 
@@ -21,9 +23,10 @@
 @implementation LFImagePickerTopBar
 
 #pragma mark - life cycle
-- (instancetype)init
+- (instancetype)initWithThemeColor:(UIColor *)color
 {
     if (self = [super init]) {
+        self.themeColor = color;
         [self addSubview:self.blurBackground];
         [self addSubview:self.importButton];
         [self addSubview:self.cancelButton];
@@ -36,7 +39,7 @@
 {
     [self.blurBackground fill];
     
-    self.cancelButton.size = CGSizeMake(100, 44);
+    self.cancelButton.size = CGSizeMake(80, 44);
     [self.cancelButton centerYEqualToView:self];
     [self.cancelButton leftInContainer:0 shouldResize:NO];
     
@@ -48,6 +51,13 @@
     [self.albumsButton heightEqualToView:self.cancelButton];
     [self.albumsButton centerXEqualToView:self];
     [self.albumsButton centerYEqualToView:self];
+}
+
+#pragma mark - public
+
+- (void)refreshAlbumsName:(NSString *)name
+{
+    [self.albumsButton setTitle:[NSString stringWithFormat:NSLocalizedString(@"%@▼", @"albumsButton"),name] forState:UIControlStateNormal];
 }
 
 #pragma mark - event response
@@ -91,6 +101,8 @@
         _importButton = [UIButton buttonWithType:UIButtonTypeSystem];
         [_importButton addTarget:self action:@selector(didTappedImportButton:) forControlEvents:UIControlEventTouchUpInside];
         [_importButton setTitle:NSLocalizedString(@"Import", @"importButton") forState:UIControlStateNormal];
+        _importButton.titleLabel.font = [UIFont systemFontOfSize:19 weight:UIFontWeightMedium];
+        _importButton.titleEdgeInsets = UIEdgeInsetsMake(13, 0, 13, 10);
         [_importButton setTitleColor:self.themeColor forState:UIControlStateNormal];
         [_importButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateHighlighted];
         [_importButton setTitleColor:[UIColor grayColor] forState:UIControlStateDisabled];
@@ -105,6 +117,8 @@
         _cancelButton = [UIButton buttonWithType:UIButtonTypeSystem];
         [_cancelButton addTarget:self action:@selector(didTappedCancelButton:) forControlEvents:UIControlEventTouchUpInside];
         [_cancelButton setTitle:NSLocalizedString(@"Cancel", @"cancelButton") forState:UIControlStateNormal];
+        _cancelButton.titleLabel.font = [UIFont systemFontOfSize:19 weight:UIFontWeightMedium];
+        _cancelButton.titleEdgeInsets = UIEdgeInsetsMake(13, 10, 13, 0);
         [_cancelButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [_cancelButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateHighlighted];
     }
@@ -117,6 +131,7 @@
         _albumsButton = [UIButton buttonWithType:UIButtonTypeSystem];
         [_albumsButton addTarget:self action:@selector(didTappedAlbumsButton:) forControlEvents:UIControlEventTouchUpInside];
         [_albumsButton setTitle:NSLocalizedString(@"Albums", @"albumsButton") forState:UIControlStateNormal];
+        _albumsButton.titleLabel.font = [UIFont systemFontOfSize:14 weight:UIFontWeightRegular];
         [_albumsButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [_albumsButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateHighlighted];
     }

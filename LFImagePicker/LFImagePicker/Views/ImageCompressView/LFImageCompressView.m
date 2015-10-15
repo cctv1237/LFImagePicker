@@ -14,6 +14,8 @@
 @property (nonatomic, strong) UILabel *tipLabel;
 @property (nonatomic, strong) UIProgressView *progressView;
 
+@property (nonatomic, weak) UIColor *themeColor;
+
 @property (nonatomic, strong) UIImage *cameraImage;
 @property (nonatomic, strong) NSArray *imageList;
 @property (nonatomic, strong) NSMutableArray *compressedImageList;
@@ -23,11 +25,12 @@
 @implementation LFImageCompressView
 
 #pragma mark - life cycle
-- (instancetype)init
+- (instancetype)initWithThemeColor:(UIColor *)color
 {
     self = [super init];
     if (self) {
         self.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.8];
+        self.themeColor = color;
         [self addSubview:self.tipLabel];
         [self addSubview:self.progressView];
     }
@@ -87,6 +90,7 @@
 {
     if (_progressView == nil) {
         _progressView = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleBar];
+        _progressView.progressTintColor = self.themeColor;
     }
     return _progressView;
 }

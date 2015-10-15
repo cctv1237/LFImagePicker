@@ -13,9 +13,11 @@
 @interface LFImagePickerTopBar : UIView
 
 @property (nonatomic, strong) UIButton *importButton;
-@property (nonatomic, weak) UIColor *themeColor;
 
 @property (nonatomic, weak) id<LFImagePickerTopBarDelegate> delegate;
+
+- (instancetype)initWithThemeColor:(UIColor *)color;
+- (void)refreshAlbumsName:(NSString *)name;
 
 @end
 

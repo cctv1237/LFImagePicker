@@ -38,7 +38,7 @@
 - (void)configAlbumByAlbums:(PHFetchResult *)albums
 {
     [albums enumerateObjectsUsingBlock:^(PHAssetCollection * _Nonnull collection, NSUInteger idx, BOOL * _Nonnull stop) {
-        if ([collection.localizedTitle isEqualToString:NSLocalizedString(@"Camera Roll", @"")]) {
+        if ([collection.localizedTitle isEqualToString:@"Camera Roll"]||[collection.localizedTitle isEqualToString:@"相机胶卷"]) {
             self.album = collection;
             PHFetchResult *assetsFetchResult = [PHAsset fetchAssetsInAssetCollection:collection options:nil];
             [self configPhotosByAlbum:assetsFetchResult];

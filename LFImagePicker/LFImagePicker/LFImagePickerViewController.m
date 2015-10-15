@@ -43,7 +43,18 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
 {
     if (self = [super init]) {
         self.maxSelectedCount = 10;
-        self.themeColor = [UIColor blueColor];
+        self.themeColor = [UIColor colorWithRed:3/255.0f green:196/255.0f blue:255/255.0f alpha:1];
+        self.videoAvailable = NO;
+        self.audioAvailable = NO;
+    }
+    return self;
+}
+
+- (instancetype)initWithThemeColor:(UIColor *)color
+{
+    if (self = [super init]) {
+        self.maxSelectedCount = 10;
+        self.themeColor = color;
         self.videoAvailable = NO;
         self.audioAvailable = NO;
     }
@@ -78,8 +89,11 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    __weak __typeof(self)weakSelf = self;
     [self.photoData configAlbums:^{
-        [self.collectionView reloadData];
+        __strong __typeof(weakSelf)strongSelf = weakSelf;
+        [strongSelf.collectionView reloadData];
+        [strongSelf.topBar refreshAlbumsName:self.photoData.album.localizedTitle];
     }];
 }
 
@@ -137,6 +151,7 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
     [self.photoData.smartAlbums enumerateObjectsUsingBlock:^(PHAssetCollection * _Nonnull collection, NSUInteger idx, BOOL * _Nonnull stop) {
         if (idx == index) {
             self.photoData.album = collection;
+            [self.topBar refreshAlbumsName:collection.localizedTitle];
             PHFetchResult *assetsFetchResult = [PHAsset fetchAssetsInAssetCollection:collection options:nil];
             [self.photoData configPhotosByAlbum:assetsFetchResult];
             
@@ -299,8 +314,7 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
 - (LFImagePickerTopBar *)topBar
 {
     if (_topBar == nil) {
-        _topBar = [[LFImagePickerTopBar alloc] init];
-        _topBar.themeColor = self.themeColor;
+        _topBar = [[LFImagePickerTopBar alloc] initWithThemeColor:self.themeColor];
         _topBar.delegate = self;
     }
     return _topBar;
@@ -318,7 +332,7 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
 - (LFImageCompressView *)compressView
 {
     if (_compressView == nil) {
-        _compressView = [[LFImageCompressView alloc] init];
+        _compressView = [[LFImageCompressView alloc] initWithThemeColor:self.themeColor];
         _compressView.delegate = self;
         _compressView.alpha = 0.0f;
     }

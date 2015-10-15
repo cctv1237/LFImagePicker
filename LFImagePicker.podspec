@@ -102,11 +102,11 @@ Pod::Spec.new do |s|
   #
 
   # s.resource  = "icon.png"
-  # s.resources = "Resources/*.png"
+  s.resources = "LFImagePicker/LFImagePicker/**/*.png"
 
   # s.preserve_paths = "FilesToSave", "MoreFilesToSave"
 
-  s.ios.resource_bundles = {'Image' => 'LFImagePickerImage/*.png'}
+  # s.resource_bundles = {'Image' => 'LFImagePicker/LFImagePicker/LFImagePickerImage/*.png'}
 
 
   # ――― Project Linking ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
