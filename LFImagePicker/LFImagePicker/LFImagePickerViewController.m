@@ -106,7 +106,6 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
 
 - (void)topBar:(LFImagePickerTopBar *)bar didTappedImportButton:(UIButton *)button
 {
-    
     [UIView animateWithDuration:0.3f animations:^{
         self.navigationController.navigationBar.alpha = 0.0f;
         self.compressView.alpha = 1.0f;
@@ -240,15 +239,16 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
         picker.sourceType = UIImagePickerControllerSourceTypeCamera;
         [self presentViewController:picker animated:YES completion:nil];
     } else {
-        if ([(PHAsset *)(self.photoData.assets[[self.photoData.assets count] - indexPath.item]) mediaType] != PHAssetMediaTypeImage) {
-            if (!self.videoAvailable) {
+        PHAsset *asset = (PHAsset *)self.photoData.assets[[self.photoData.assets count] - indexPath.item];
+        if (asset.mediaType != PHAssetMediaTypeImage) {
+            if (!self.videoAvailable && asset.mediaType == PHAssetMediaTypeVideo) {
                 [collectionView deselectItemAtIndexPath:indexPath animated:NO];
                 if (self.delegate && [self.delegate respondsToSelector:@selector(imagePicker:didRejectSelectVideoAtIndexPath:)]) {
                     [self.delegate imagePicker:self didRejectSelectVideoAtIndexPath:indexPath];
                 }
                 return;
             }
-            if (!self.audioAvailable) {
+            if (!self.audioAvailable && asset.mediaType == PHAssetMediaTypeAudio) {
                 [collectionView deselectItemAtIndexPath:indexPath animated:NO];
                 if (self.delegate && [self.delegate respondsToSelector:@selector(imagePicker:didRejectSelectAudioAtIndexPath:)]) {
                     [self.delegate imagePicker:self didRejectSelectAudioAtIndexPath:indexPath];
