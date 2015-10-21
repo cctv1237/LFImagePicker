@@ -16,6 +16,7 @@
 @property (nonatomic, strong) UIImageView *contentImageView;
 @property (nonatomic, strong) UIImageView *indexBadge;
 @property (nonatomic, strong) UIImageView *cameraButton;
+@property (nonatomic, strong) UILabel *videoLabel;
 
 @property (nonatomic, assign) CGFloat gap;
 @property (nonatomic, strong) UIColor *themeColor;
@@ -32,6 +33,7 @@
         [self.contentView addSubview:self.contentImageView];
         [self.contentImageView addSubview:self.cameraButton];
         [self.contentImageView addSubview:self.indexBadge];
+        [self.contentImageView addSubview:self.videoLabel];
         self.gap = 2.0f;
     }
     return self;
@@ -49,6 +51,9 @@
     [self.indexBadge topInContainer:8 shouldResize:NO];
     [self.indexBadge rightInContainer:8 shouldResize:NO];
     
+    [self.videoLabel sizeToFit];
+    [self.videoLabel bottomInContainer:0 shouldResize:NO];
+    [self.videoLabel leftInContainer:0 shouldResize:NO];
 }
 
 - (void)prepareForReuse
@@ -56,6 +61,7 @@
     [super prepareForReuse];
     self.contentImageView.image = nil;
     self.cameraButton.alpha = 0;
+    self.videoLabel.alpha = 0;
 }
 
 #pragma mark - public
@@ -71,6 +77,10 @@
                                      resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
                                          self.contentImageView.image = result;
                                      }];
+    if (asset.mediaType == PHAssetMediaTypeVideo) {
+        self.videoLabel.alpha = 0.9;
+        self.videoLabel.backgroundColor = color;
+    }
 }
 
 - (void)configDataWithImage:(UIImage *)image themeColor:(UIColor *)color
@@ -150,6 +160,17 @@
         _indexBadge.layer.cornerRadius = 10;
     }
     return _indexBadge;
+}
+
+- (UILabel *)videoLabel
+{
+    if (_videoLabel == nil) {
+        _videoLabel = [[UILabel alloc] init];
+        _videoLabel.text = NSLocalizedString(@"Video", @"vedioLabel");
+        _videoLabel.textColor = [UIColor whiteColor];
+        _videoLabel.alpha = 0;
+    }
+    return _videoLabel;
 }
 
 - (PHCachingImageManager *)cachingImageManager

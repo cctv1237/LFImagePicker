@@ -119,7 +119,7 @@
         [_cancelButton setTitle:NSLocalizedString(@"Cancel", @"cancelButton") forState:UIControlStateNormal];
         _cancelButton.titleLabel.font = [UIFont systemFontOfSize:19 weight:UIFontWeightMedium];
         _cancelButton.titleEdgeInsets = UIEdgeInsetsMake(13, 10, 13, 0);
-        [_cancelButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [_cancelButton setTitleColor:self.themeColor forState:UIControlStateNormal];
         [_cancelButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateHighlighted];
     }
     return _cancelButton;
