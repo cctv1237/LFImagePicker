@@ -48,7 +48,10 @@
             compressedImage = [compressedImage lf_compressImageWithPreferDataSize:300*1024];
             
             finishedCount++;
-            [processedImageList addObject:compressedImage];
+            [processedImageList addObject:@{
+                                            kLFFetchImageTransactionResultInfoKeyType:@"image",
+                                            kLFFetchImageTransactionResultInfoKeyContent:compressedImage
+                                            }];
             if (finishedCount == count) {
                 success(NSDictionaryOfVariableBindings(processedImageList));
             } else {
@@ -69,9 +72,8 @@
         transactionInfo[kLFFetchImageTransactionInfoKeyAsset] = asset;
         transactionInfo[kLFFetchImageTransactionInfoKeyProgressCallback] = ^(NSDictionary *info){
             dispatch_async(dispatch_get_main_queue(), ^{
-                UIImage *image = info[@"compressedImage"];
                 finishedCount++;
-                [processedImageList addObject:image];
+                [processedImageList addObject:info];
                 if (finishedCount == count) {
                     success(NSDictionaryOfVariableBindings(processedImageList));
                 } else {

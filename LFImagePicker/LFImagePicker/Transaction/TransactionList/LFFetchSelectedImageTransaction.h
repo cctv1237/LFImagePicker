@@ -15,6 +15,9 @@ extern NSString * const kLFFetchImageTransactionInfoKeyFailCallback;
 extern NSString * const kLFFetchImageTransactionInfoKeyProgressCallback;
 extern NSString * const kLFFetchImageTransactionInfoKeyAsset;
 
+extern NSString * const kLFFetchImageTransactionResultInfoKeyType;
+extern NSString * const kLFFetchImageTransactionResultInfoKeyContent;
+
 @interface LFFetchSelectedImageTransaction : NSObject
 
 - (void)fetchImageWithInfo:(NSDictionary *)info;
