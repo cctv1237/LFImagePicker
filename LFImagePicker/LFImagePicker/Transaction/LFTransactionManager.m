@@ -46,11 +46,15 @@
                 compressedImage = [cameraImage lf_compressImageWithNewSize:CGSizeMake(cameraImage.size.width * factor, cameraImage.size.height * factor) interpolationQuality:kCGInterpolationHigh];
             }
             compressedImage = [compressedImage lf_compressImageWithPreferDataSize:300*1024];
+            NSData *data = UIImageJPEGRepresentation(compressedImage, 1.0f);
+            NSString *secId = [[NSUUID UUID] UUIDString];
+            NSString *imagePath = [[NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:secId];
+            [data writeToFile:imagePath atomically:YES];
             
             finishedCount++;
             [processedImageList addObject:@{
                                             kLFFetchImageTransactionResultInfoKeyType:@"image",
-                                            kLFFetchImageTransactionResultInfoKeyContent:compressedImage
+                                            kLFFetchImageTransactionResultInfoKeyContent:[NSURL fileURLWithPath:imagePath]
                                             }];
             if (finishedCount == count) {
                 success(NSDictionaryOfVariableBindings(processedImageList));

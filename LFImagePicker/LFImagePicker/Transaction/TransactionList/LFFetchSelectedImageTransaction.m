@@ -38,13 +38,6 @@ NSString * const kLFFetchImageTransactionResultInfoKeyContent = @"kLFFetchImageT
     return self;
 }
 
-/*
- BSChangeUserHeaderCallbackBlock fail = self.info[kBSChangeUserHeaderTransactionInfoKeyFailCallback];
- if (fail) {
- fail(@{});
- }
- */
-
 - (void)fetchImageWithInfo:(NSDictionary *)info
 {
     self.info = info;
@@ -66,12 +59,16 @@ NSString * const kLFFetchImageTransactionResultInfoKeyContent = @"kLFFetchImageT
                                                      compressedImage = [image lf_compressImageWithNewSize:CGSizeMake(image.size.width * factor, image.size.height * factor) interpolationQuality:kCGInterpolationHigh];
                                                  }
                                                  compressedImage = [compressedImage lf_compressImageWithPreferDataSize:300*1024];
+                                                 NSData *data = UIImageJPEGRepresentation(compressedImage, 1.0f);
+                                                 NSString *secId = [[NSUUID UUID] UUIDString];
+                                                 NSString *imagePath = [[NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:secId];
+                                                 [data writeToFile:imagePath atomically:YES];
                                                  
                                                  LFFetchImageCallbackBlock progress = self.info[kLFFetchImageTransactionInfoKeyProgressCallback];
                                                  if (progress) {
                                                      progress(@{
                                                                 kLFFetchImageTransactionResultInfoKeyType:@"image",
-                                                                kLFFetchImageTransactionResultInfoKeyContent:compressedImage
+                                                                kLFFetchImageTransactionResultInfoKeyContent:[NSURL fileURLWithPath:imagePath]
                                                                 });
                                                  }
                                                  self.shouldWaiting = NO;
@@ -80,19 +77,30 @@ NSString * const kLFFetchImageTransactionResultInfoKeyContent = @"kLFFetchImageT
     }
     
     if (selectedAsset.mediaType == PHAssetMediaTypeVideo) {
-        [self.cachingImageManager requestAVAssetForVideo:selectedAsset options:nil resultHandler:^(AVAsset * _Nullable asset, AVAudioMix * _Nullable audioMix, NSDictionary * _Nullable info) {
-            if ([asset isKindOfClass:[AVURLAsset class]]) {
-                AVURLAsset *urlAsset = (AVURLAsset *)asset;
-                LFFetchImageCallbackBlock progress = self.info[kLFFetchImageTransactionInfoKeyProgressCallback];
-                if (progress) {
-                    progress(@{
-                               kLFFetchImageTransactionResultInfoKeyType:@"video",
-                               kLFFetchImageTransactionResultInfoKeyContent:urlAsset.URL
-                               });
-                }
+        [self.cachingImageManager requestAVAssetForVideo:selectedAsset options:nil resultHandler:^(AVAsset * _Nullable originAsset, AVAudioMix * _Nullable audioMix, NSDictionary * _Nullable info) {
+            if ([originAsset isKindOfClass:[AVURLAsset class]]) {
+                AVURLAsset *urlAsset = (AVURLAsset *)originAsset;
+                
+                NSString *fileName = [NSString stringWithFormat:@"%@.mp4", [[NSUUID UUID] UUIDString]];
+                NSString *outPutFilepath = [[NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:fileName];
+                NSURL *outputUrl = [NSURL fileURLWithPath:outPutFilepath];
+                
+                AVAssetExportSession *exportSession = [[AVAssetExportSession alloc] initWithAsset:urlAsset presetName:AVAssetExportPresetMediumQuality];
+                exportSession.outputURL = outputUrl;
+                exportSession.outputFileType = AVFileTypeMPEG4;
+                [exportSession exportAsynchronouslyWithCompletionHandler:^(void) {
+                    LFFetchImageCallbackBlock progress = self.info[kLFFetchImageTransactionInfoKeyProgressCallback];
+                    if (progress) {
+                        progress(@{
+                                   kLFFetchImageTransactionResultInfoKeyType:@"video",
+                                   kLFFetchImageTransactionResultInfoKeyContent:outputUrl
+                                   });
+                    }
+                    self.shouldWaiting = NO;
+                 }];
+            } else {
+                self.shouldWaiting = NO;
             }
-            
-            self.shouldWaiting = NO;
         }];
     }
 
