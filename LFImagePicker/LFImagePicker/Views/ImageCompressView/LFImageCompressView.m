@@ -13,6 +13,7 @@
 
 @property (nonatomic, strong) UILabel *tipLabel;
 @property (nonatomic, strong) UIProgressView *progressView;
+@property (nonatomic, strong) UIActivityIndicatorView *activityIndicatorView;
 
 @property (nonatomic, weak) UIColor *themeColor;
 
@@ -33,6 +34,7 @@
         self.themeColor = color;
         [self addSubview:self.tipLabel];
         [self addSubview:self.progressView];
+        [self addSubview:self.activityIndicatorView];
     }
     return self;
 }
@@ -48,6 +50,10 @@
     [self.progressView rightInContainer:50 shouldResize:YES];
     [self.progressView top:10 FromView:self.tipLabel];
     [self.progressView centerXEqualToView:self];
+    
+    self.activityIndicatorView.size = CGSizeMake(50, 50);
+    [self.activityIndicatorView centerXEqualToView:self];
+    [self.activityIndicatorView top:5 FromView:self.progressView];
 }
 
 - (void)didMoveToSuperview
@@ -101,6 +107,15 @@
         _compressedImageList = [[NSMutableArray alloc] init];
     }
     return _compressedImageList;
+}
+
+- (UIActivityIndicatorView *)activityIndicatorView
+{
+    if (_activityIndicatorView == nil) {
+        _activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        [_activityIndicatorView startAnimating];
+    }
+    return _activityIndicatorView;
 }
 
 @end
