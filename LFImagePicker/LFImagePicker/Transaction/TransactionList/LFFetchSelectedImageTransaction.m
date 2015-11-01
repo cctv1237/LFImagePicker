@@ -81,23 +81,33 @@ NSString * const kLFFetchImageTransactionResultInfoKeyContent = @"kLFFetchImageT
             if ([originAsset isKindOfClass:[AVURLAsset class]]) {
                 AVURLAsset *urlAsset = (AVURLAsset *)originAsset;
                 
-                NSString *fileName = [NSString stringWithFormat:@"%@.mp4", [[NSUUID UUID] UUIDString]];
-                NSString *outPutFilepath = [[NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:fileName];
-                NSURL *outputUrl = [NSURL fileURLWithPath:outPutFilepath];
-                
-                AVAssetExportSession *exportSession = [[AVAssetExportSession alloc] initWithAsset:urlAsset presetName:AVAssetExportPresetMediumQuality];
-                exportSession.outputURL = outputUrl;
-                exportSession.outputFileType = AVFileTypeMPEG4;
-                [exportSession exportAsynchronouslyWithCompletionHandler:^(void) {
+                CGFloat seconds = CMTimeGetSeconds(urlAsset.duration);
+                if (seconds < 20) {
+                    NSString *fileName = [NSString stringWithFormat:@"%@.mp4", [[NSUUID UUID] UUIDString]];
+                    NSString *outPutFilepath = [[NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:fileName];
+                    NSURL *outputUrl = [NSURL fileURLWithPath:outPutFilepath];
+                    
+                    AVAssetExportSession *exportSession = [[AVAssetExportSession alloc] initWithAsset:urlAsset presetName:AVAssetExportPresetMediumQuality];
+                    exportSession.outputURL = outputUrl;
+                    exportSession.outputFileType = AVFileTypeMPEG4;
+                    [exportSession exportAsynchronouslyWithCompletionHandler:^(void) {
+                        LFFetchImageCallbackBlock progress = self.info[kLFFetchImageTransactionInfoKeyProgressCallback];
+                        if (progress) {
+                            progress(@{
+                                       kLFFetchImageTransactionResultInfoKeyType:@"video",
+                                       kLFFetchImageTransactionResultInfoKeyContent:outputUrl
+                                       });
+                        }
+                        self.shouldWaiting = NO;
+                    }];
+                } else {
+#warning todo 视频不能超过20秒
                     LFFetchImageCallbackBlock progress = self.info[kLFFetchImageTransactionInfoKeyProgressCallback];
                     if (progress) {
-                        progress(@{
-                                   kLFFetchImageTransactionResultInfoKeyType:@"video",
-                                   kLFFetchImageTransactionResultInfoKeyContent:outputUrl
-                                   });
+                        progress(nil);
                     }
                     self.shouldWaiting = NO;
-                 }];
+                }
             } else {
                 self.shouldWaiting = NO;
             }

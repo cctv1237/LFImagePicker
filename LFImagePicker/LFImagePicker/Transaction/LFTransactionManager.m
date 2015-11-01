@@ -77,7 +77,9 @@
         transactionInfo[kLFFetchImageTransactionInfoKeyProgressCallback] = ^(NSDictionary *info){
             dispatch_async(dispatch_get_main_queue(), ^{
                 finishedCount++;
-                [processedImageList addObject:info];
+                if (info) {
+                    [processedImageList addObject:info];
+                }
                 if (finishedCount == count) {
                     success(NSDictionaryOfVariableBindings(processedImageList));
                 } else {
