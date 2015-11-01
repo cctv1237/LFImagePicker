@@ -78,8 +78,13 @@
                                          self.contentImageView.image = result;
                                      }];
     if (asset.mediaType == PHAssetMediaTypeVideo) {
+        NSUInteger seconds = asset.duration;
+        NSUInteger minutes = seconds / 60;
+        seconds = seconds - minutes * 60;
+        self.videoLabel.text = [NSString stringWithFormat:@"%02lu:%02lu", (unsigned long)minutes, (unsigned long)seconds];
         self.videoLabel.alpha = 0.9;
         self.videoLabel.backgroundColor = color;
+        [self layoutSubviews];
     }
 }
 
@@ -166,7 +171,6 @@
 {
     if (_videoLabel == nil) {
         _videoLabel = [[UILabel alloc] init];
-        _videoLabel.text = NSLocalizedString(@"Video", @"vedioLabel");
         _videoLabel.textColor = [UIColor whiteColor];
         _videoLabel.alpha = 0;
     }

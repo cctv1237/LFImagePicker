@@ -57,7 +57,11 @@
                                             kLFFetchImageTransactionResultInfoKeyContent:[NSURL fileURLWithPath:imagePath]
                                             }];
             if (finishedCount == count) {
-                success(NSDictionaryOfVariableBindings(processedImageList));
+                if ([processedImageList count] > 0) {
+                    success(NSDictionaryOfVariableBindings(processedImageList));
+                } else {
+#warning todo
+                }
             } else {
                 outerProgress(@{
                                 @"totalCount":@(count),
@@ -81,7 +85,11 @@
                     [processedImageList addObject:info];
                 }
                 if (finishedCount == count) {
-                    success(NSDictionaryOfVariableBindings(processedImageList));
+                    if ([processedImageList count] > 0) {
+                        success(NSDictionaryOfVariableBindings(processedImageList));
+                    } else {
+                        fail(nil);
+                    }
                 } else {
                     outerProgress(@{
                                     @"totalCount":@(count),

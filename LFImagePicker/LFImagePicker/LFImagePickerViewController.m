@@ -120,7 +120,11 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
                                                               self.compressView.alpha = 0.0f;
                                                           }
                                                       }
-                                                         fail:^(NSDictionary *info) {}
+                                                         fail:^(NSDictionary *info) {
+                                                             [UIView animateWithDuration:0.3f animations:^{
+                                                                 self.compressView.alpha = 0.0f;
+                                                             }];
+                                                         }
                                                      progress:^(NSDictionary *info) {
                                                          [self.compressView showCompressingProgress:info];
                                                      }];
