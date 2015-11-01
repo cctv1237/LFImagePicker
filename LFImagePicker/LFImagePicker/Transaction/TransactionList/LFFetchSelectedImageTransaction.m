@@ -101,7 +101,7 @@ NSString * const kLFFetchImageTransactionResultInfoKeyContent = @"kLFFetchImageT
                         self.shouldWaiting = NO;
                     }];
                 } else {
-#warning todo 视频不能超过20秒
+//#warning todo 视频不能超过20秒
                     LFFetchImageCallbackBlock progress = self.info[kLFFetchImageTransactionInfoKeyProgressCallback];
                     if (progress) {
                         progress(nil);

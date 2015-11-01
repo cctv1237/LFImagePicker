@@ -60,7 +60,7 @@
                 if ([processedImageList count] > 0) {
                     success(NSDictionaryOfVariableBindings(processedImageList));
                 } else {
-#warning todo
+//#warning todo
                 }
             } else {
                 outerProgress(@{
