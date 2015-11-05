@@ -58,7 +58,7 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
 {
     if (self = [super init]) {
         self.maxSelectedCount = 10;
-        self.themeColor = [UIColor colorWithRed:3/255.0f green:196/255.0f blue:255/255.0f alpha:1];
+        self.tintColor = [UIColor colorWithRed:3/255.0f green:196/255.0f blue:255/255.0f alpha:1];
         self.videoAvailable = NO;
         self.audioAvailable = NO;
     }
@@ -69,7 +69,7 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
 {
     if (self = [super init]) {
         self.maxSelectedCount = 10;
-        self.themeColor = color;
+        self.tintColor = color;
         self.videoAvailable = NO;
         self.audioAvailable = NO;
     }
@@ -232,13 +232,13 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
     if (indexPath.item == 0) {
         [cell isCameraButton];
         if (self.captureImage) {
-            [cell configDataWithImage:self.captureImage themeColor:self.themeColor];
+            [cell configDataWithImage:self.captureImage themeColor:self.tintColor];
             [cell addSelectionSign];
         } else {
-            [cell configDataWithImage:[UIImage imageNamed:@"pictures_take-photo_209"] themeColor:self.themeColor];
+            [cell configDataWithImage:[UIImage imageNamed:@"pictures_take-photo_209"] themeColor:self.tintColor];
         }
     } else {
-        [cell configDataWithAsset:self.photoData.assets[[self.photoData.assets count] - indexPath.item] themeColor:self.themeColor];
+        [cell configDataWithAsset:self.photoData.assets[[self.photoData.assets count] - indexPath.item] themeColor:self.tintColor];
         if ([self.selectedIndexPath containsObject:indexPath]) {
             [cell addSelectionSign];
         }
@@ -333,7 +333,7 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
 - (LFImagePickerTopBar *)topBar
 {
     if (_topBar == nil) {
-        _topBar = [[LFImagePickerTopBar alloc] initWithThemeColor:self.themeColor];
+        _topBar = [[LFImagePickerTopBar alloc] initWithThemeColor:self.tintColor];
         _topBar.delegate = self;
     }
     return _topBar;
@@ -342,7 +342,7 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
 - (LFImagePickerBottomBar *)bottomBar
 {
     if (_bottomBar == nil) {
-        _bottomBar = [[LFImagePickerBottomBar alloc] init];
+        _bottomBar = [[LFImagePickerBottomBar alloc] initWithThemeColor:self.tintColor];
         
     }
     return _bottomBar;
@@ -351,7 +351,7 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
 - (LFImageCompressView *)compressView
 {
     if (_compressView == nil) {
-        _compressView = [[LFImageCompressView alloc] initWithThemeColor:self.themeColor];
+        _compressView = [[LFImageCompressView alloc] initWithThemeColor:self.tintColor];
         _compressView.delegate = self;
         _compressView.alpha = 0.0f;
     }

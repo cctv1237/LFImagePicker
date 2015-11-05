@@ -14,14 +14,17 @@
 @property (nonatomic, strong) UILabel *selectedCountLabel;
 @property (nonatomic, strong) UIVisualEffectView *blurBackground;
 
+@property (nonatomic, weak) UIColor *themeColor;
+
 @end
 
 @implementation LFImagePickerBottomBar
 
 #pragma mark - life cycle
-- (instancetype)init
+- (instancetype)initWithThemeColor:(UIColor *)color
 {
     if (self = [super init]) {
+        self.themeColor = color;
         [self addSubview:self.blurBackground];
         [self addSubview:self.selectedCountLabel];
     }
@@ -35,7 +38,7 @@
     [self.blurBackground fill];
     
     [self.selectedCountLabel sizeToFit];
-    [self.selectedCountLabel leftInContainer:10 shouldResize:NO];
+    [self.selectedCountLabel leftInContainer:18 shouldResize:NO];
     [self.selectedCountLabel centerYEqualToView:self];
 }
 
@@ -52,7 +55,8 @@
     if (_selectedCountLabel == nil) {
         _selectedCountLabel = [[UILabel alloc] init];
         _selectedCountLabel.text = NSLocalizedString(@"selected:0", @"count label text");
-        _selectedCountLabel.textColor = [UIColor whiteColor];
+        _selectedCountLabel.textColor = self.themeColor;
+        _selectedCountLabel.font = [UIFont systemFontOfSize:13];
     }
     return _selectedCountLabel;
 }

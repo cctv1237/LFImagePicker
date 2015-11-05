@@ -41,11 +41,11 @@
     
     self.cancelButton.size = CGSizeMake(80, 44);
     [self.cancelButton centerYEqualToView:self];
-    [self.cancelButton leftInContainer:0 shouldResize:NO];
+    [self.cancelButton leftInContainer:-4 shouldResize:NO];
     
     [self.importButton sizeEqualToView:self.cancelButton];
     [self.importButton centerYEqualToView:self];
-    [self.importButton rightInContainer:0 shouldResize:NO];
+    [self.importButton rightInContainer:-4 shouldResize:NO];
     
     self.albumsButton.width = SCREEN_WIDTH - self.cancelButton.width - self.importButton.width;
     [self.albumsButton heightEqualToView:self.cancelButton];
@@ -101,8 +101,8 @@
         _importButton = [UIButton buttonWithType:UIButtonTypeSystem];
         [_importButton addTarget:self action:@selector(didTappedImportButton:) forControlEvents:UIControlEventTouchUpInside];
         [_importButton setTitle:NSLocalizedString(@"Import", @"importButton") forState:UIControlStateNormal];
-        _importButton.titleLabel.font = [UIFont systemFontOfSize:19 weight:UIFontWeightMedium];
-        _importButton.titleEdgeInsets = UIEdgeInsetsMake(13, 0, 13, 10);
+        _importButton.titleLabel.font = [UIFont systemFontOfSize:13];
+        _importButton.titleEdgeInsets = UIEdgeInsetsMake(13, 0, 13, 0);
         [_importButton setTitleColor:self.themeColor forState:UIControlStateNormal];
         [_importButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateHighlighted];
         [_importButton setTitleColor:[UIColor grayColor] forState:UIControlStateDisabled];
@@ -117,8 +117,8 @@
         _cancelButton = [UIButton buttonWithType:UIButtonTypeSystem];
         [_cancelButton addTarget:self action:@selector(didTappedCancelButton:) forControlEvents:UIControlEventTouchUpInside];
         [_cancelButton setTitle:NSLocalizedString(@"Cancel", @"cancelButton") forState:UIControlStateNormal];
-        _cancelButton.titleLabel.font = [UIFont systemFontOfSize:19 weight:UIFontWeightMedium];
-        _cancelButton.titleEdgeInsets = UIEdgeInsetsMake(13, 10, 13, 0);
+        _cancelButton.titleLabel.font = [UIFont systemFontOfSize:13];
+        _cancelButton.titleEdgeInsets = UIEdgeInsetsMake(13, 0, 13, 0);
         [_cancelButton setTitleColor:self.themeColor forState:UIControlStateNormal];
         [_cancelButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateHighlighted];
     }

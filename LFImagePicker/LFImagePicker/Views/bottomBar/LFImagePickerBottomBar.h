@@ -10,6 +10,7 @@
 
 @interface LFImagePickerBottomBar : UIView
 
+- (instancetype)initWithThemeColor:(UIColor *)color;
 - (void)refreshSelectedCount:(NSInteger)count;
 
 @end

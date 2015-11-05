@@ -62,6 +62,7 @@
         _picker = [[LFImagePickerViewController alloc] init];
         _picker.maxSelectedCount = 12;
         _picker.delegate = self;
+        _picker.videoAvailable = YES;
     }
     return _picker;
 }

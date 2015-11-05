@@ -82,7 +82,7 @@ NSString * const kLFFetchImageTransactionResultInfoKeyContent = @"kLFFetchImageT
                 AVURLAsset *urlAsset = (AVURLAsset *)originAsset;
                 
                 CGFloat seconds = CMTimeGetSeconds(urlAsset.duration);
-                if (seconds < 20) {
+                if (seconds < 20 && selectedAsset.mediaSubtypes != PHAssetMediaSubtypeVideoHighFrameRate) {
                     NSString *fileName = [NSString stringWithFormat:@"%@.mp4", [[NSUUID UUID] UUIDString]];
                     NSString *outPutFilepath = [[NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:fileName];
                     NSURL *outputUrl = [NSURL fileURLWithPath:outPutFilepath];
@@ -109,6 +109,10 @@ NSString * const kLFFetchImageTransactionResultInfoKeyContent = @"kLFFetchImageT
                     self.shouldWaiting = NO;
                 }
             } else {
+                LFFetchImageCallbackBlock progress = self.info[kLFFetchImageTransactionInfoKeyProgressCallback];
+                if (progress) {
+                    progress(nil);
+                }
                 self.shouldWaiting = NO;
             }
         }];
