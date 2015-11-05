@@ -136,12 +136,15 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
                                                           }
                                                       }
                                                          fail:^(NSDictionary *info) {
-                                                             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", @"failed in pickerload")
-                                                                                                             message:NSLocalizedString(@"Video is Longer than 20s or Video type not support", @"failed in pickerload msg")
-                                                                                                            delegate:nil
-                                                                                                   cancelButtonTitle:NSLocalizedString(@"OK", @"failed in pickerload cancel button")
-                                                                                                   otherButtonTitles:nil, nil];
-                                                             [alert show];
+                                                             
+                                                             UIAlertController *fail = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Error", @"failed in pickerload")
+                                                                                                 message:NSLocalizedString(@"Video is Longer than 20s or Video type not support", @"failed in pickerload msg")
+                                                                                          preferredStyle:UIAlertControllerStyleAlert];
+                                                             UIAlertAction *cancel = [UIAlertAction actionWithTitle:NSLocalizedString(@"OK", @"failed in pickerload cancel button")
+                                                                                      style:UIAlertActionStyleCancel
+                                                                                    handler:^(UIAlertAction * _Nonnull action) {}];
+                                                             [fail addAction:cancel];
+                                                             
                                                              [UIView animateWithDuration:0.3f animations:^{
                                                                  self.compressView.alpha = 0.0f;
                                                              }];
