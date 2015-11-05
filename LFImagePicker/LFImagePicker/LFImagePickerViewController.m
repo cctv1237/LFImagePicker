@@ -136,6 +136,12 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
                                                           }
                                                       }
                                                          fail:^(NSDictionary *info) {
+                                                             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", @"failed in pickerload")
+                                                                                                             message:NSLocalizedString(@"Video is Longer than 20s or Video type not support", @"failed in pickerload msg")
+                                                                                                            delegate:nil
+                                                                                                   cancelButtonTitle:NSLocalizedString(@"OK", @"failed in pickerload cancel button")
+                                                                                                   otherButtonTitles:nil, nil];
+                                                             [alert show];
                                                              [UIView animateWithDuration:0.3f animations:^{
                                                                  self.compressView.alpha = 0.0f;
                                                              }];
