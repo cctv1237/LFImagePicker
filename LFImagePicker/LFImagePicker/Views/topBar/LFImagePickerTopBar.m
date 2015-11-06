@@ -101,7 +101,7 @@
         _importButton = [UIButton buttonWithType:UIButtonTypeSystem];
         [_importButton addTarget:self action:@selector(didTappedImportButton:) forControlEvents:UIControlEventTouchUpInside];
         [_importButton setTitle:NSLocalizedString(@"Import", @"importButton") forState:UIControlStateNormal];
-        _importButton.titleLabel.font = [UIFont systemFontOfSize:13];
+        _importButton.titleLabel.font = [UIFont systemFontOfSize:13 weight:UIFontWeightMedium];
         _importButton.titleEdgeInsets = UIEdgeInsetsMake(13, 0, 13, 0);
         [_importButton setTitleColor:self.themeColor forState:UIControlStateNormal];
         [_importButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateHighlighted];
@@ -131,7 +131,7 @@
         _albumsButton = [UIButton buttonWithType:UIButtonTypeSystem];
         [_albumsButton addTarget:self action:@selector(didTappedAlbumsButton:) forControlEvents:UIControlEventTouchUpInside];
         [_albumsButton setTitle:NSLocalizedString(@"Albums", @"albumsButton") forState:UIControlStateNormal];
-        _albumsButton.titleLabel.font = [UIFont systemFontOfSize:14 weight:UIFontWeightRegular];
+        _albumsButton.titleLabel.font = [UIFont systemFontOfSize:13 weight:UIFontWeightRegular];
         [_albumsButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [_albumsButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateHighlighted];
     }

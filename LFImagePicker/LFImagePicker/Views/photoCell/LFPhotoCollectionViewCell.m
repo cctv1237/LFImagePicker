@@ -52,8 +52,8 @@
     [self.indexBadge rightInContainer:8 shouldResize:NO];
     
     [self.videoLabel sizeToFit];
-    [self.videoLabel bottomInContainer:0 shouldResize:NO];
-    [self.videoLabel leftInContainer:0 shouldResize:NO];
+    [self.videoLabel bottomInContainer:3 shouldResize:NO];
+    [self.videoLabel leftInContainer:3 shouldResize:NO];
 }
 
 - (void)prepareForReuse
@@ -81,7 +81,15 @@
         NSUInteger seconds = asset.duration;
         NSUInteger minutes = seconds / 60;
         seconds = seconds - minutes * 60;
-        self.videoLabel.text = [NSString stringWithFormat:@"%02lu:%02lu", (unsigned long)minutes, (unsigned long)seconds];
+        if (asset.mediaSubtypes == PHAssetMediaSubtypeVideoStreamed) {
+            self.videoLabel.text = [NSString stringWithFormat:@" Stream:%02lu:%02lu ", (unsigned long)minutes, (unsigned long)seconds];
+        } else if (asset.mediaSubtypes == PHAssetMediaSubtypeVideoHighFrameRate) {
+            self.videoLabel.text = [NSString stringWithFormat:@" Slo-mo:%02lu:%02lu ", (unsigned long)minutes, (unsigned long)seconds];
+        } else if (asset.mediaSubtypes == PHAssetMediaSubtypeVideoTimelapse) {
+            self.videoLabel.text = [NSString stringWithFormat:@" Tim-la:%02lu:%02lu ", (unsigned long)minutes, (unsigned long)seconds];
+        } else {
+            self.videoLabel.text = [NSString stringWithFormat:@" Video:%02lu:%02lu ", (unsigned long)minutes, (unsigned long)seconds];
+        }
         self.videoLabel.alpha = 0.9;
         self.videoLabel.backgroundColor = color;
         [self layoutSubviews];
@@ -172,7 +180,10 @@
     if (_videoLabel == nil) {
         _videoLabel = [[UILabel alloc] init];
         _videoLabel.textColor = [UIColor whiteColor];
+        _videoLabel.font = [UIFont systemFontOfSize:13];
         _videoLabel.alpha = 0;
+        _videoLabel.layer.cornerRadius = 3.0f;
+        _videoLabel.clipsToBounds = YES;
     }
     return _videoLabel;
 }
