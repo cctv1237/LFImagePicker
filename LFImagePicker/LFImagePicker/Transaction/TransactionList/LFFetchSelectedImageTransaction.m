@@ -78,14 +78,16 @@ NSString * const kLFFetchImageTransactionResultInfoKeyContent = @"kLFFetchImageT
     
     if (selectedAsset.mediaType == PHAssetMediaTypeVideo) {
         [self.cachingImageManager requestAVAssetForVideo:selectedAsset options:nil resultHandler:^(AVAsset * _Nullable originAsset, AVAudioMix * _Nullable audioMix, NSDictionary * _Nullable info) {
+            
+            NSString *fileName = [NSString stringWithFormat:@"%@.mp4", [[NSUUID UUID] UUIDString]];
+            NSString *outPutFilepath = [[NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:fileName];
+            NSURL *outputUrl = [NSURL fileURLWithPath:outPutFilepath];
+            
             if ([originAsset isKindOfClass:[AVURLAsset class]]) {
                 AVURLAsset *urlAsset = (AVURLAsset *)originAsset;
                 
                 CGFloat seconds = CMTimeGetSeconds(urlAsset.duration);
-                if (seconds < 20 && selectedAsset.mediaSubtypes != PHAssetMediaSubtypeVideoHighFrameRate) {
-                    NSString *fileName = [NSString stringWithFormat:@"%@.mp4", [[NSUUID UUID] UUIDString]];
-                    NSString *outPutFilepath = [[NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:fileName];
-                    NSURL *outputUrl = [NSURL fileURLWithPath:outPutFilepath];
+                if (seconds < 20) {
                     
                     AVAssetExportSession *exportSession = [[AVAssetExportSession alloc] initWithAsset:urlAsset presetName:AVAssetExportPresetMediumQuality];
                     exportSession.outputURL = outputUrl;
@@ -108,6 +110,54 @@ NSString * const kLFFetchImageTransactionResultInfoKeyContent = @"kLFFetchImageT
                     }
                     self.shouldWaiting = NO;
                 }
+            } else if ([originAsset isKindOfClass:[AVComposition class]]) {
+                AVComposition *videoAsset = (AVComposition *)originAsset;
+                
+                CGFloat seconds = CMTimeGetSeconds(videoAsset.duration);
+                if (seconds < 20) {
+                    AVMutableComposition *mixComposition = [AVMutableComposition composition];
+                    
+                    AVMutableCompositionTrack *compositionVideoTrack = [mixComposition addMutableTrackWithMediaType:AVMediaTypeVideo
+                                                                                                   preferredTrackID:kCMPersistentTrackID_Invalid];
+                    NSError *videoInsertError = nil;
+                    BOOL videoInsertResult = [compositionVideoTrack insertTimeRange:CMTimeRangeMake(kCMTimeZero, videoAsset.duration)
+                                                                            ofTrack:[[videoAsset tracksWithMediaType:AVMediaTypeVideo] objectAtIndex:0]
+                                                                             atTime:kCMTimeZero
+                                                                              error:&videoInsertError];
+                    if (!videoInsertResult || nil != videoInsertError) {
+                        //handle error
+                        return;
+                    }
+                    
+                    //slow down whole video by 2.0
+                    double videoScaleFactor = 2.0;
+                    CMTime videoDuration = videoAsset.duration;
+                    
+                    [compositionVideoTrack scaleTimeRange:CMTimeRangeMake(kCMTimeZero, videoDuration)
+                                               toDuration:CMTimeMake(videoDuration.value*videoScaleFactor, videoDuration.timescale)];
+                    
+                    //export
+                    AVAssetExportSession* exportSession = [[AVAssetExportSession alloc] initWithAsset:mixComposition presetName:AVAssetExportPresetLowQuality];
+                    exportSession.outputURL = outputUrl;
+                    exportSession.outputFileType = AVFileTypeMPEG4;
+                    [exportSession exportAsynchronouslyWithCompletionHandler:^(void) {
+                        LFFetchImageCallbackBlock progress = self.info[kLFFetchImageTransactionInfoKeyProgressCallback];
+                        if (progress) {
+                            progress(@{
+                                       kLFFetchImageTransactionResultInfoKeyType:@"video",
+                                       kLFFetchImageTransactionResultInfoKeyContent:outputUrl
+                                       });
+                        }
+                        self.shouldWaiting = NO;
+                    }];
+                } else {
+                    //#warning todo 视频不能超过20秒
+                    LFFetchImageCallbackBlock progress = self.info[kLFFetchImageTransactionInfoKeyProgressCallback];
+                    if (progress) {
+                        progress(nil);
+                    }
+                    self.shouldWaiting = NO;
+                }
             } else {
                 LFFetchImageCallbackBlock progress = self.info[kLFFetchImageTransactionInfoKeyProgressCallback];
                 if (progress) {
@@ -115,6 +165,9 @@ NSString * const kLFFetchImageTransactionResultInfoKeyContent = @"kLFFetchImageT
                 }
                 self.shouldWaiting = NO;
             }
+            
+            
+            
         }];
     }
 

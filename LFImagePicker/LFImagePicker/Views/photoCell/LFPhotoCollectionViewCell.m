@@ -84,11 +84,11 @@
         if (asset.mediaSubtypes == PHAssetMediaSubtypeVideoStreamed) {
             self.videoLabel.text = [NSString stringWithFormat:@" Stream:%02lu:%02lu ", (unsigned long)minutes, (unsigned long)seconds];
         } else if (asset.mediaSubtypes == PHAssetMediaSubtypeVideoHighFrameRate) {
-            self.videoLabel.text = [NSString stringWithFormat:@" Slo-mo:%02lu:%02lu ", (unsigned long)minutes, (unsigned long)seconds];
+            self.videoLabel.text = [NSString stringWithFormat:@" %02lu:%02lu ", (unsigned long)minutes * 3, (unsigned long)seconds * 3];
         } else if (asset.mediaSubtypes == PHAssetMediaSubtypeVideoTimelapse) {
             self.videoLabel.text = [NSString stringWithFormat:@" Tim-la:%02lu:%02lu ", (unsigned long)minutes, (unsigned long)seconds];
         } else {
-            self.videoLabel.text = [NSString stringWithFormat:@" Video:%02lu:%02lu ", (unsigned long)minutes, (unsigned long)seconds];
+            self.videoLabel.text = [NSString stringWithFormat:@" %02lu:%02lu ", (unsigned long)minutes, (unsigned long)seconds];
         }
         self.videoLabel.alpha = 0.9;
         self.videoLabel.backgroundColor = color;

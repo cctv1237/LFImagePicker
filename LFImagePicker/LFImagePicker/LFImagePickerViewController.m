@@ -144,6 +144,7 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
                                                                                       style:UIAlertActionStyleCancel
                                                                                     handler:^(UIAlertAction * _Nonnull action) {}];
                                                              [fail addAction:cancel];
+                                                             [self presentViewController:fail animated:YES completion:nil];
                                                              
                                                              [UIView animateWithDuration:0.3f animations:^{
                                                                  self.compressView.alpha = 0.0f;
