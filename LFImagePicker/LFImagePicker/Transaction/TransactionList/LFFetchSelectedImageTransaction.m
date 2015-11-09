@@ -52,14 +52,23 @@ NSString * const kLFFetchImageTransactionResultInfoKeyContent = @"kLFFetchImageT
                                          resultHandler:^(UIImage * _Nullable image, NSDictionary * _Nullable info) {
                                              
                                              dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                                                 BOOL shouldCompress = YES;
                                                  UIImage *compressedImage = image;
-                                                 CGFloat preferredWidth = 1080.0f;
-                                                 CGFloat factor = preferredWidth / image.size.width;
-                                                 if (factor < 1) {
-                                                     compressedImage = [image lf_compressImageWithNewSize:CGSizeMake(image.size.width * factor, image.size.height * factor) interpolationQuality:kCGInterpolationHigh];
-                                                 }
-                                                 compressedImage = [compressedImage lf_compressImageWithPreferDataSize:300*1024];
                                                  NSData *data = UIImageJPEGRepresentation(compressedImage, 1.0f);
+                                                 NSUInteger length = [data length];
+                                                 if (length / 1024.0f / 1024.0f < 1) {
+                                                     shouldCompress = NO;
+                                                 }
+                                                 
+                                                 if (shouldCompress) {
+                                                     CGFloat preferredWidth = 1080.0f;
+                                                     CGFloat factor = preferredWidth / image.size.width;
+                                                     if (factor < 1) {
+                                                         compressedImage = [image lf_compressImageWithNewSize:CGSizeMake(image.size.width * factor, image.size.height * factor) interpolationQuality:kCGInterpolationHigh];
+                                                     }
+                                                     data = UIImageJPEGRepresentation(compressedImage, 1.0f);
+                                                 }
+                                                 
                                                  NSString *secId = [[NSUUID UUID] UUIDString];
                                                  NSString *imagePath = [[NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:secId];
                                                  [data writeToFile:imagePath atomically:YES];
@@ -89,7 +98,18 @@ NSString * const kLFFetchImageTransactionResultInfoKeyContent = @"kLFFetchImageT
                 CGFloat seconds = CMTimeGetSeconds(urlAsset.duration);
                 if (seconds < 20) {
                     
+                    NSArray *tracks = [originAsset tracks];
+                    float estimatedSize = 0.0 ;
+                    for (AVAssetTrack * track in tracks) {
+                        float rate = ([track estimatedDataRate] / 8); // convert bits per second to bytes per second
+                        float seconds = CMTimeGetSeconds([track timeRange].duration);
+                        estimatedSize += seconds * rate;
+                    }
+                    float sizeInMB = estimatedSize / 1024.0f / 1024.0f;
                     AVAssetExportSession *exportSession = [[AVAssetExportSession alloc] initWithAsset:urlAsset presetName:AVAssetExportPresetMediumQuality];
+                    if (sizeInMB < 10) {
+                        exportSession = [[AVAssetExportSession alloc] initWithAsset:urlAsset presetName:AVAssetExportPresetHighestQuality];
+                    }
                     exportSession.outputURL = outputUrl;
                     exportSession.outputFileType = AVFileTypeMPEG4;
                     [exportSession exportAsynchronouslyWithCompletionHandler:^(void) {
@@ -137,7 +157,19 @@ NSString * const kLFFetchImageTransactionResultInfoKeyContent = @"kLFFetchImageT
                                                toDuration:CMTimeMake(videoDuration.value*videoScaleFactor, videoDuration.timescale)];
                     
                     //export
-                    AVAssetExportSession* exportSession = [[AVAssetExportSession alloc] initWithAsset:mixComposition presetName:AVAssetExportPresetLowQuality];
+                    NSArray *tracks = [mixComposition tracks];
+                    float estimatedSize = 0.0 ;
+                    for (AVAssetTrack * track in tracks) {
+                        float rate = ([track estimatedDataRate] / 8); // convert bits per second to bytes per second
+                        float seconds = CMTimeGetSeconds([track timeRange].duration);
+                        estimatedSize += seconds * rate;
+                    }
+                    float sizeInMB = estimatedSize / 1024.0f / 1024.0f;
+                    AVAssetExportSession *exportSession = [[AVAssetExportSession alloc] initWithAsset:mixComposition presetName:AVAssetExportPresetMediumQuality];
+                    if (sizeInMB < 10) {
+                        exportSession = [[AVAssetExportSession alloc] initWithAsset:mixComposition presetName:AVAssetExportPresetHighestQuality];
+                    }
+                    
                     exportSession.outputURL = outputUrl;
                     exportSession.outputFileType = AVFileTypeMPEG4;
                     [exportSession exportAsynchronouslyWithCompletionHandler:^(void) {
