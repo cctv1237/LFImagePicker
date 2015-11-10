@@ -24,7 +24,8 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
 @interface LFImagePickerViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, LFImagePickerTopBarDelegate, LFAlbumListViewControllerDelegate, LFImageCompressViewDelegate>
 
 @property (nonatomic, strong) LFPhotoData *photoData;
-@property (nonatomic, strong) NSMutableArray *selectedPhotos;
+@property (nonatomic, strong) NSMutableArray *selectedMedia;
+@property (nonatomic, assign) NSInteger selectedVideoCount;
 @property (nonatomic, strong) NSMutableSet *selectedIndexPath;
 @property (nonatomic, strong) UIImage *captureImage;
 
@@ -58,6 +59,8 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
 {
     if (self = [super init]) {
         self.maxSelectedCount = 10;
+        self.maxVideoCount = 10;
+        self.selectedVideoCount = 0;
         self.tintColor = [UIColor colorWithRed:3/255.0f green:196/255.0f blue:255/255.0f alpha:1];
         self.videoAvailable = NO;
         self.audioAvailable = NO;
@@ -126,7 +129,7 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
         self.compressView.alpha = 1.0f;
     }];
     
-    [[LFTransactionManager sharedInstance] fetchSelectedImage:self.selectedPhotos
+    [[LFTransactionManager sharedInstance] fetchSelectedImage:self.selectedMedia
                                                   cameraImage:self.captureImage
                                                       success:^(NSDictionary *info) {
                                                           if (self.delegate && [self.delegate respondsToSelector:@selector(imagePicker:didImportImages:)]) {
@@ -183,15 +186,15 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
             PHFetchResult *assetsFetchResult = [PHAsset fetchAssetsInAssetCollection:collection options:nil];
             [self.photoData configPhotosByAlbum:assetsFetchResult];
             
-            [self.selectedPhotos removeAllObjects];
+            [self.selectedMedia removeAllObjects];
             [self.selectedIndexPath removeAllObjects];
             [self.collectionView reloadData];
             if (self.captureImage) {
-                [self.bottomBar refreshSelectedCount:self.selectedPhotos.count + 1];
+                [self.bottomBar refreshSelectedCount:self.selectedMedia.count + 1];
             } else {
-                [self.bottomBar refreshSelectedCount:self.selectedPhotos.count];
+                [self.bottomBar refreshSelectedCount:self.selectedMedia.count];
             }
-            if (self.selectedPhotos.count) {
+            if (self.selectedMedia.count) {
                 self.topBar.importButton.enabled = YES;
             } else {
                 self.topBar.importButton.enabled = NO;
@@ -209,7 +212,7 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
         self.captureImage = [info objectForKey:UIImagePickerControllerOriginalImage];
     }
     [self.collectionView reloadData];
-    [self.bottomBar refreshSelectedCount:self.selectedPhotos.count + 1];
+    [self.bottomBar refreshSelectedCount:self.selectedMedia.count + 1];
     [picker dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -286,19 +289,27 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
             }
         }
         
-        if (self.selectedPhotos.count == self.maxSelectedCount) {
+        if (self.selectedMedia.count == self.maxSelectedCount) {
             [collectionView deselectItemAtIndexPath:indexPath animated:NO];
             if (self.delegate && [self.delegate respondsToSelector:@selector(imagePicker:didReachMaxSelectedCount:)]) {
                 [self.delegate imagePicker:self didReachMaxSelectedCount:self.maxSelectedCount];
             }
+        } else if (self.selectedVideoCount == self.maxVideoCount && asset.mediaType == PHAssetMediaTypeVideo) {
+            [collectionView deselectItemAtIndexPath:indexPath animated:NO];
+            if (self.delegate && [self.delegate respondsToSelector:@selector(imagePicker:didReachMaxVideoCount:)]) {
+                [self.delegate imagePicker:self didReachMaxVideoCount:self.maxVideoCount];
+            }
         } else {
             LFPhotoCollectionViewCell *cell = (LFPhotoCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
-            [self.selectedPhotos addObject:self.photoData.assets[[self.photoData.assets count] - indexPath.item]];
+            if (asset.mediaType == PHAssetMediaTypeVideo) {
+                self.selectedVideoCount++;
+            }
+            [self.selectedMedia addObject:asset];
             [self.selectedIndexPath addObject:indexPath];
             [cell bounceAnimation];
             
-            [self.bottomBar refreshSelectedCount:self.selectedPhotos.count];
-            if (self.selectedPhotos.count) {
+            [self.bottomBar refreshSelectedCount:self.selectedMedia.count];
+            if (self.selectedMedia.count) {
                 self.topBar.importButton.enabled = YES;
             }
         }
@@ -308,12 +319,12 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
 - (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     LFPhotoCollectionViewCell *cell = (LFPhotoCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
-    [self.selectedPhotos removeObject:self.photoData.assets[[self.photoData.assets count] - indexPath.item]];
+    [self.selectedMedia removeObject:self.photoData.assets[[self.photoData.assets count] - indexPath.item]];
     [self.selectedIndexPath removeObject:indexPath];
     [cell bounceAnimation];
     
-    [self.bottomBar refreshSelectedCount:self.selectedPhotos.count];
-    if (!self.selectedPhotos.count) {
+    [self.bottomBar refreshSelectedCount:self.selectedMedia.count];
+    if (!self.selectedMedia.count) {
         self.topBar.importButton.enabled = NO;
     }
 }
@@ -377,12 +388,12 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
     return _photoData;
 }
 
-- (NSMutableArray *)selectedPhotos
+- (NSMutableArray *)selectedMedia
 {
-    if (_selectedPhotos == nil) {
-        _selectedPhotos = [NSMutableArray array];
+    if (_selectedMedia == nil) {
+        _selectedMedia = [NSMutableArray array];
     }
-    return _selectedPhotos;
+    return _selectedMedia;
 }
 
 - (NSMutableSet *)selectedIndexPath
