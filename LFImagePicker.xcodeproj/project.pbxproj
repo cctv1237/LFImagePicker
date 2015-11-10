@@ -7,15 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		AB4F5B1D1BCF5F7D0066BE2D /* content_btn_selected_40@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AB4F5B1B1BCF5F7D0066BE2D /* content_btn_selected_40@2x.png */; settings = {ASSET_TAGS = (); }; };
-		AB4F5B1E1BCF5F7D0066BE2D /* pictures_take-photo_209@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AB4F5B1C1BCF5F7D0066BE2D /* pictures_take-photo_209@2x.png */; settings = {ASSET_TAGS = (); }; };
-		AB633E451BC65866004818B4 /* LFDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AB633E441BC65866004818B4 /* LFDemoViewController.m */; settings = {ASSET_TAGS = (); }; };
-		AB633E5B1BC658DD004818B4 /* UIView+PickerLayoutMethods.m in Sources */ = {isa = PBXBuildFile; fileRef = AB633E4A1BC658DD004818B4 /* UIView+PickerLayoutMethods.m */; settings = {ASSET_TAGS = (); }; };
-		AB633E5C1BC658DD004818B4 /* LFPhotoData.m in Sources */ = {isa = PBXBuildFile; fileRef = AB633E4E1BC658DD004818B4 /* LFPhotoData.m */; settings = {ASSET_TAGS = (); }; };
-		AB633E5D1BC658DD004818B4 /* LFImagePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AB633E501BC658DD004818B4 /* LFImagePickerViewController.m */; settings = {ASSET_TAGS = (); }; };
-		AB633E5E1BC658DD004818B4 /* LFAlbumListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AB633E541BC658DD004818B4 /* LFAlbumListViewController.m */; settings = {ASSET_TAGS = (); }; };
-		AB633E5F1BC658DD004818B4 /* LFPhotoCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AB633E571BC658DD004818B4 /* LFPhotoCollectionViewCell.m */; settings = {ASSET_TAGS = (); }; };
-		AB633E601BC658DD004818B4 /* LFImagePickerTopBar.m in Sources */ = {isa = PBXBuildFile; fileRef = AB633E5A1BC658DD004818B4 /* LFImagePickerTopBar.m */; settings = {ASSET_TAGS = (); }; };
+		AB4F5B1D1BCF5F7D0066BE2D /* content_btn_selected_40@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AB4F5B1B1BCF5F7D0066BE2D /* content_btn_selected_40@2x.png */; };
+		AB4F5B1E1BCF5F7D0066BE2D /* pictures_take-photo_209@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AB4F5B1C1BCF5F7D0066BE2D /* pictures_take-photo_209@2x.png */; };
+		AB633E451BC65866004818B4 /* LFDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AB633E441BC65866004818B4 /* LFDemoViewController.m */; };
+		AB633E5B1BC658DD004818B4 /* UIView+PickerLayoutMethods.m in Sources */ = {isa = PBXBuildFile; fileRef = AB633E4A1BC658DD004818B4 /* UIView+PickerLayoutMethods.m */; };
+		AB633E5C1BC658DD004818B4 /* LFPhotoData.m in Sources */ = {isa = PBXBuildFile; fileRef = AB633E4E1BC658DD004818B4 /* LFPhotoData.m */; };
+		AB633E5D1BC658DD004818B4 /* LFImagePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AB633E501BC658DD004818B4 /* LFImagePickerViewController.m */; };
+		AB633E5E1BC658DD004818B4 /* LFAlbumListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AB633E541BC658DD004818B4 /* LFAlbumListViewController.m */; };
+		AB633E5F1BC658DD004818B4 /* LFPhotoCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AB633E571BC658DD004818B4 /* LFPhotoCollectionViewCell.m */; };
+		AB633E601BC658DD004818B4 /* LFImagePickerTopBar.m in Sources */ = {isa = PBXBuildFile; fileRef = AB633E5A1BC658DD004818B4 /* LFImagePickerTopBar.m */; };
 		ABB34BDC1BB3D17A00C290A7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = ABB34BDB1BB3D17A00C290A7 /* main.m */; };
 		ABB34BDF1BB3D17A00C290A7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = ABB34BDE1BB3D17A00C290A7 /* AppDelegate.m */; };
 		ABB34BE51BB3D17B00C290A7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ABB34BE31BB3D17B00C290A7 /* Main.storyboard */; };
@@ -23,11 +23,11 @@
 		ABB34BEA1BB3D17B00C290A7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ABB34BE81BB3D17B00C290A7 /* LaunchScreen.storyboard */; };
 		ABB34BF51BB3D17B00C290A7 /* LFImagePickerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = ABB34BF41BB3D17B00C290A7 /* LFImagePickerTests.m */; };
 		ABB34C001BB3D17B00C290A7 /* LFImagePickerUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = ABB34BFF1BB3D17B00C290A7 /* LFImagePickerUITests.m */; };
-		ABD782AC1BC7A43900A3E49A /* LFImageCompressView.m in Sources */ = {isa = PBXBuildFile; fileRef = ABD782A81BC7A43900A3E49A /* LFImageCompressView.m */; settings = {ASSET_TAGS = (); }; };
-		ABD782B11BC7AE3B00A3E49A /* UIImage+PickerCompress.m in Sources */ = {isa = PBXBuildFile; fileRef = ABD782B01BC7AE3B00A3E49A /* UIImage+PickerCompress.m */; settings = {ASSET_TAGS = (); }; };
-		ABD782B51BC7B1BC00A3E49A /* LFTransactionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = ABD782B41BC7B1BC00A3E49A /* LFTransactionManager.m */; settings = {ASSET_TAGS = (); }; };
-		ABD782B91BC7B28800A3E49A /* LFFetchSelectedImageTransaction.m in Sources */ = {isa = PBXBuildFile; fileRef = ABD782B81BC7B28800A3E49A /* LFFetchSelectedImageTransaction.m */; settings = {ASSET_TAGS = (); }; };
-		ABD782BD1BC8E1EA00A3E49A /* LFImagePickerBottomBar.m in Sources */ = {isa = PBXBuildFile; fileRef = ABD782BC1BC8E1EA00A3E49A /* LFImagePickerBottomBar.m */; settings = {ASSET_TAGS = (); }; };
+		ABD782AC1BC7A43900A3E49A /* LFImageCompressView.m in Sources */ = {isa = PBXBuildFile; fileRef = ABD782A81BC7A43900A3E49A /* LFImageCompressView.m */; };
+		ABD782B11BC7AE3B00A3E49A /* UIImage+PickerCompress.m in Sources */ = {isa = PBXBuildFile; fileRef = ABD782B01BC7AE3B00A3E49A /* UIImage+PickerCompress.m */; };
+		ABD782B51BC7B1BC00A3E49A /* LFTransactionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = ABD782B41BC7B1BC00A3E49A /* LFTransactionManager.m */; };
+		ABD782B91BC7B28800A3E49A /* LFFetchSelectedImageTransaction.m in Sources */ = {isa = PBXBuildFile; fileRef = ABD782B81BC7B28800A3E49A /* LFFetchSelectedImageTransaction.m */; };
+		ABD782BD1BC8E1EA00A3E49A /* LFImagePickerBottomBar.m in Sources */ = {isa = PBXBuildFile; fileRef = ABD782BC1BC8E1EA00A3E49A /* LFImagePickerBottomBar.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +48,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4A8442221BF1AD9F00321F33 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
+		4A8442231BF1AD9F00321F33 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
+		4A8442241BF1ADB800321F33 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
+		4A8442251BF1ADB800321F33 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		AB4F5B1B1BCF5F7D0066BE2D /* content_btn_selected_40@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "content_btn_selected_40@2x.png"; sourceTree = "<group>"; };
 		AB4F5B1C1BCF5F7D0066BE2D /* pictures_take-photo_209@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pictures_take-photo_209@2x.png"; sourceTree = "<group>"; };
 		AB633E431BC65866004818B4 /* LFDemoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LFDemoViewController.h; sourceTree = "<group>"; };
@@ -406,7 +410,6 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				en,
 				Base,
 			);
 			mainGroup = ABB34BCE1BB3D17A00C290A7;
@@ -508,6 +511,8 @@
 			isa = PBXVariantGroup;
 			children = (
 				ABB34BE41BB3D17B00C290A7 /* Base */,
+				4A8442221BF1AD9F00321F33 /* zh-Hans */,
+				4A8442241BF1ADB800321F33 /* en */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -516,6 +521,8 @@
 			isa = PBXVariantGroup;
 			children = (
 				ABB34BE91BB3D17B00C290A7 /* Base */,
+				4A8442231BF1AD9F00321F33 /* zh-Hans */,
+				4A8442251BF1ADB800321F33 /* en */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
