@@ -101,7 +101,7 @@
         _importButton = [UIButton buttonWithType:UIButtonTypeSystem];
         [_importButton addTarget:self action:@selector(didTappedImportButton:) forControlEvents:UIControlEventTouchUpInside];
         [_importButton setTitle:NSLocalizedString(@"Import", @"importButton") forState:UIControlStateNormal];
-        _importButton.titleLabel.font = [UIFont systemFontOfSize:13 weight:UIFontWeightMedium];
+        _importButton.titleLabel.font = [UIFont systemFontOfSize:13];
         _importButton.titleEdgeInsets = UIEdgeInsetsMake(13, 0, 13, 0);
         [_importButton setTitleColor:self.themeColor forState:UIControlStateNormal];
         [_importButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateHighlighted];
