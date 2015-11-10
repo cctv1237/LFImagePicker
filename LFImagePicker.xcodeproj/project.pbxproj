@@ -23,6 +23,12 @@
 		ABB34BEA1BB3D17B00C290A7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ABB34BE81BB3D17B00C290A7 /* LaunchScreen.storyboard */; };
 		ABB34BF51BB3D17B00C290A7 /* LFImagePickerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = ABB34BF41BB3D17B00C290A7 /* LFImagePickerTests.m */; };
 		ABB34C001BB3D17B00C290A7 /* LFImagePickerUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = ABB34BFF1BB3D17B00C290A7 /* LFImagePickerUITests.m */; };
+		ABCFE5901BF1AFE60061E587 /* LaunchScreen.strings in Resources */ = {isa = PBXBuildFile; fileRef = ABCFE5831BF1AFE60061E587 /* LaunchScreen.strings */; };
+		ABCFE5911BF1AFE60061E587 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = ABCFE5851BF1AFE60061E587 /* Localizable.strings */; };
+		ABCFE5921BF1AFE60061E587 /* Main.strings in Resources */ = {isa = PBXBuildFile; fileRef = ABCFE5871BF1AFE60061E587 /* Main.strings */; };
+		ABCFE5931BF1AFE60061E587 /* LaunchScreen.strings in Resources */ = {isa = PBXBuildFile; fileRef = ABCFE58A1BF1AFE60061E587 /* LaunchScreen.strings */; };
+		ABCFE5941BF1AFE60061E587 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = ABCFE58C1BF1AFE60061E587 /* Localizable.strings */; };
+		ABCFE5951BF1AFE60061E587 /* Main.strings in Resources */ = {isa = PBXBuildFile; fileRef = ABCFE58E1BF1AFE60061E587 /* Main.strings */; };
 		ABD782AC1BC7A43900A3E49A /* LFImageCompressView.m in Sources */ = {isa = PBXBuildFile; fileRef = ABD782A81BC7A43900A3E49A /* LFImageCompressView.m */; };
 		ABD782B11BC7AE3B00A3E49A /* UIImage+PickerCompress.m in Sources */ = {isa = PBXBuildFile; fileRef = ABD782B01BC7AE3B00A3E49A /* UIImage+PickerCompress.m */; };
 		ABD782B51BC7B1BC00A3E49A /* LFTransactionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = ABD782B41BC7B1BC00A3E49A /* LFTransactionManager.m */; };
@@ -82,6 +88,12 @@
 		ABB34BFB1BB3D17B00C290A7 /* LFImagePickerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LFImagePickerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		ABB34BFF1BB3D17B00C290A7 /* LFImagePickerUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LFImagePickerUITests.m; sourceTree = "<group>"; };
 		ABB34C011BB3D17B00C290A7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		ABCFE5841BF1AFE60061E587 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = LaunchScreen.strings; sourceTree = "<group>"; };
+		ABCFE5861BF1AFE60061E587 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = Localizable.strings; sourceTree = "<group>"; };
+		ABCFE5881BF1AFE60061E587 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = Main.strings; sourceTree = "<group>"; };
+		ABCFE58B1BF1AFE60061E587 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = LaunchScreen.strings; sourceTree = "<group>"; };
+		ABCFE58D1BF1AFE60061E587 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = Localizable.strings; sourceTree = "<group>"; };
+		ABCFE58F1BF1AFE60061E587 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = Main.strings; sourceTree = "<group>"; };
 		ABD782A71BC7A43900A3E49A /* LFImageCompressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LFImageCompressView.h; sourceTree = "<group>"; };
 		ABD782A81BC7A43900A3E49A /* LFImageCompressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LFImageCompressView.m; sourceTree = "<group>"; };
 		ABD782AF1BC7AE3B00A3E49A /* UIImage+PickerCompress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+PickerCompress.h"; sourceTree = "<group>"; };
@@ -250,6 +262,8 @@
 		ABB34BDA1BB3D17A00C290A7 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				ABCFE5821BF1AFE60061E587 /* en.lproj */,
+				ABCFE5891BF1AFE60061E587 /* zh-Hans.lproj */,
 				ABB34BE31BB3D17B00C290A7 /* Main.storyboard */,
 				ABB34BE61BB3D17B00C290A7 /* Assets.xcassets */,
 				ABB34BE81BB3D17B00C290A7 /* LaunchScreen.storyboard */,
@@ -277,6 +291,26 @@
 				ABB34C011BB3D17B00C290A7 /* Info.plist */,
 			);
 			path = LFImagePickerUITests;
+			sourceTree = "<group>";
+		};
+		ABCFE5821BF1AFE60061E587 /* en.lproj */ = {
+			isa = PBXGroup;
+			children = (
+				ABCFE5831BF1AFE60061E587 /* LaunchScreen.strings */,
+				ABCFE5851BF1AFE60061E587 /* Localizable.strings */,
+				ABCFE5871BF1AFE60061E587 /* Main.strings */,
+			);
+			path = en.lproj;
+			sourceTree = "<group>";
+		};
+		ABCFE5891BF1AFE60061E587 /* zh-Hans.lproj */ = {
+			isa = PBXGroup;
+			children = (
+				ABCFE58A1BF1AFE60061E587 /* LaunchScreen.strings */,
+				ABCFE58C1BF1AFE60061E587 /* Localizable.strings */,
+				ABCFE58E1BF1AFE60061E587 /* Main.strings */,
+			);
+			path = "zh-Hans.lproj";
 			sourceTree = "<group>";
 		};
 		ABD782A61BC7A43900A3E49A /* ImageCompressView */ = {
@@ -411,6 +445,8 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				Base,
+				en,
+				"zh-Hans",
 			);
 			mainGroup = ABB34BCE1BB3D17A00C290A7;
 			productRefGroup = ABB34BD81BB3D17A00C290A7 /* Products */;
@@ -430,9 +466,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				AB4F5B1E1BCF5F7D0066BE2D /* pictures_take-photo_209@2x.png in Resources */,
+				ABCFE5951BF1AFE60061E587 /* Main.strings in Resources */,
+				ABCFE5921BF1AFE60061E587 /* Main.strings in Resources */,
+				ABCFE5901BF1AFE60061E587 /* LaunchScreen.strings in Resources */,
 				AB4F5B1D1BCF5F7D0066BE2D /* content_btn_selected_40@2x.png in Resources */,
+				ABCFE5911BF1AFE60061E587 /* Localizable.strings in Resources */,
+				ABCFE5941BF1AFE60061E587 /* Localizable.strings in Resources */,
 				ABB34BEA1BB3D17B00C290A7 /* LaunchScreen.storyboard in Resources */,
 				ABB34BE71BB3D17B00C290A7 /* Assets.xcassets in Resources */,
+				ABCFE5931BF1AFE60061E587 /* LaunchScreen.strings in Resources */,
 				ABB34BE51BB3D17B00C290A7 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -525,6 +567,54 @@
 				4A8442251BF1ADB800321F33 /* en */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		ABCFE5831BF1AFE60061E587 /* LaunchScreen.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				ABCFE5841BF1AFE60061E587 /* en */,
+			);
+			name = LaunchScreen.strings;
+			sourceTree = "<group>";
+		};
+		ABCFE5851BF1AFE60061E587 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				ABCFE5861BF1AFE60061E587 /* en */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		ABCFE5871BF1AFE60061E587 /* Main.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				ABCFE5881BF1AFE60061E587 /* en */,
+			);
+			name = Main.strings;
+			sourceTree = "<group>";
+		};
+		ABCFE58A1BF1AFE60061E587 /* LaunchScreen.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				ABCFE58B1BF1AFE60061E587 /* zh-Hans */,
+			);
+			name = LaunchScreen.strings;
+			sourceTree = "<group>";
+		};
+		ABCFE58C1BF1AFE60061E587 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				ABCFE58D1BF1AFE60061E587 /* zh-Hans */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		ABCFE58E1BF1AFE60061E587 /* Main.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				ABCFE58F1BF1AFE60061E587 /* zh-Hans */,
+			);
+			name = Main.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
