@@ -45,166 +45,183 @@ NSString * const kLFFetchImageTransactionResultInfoKeyContent = @"kLFFetchImageT
     PHAsset *selectedAsset = info[kLFFetchImageTransactionInfoKeyAsset];
     
     if (selectedAsset.mediaType == PHAssetMediaTypeImage) {
-        [self.cachingImageManager requestImageForAsset:selectedAsset
-                                            targetSize:PHImageManagerMaximumSize
-                                           contentMode:PHImageContentModeDefault
-                                               options:nil
-                                         resultHandler:^(UIImage * _Nullable image, NSDictionary * _Nullable info) {
-                                             
-                                             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                                                 BOOL shouldCompress = YES;
-                                                 UIImage *compressedImage = image;
-                                                 NSData *data = UIImageJPEGRepresentation(compressedImage, 1.0f);
-                                                 NSUInteger length = [data length];
-                                                 if (length / 1024.0f / 1024.0f < 1) {
-                                                     shouldCompress = NO;
-                                                 }
-                                                 
-                                                 if (shouldCompress) {
-                                                     CGFloat preferredWidth = 1080.0f;
-                                                     CGFloat factor = preferredWidth / image.size.width;
-                                                     if (factor < 1) {
-                                                         compressedImage = [image lf_compressImageWithNewSize:CGSizeMake(image.size.width * factor, image.size.height * factor) interpolationQuality:kCGInterpolationHigh];
-                                                     }
-                                                     data = UIImageJPEGRepresentation(compressedImage, 1.0f);
-                                                 }
-                                                 
-                                                 NSString *secId = [[NSUUID UUID] UUIDString];
-                                                 NSString *imagePath = [[NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:secId];
-                                                 [data writeToFile:imagePath atomically:YES];
-                                                 
-                                                 LFFetchImageCallbackBlock progress = self.info[kLFFetchImageTransactionInfoKeyProgressCallback];
-                                                 if (progress) {
-                                                     progress(@{
-                                                                kLFFetchImageTransactionResultInfoKeyType:@"image",
-                                                                kLFFetchImageTransactionResultInfoKeyContent:[NSURL fileURLWithPath:imagePath]
-                                                                });
-                                                 }
-                                                 self.shouldWaiting = NO;
-                                             });
-                                         }];
+        [self imageOperation];
     }
     
     if (selectedAsset.mediaType == PHAssetMediaTypeVideo) {
-        [self.cachingImageManager requestAVAssetForVideo:selectedAsset options:nil resultHandler:^(AVAsset * _Nullable originAsset, AVAudioMix * _Nullable audioMix, NSDictionary * _Nullable info) {
-            
-            NSString *fileName = [NSString stringWithFormat:@"%@.mp4", [[NSUUID UUID] UUIDString]];
-            NSString *outPutFilepath = [[NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:fileName];
-            NSURL *outputUrl = [NSURL fileURLWithPath:outPutFilepath];
-            
-            if ([originAsset isKindOfClass:[AVURLAsset class]]) {
-                AVURLAsset *urlAsset = (AVURLAsset *)originAsset;
-                
-                CGFloat seconds = CMTimeGetSeconds(urlAsset.duration);
-                if (seconds < 20) {
-                    
-                    NSArray *tracks = [originAsset tracks];
-                    float estimatedSize = 0.0 ;
-                    for (AVAssetTrack * track in tracks) {
-                        float rate = ([track estimatedDataRate] / 8); // convert bits per second to bytes per second
-                        float seconds = CMTimeGetSeconds([track timeRange].duration);
-                        estimatedSize += seconds * rate;
-                    }
-                    float sizeInMB = estimatedSize / 1024.0f / 1024.0f;
-                    AVAssetExportSession *exportSession = [[AVAssetExportSession alloc] initWithAsset:urlAsset presetName:AVAssetExportPresetMediumQuality];
-                    if (sizeInMB < 10) {
-                        exportSession = [[AVAssetExportSession alloc] initWithAsset:urlAsset presetName:AVAssetExportPresetHighestQuality];
-                    }
-                    exportSession.outputURL = outputUrl;
-                    exportSession.outputFileType = AVFileTypeMPEG4;
-                    [exportSession exportAsynchronouslyWithCompletionHandler:^(void) {
-                        LFFetchImageCallbackBlock progress = self.info[kLFFetchImageTransactionInfoKeyProgressCallback];
-                        if (progress) {
-                            progress(@{
-                                       kLFFetchImageTransactionResultInfoKeyType:@"video",
-                                       kLFFetchImageTransactionResultInfoKeyContent:outputUrl
-                                       });
-                        }
-                        self.shouldWaiting = NO;
-                    }];
-                } else {
-//#warning todo 视频不能超过20秒
-                    LFFetchImageCallbackBlock progress = self.info[kLFFetchImageTransactionInfoKeyProgressCallback];
-                    if (progress) {
-                        progress(nil);
-                    }
-                    self.shouldWaiting = NO;
-                }
-            } else if ([originAsset isKindOfClass:[AVComposition class]]) {
-                AVComposition *videoAsset = (AVComposition *)originAsset;
-                
-                CGFloat seconds = CMTimeGetSeconds(videoAsset.duration);
-                if (seconds < 20) {
-                    AVMutableComposition *mixComposition = [AVMutableComposition composition];
-                    
-                    AVMutableCompositionTrack *compositionVideoTrack = [mixComposition addMutableTrackWithMediaType:AVMediaTypeVideo
-                                                                                                   preferredTrackID:kCMPersistentTrackID_Invalid];
-                    NSError *videoInsertError = nil;
-                    BOOL videoInsertResult = [compositionVideoTrack insertTimeRange:CMTimeRangeMake(kCMTimeZero, videoAsset.duration)
-                                                                            ofTrack:[[videoAsset tracksWithMediaType:AVMediaTypeVideo] objectAtIndex:0]
-                                                                             atTime:kCMTimeZero
-                                                                              error:&videoInsertError];
-                    if (!videoInsertResult || nil != videoInsertError) {
-                        //handle error
-                        return;
-                    }
-                    
-                    //slow down whole video by 2.0
-                    double videoScaleFactor = 2.0;
-                    CMTime videoDuration = videoAsset.duration;
-                    
-                    [compositionVideoTrack scaleTimeRange:CMTimeRangeMake(kCMTimeZero, videoDuration)
-                                               toDuration:CMTimeMake(videoDuration.value*videoScaleFactor, videoDuration.timescale)];
-                    
-                    //export
-                    NSArray *tracks = [mixComposition tracks];
-                    float estimatedSize = 0.0 ;
-                    for (AVAssetTrack * track in tracks) {
-                        float rate = ([track estimatedDataRate] / 8); // convert bits per second to bytes per second
-                        float seconds = CMTimeGetSeconds([track timeRange].duration);
-                        estimatedSize += seconds * rate;
-                    }
-                    float sizeInMB = estimatedSize / 1024.0f / 1024.0f;
-                    AVAssetExportSession *exportSession = [[AVAssetExportSession alloc] initWithAsset:mixComposition presetName:AVAssetExportPresetMediumQuality];
-                    if (sizeInMB < 10) {
-                        exportSession = [[AVAssetExportSession alloc] initWithAsset:mixComposition presetName:AVAssetExportPresetHighestQuality];
-                    }
-                    
-                    exportSession.outputURL = outputUrl;
-                    exportSession.outputFileType = AVFileTypeMPEG4;
-                    [exportSession exportAsynchronouslyWithCompletionHandler:^(void) {
-                        LFFetchImageCallbackBlock progress = self.info[kLFFetchImageTransactionInfoKeyProgressCallback];
-                        if (progress) {
-                            progress(@{
-                                       kLFFetchImageTransactionResultInfoKeyType:@"video",
-                                       kLFFetchImageTransactionResultInfoKeyContent:outputUrl
-                                       });
-                        }
-                        self.shouldWaiting = NO;
-                    }];
-                } else {
-                    //#warning todo 视频不能超过20秒
-                    LFFetchImageCallbackBlock progress = self.info[kLFFetchImageTransactionInfoKeyProgressCallback];
-                    if (progress) {
-                        progress(nil);
-                    }
-                    self.shouldWaiting = NO;
-                }
-            } else {
-                LFFetchImageCallbackBlock progress = self.info[kLFFetchImageTransactionInfoKeyProgressCallback];
-                if (progress) {
-                    progress(nil);
-                }
-                self.shouldWaiting = NO;
-            }
-            
-            
-            
-        }];
+        [self videoOperation];
     }
 
     
     while (self.shouldWaiting) {
+    }
+}
+
+- (void)imageOperation
+{
+    PHAsset *selectedAsset = self.info[kLFFetchImageTransactionInfoKeyAsset];
+    [self.cachingImageManager requestImageForAsset:selectedAsset
+                                        targetSize:PHImageManagerMaximumSize
+                                       contentMode:PHImageContentModeDefault
+                                           options:nil
+                                     resultHandler:^(UIImage * _Nullable image, NSDictionary * _Nullable info) {
+                                         
+                                         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                                             BOOL shouldCompress = YES;
+                                             UIImage *compressedImage = image;
+                                             NSData *data = UIImageJPEGRepresentation(compressedImage, 1.0f);
+                                             NSUInteger length = [data length];
+                                             if (length / 1024.0f / 1024.0f < 1) {
+                                                 shouldCompress = NO;
+                                             }
+                                             
+                                             if (shouldCompress) {
+                                                 CGFloat preferredWidth = 1080.0f;
+                                                 CGFloat factor = preferredWidth / image.size.width;
+                                                 if (factor < 1) {
+                                                     compressedImage = [image lf_compressImageWithNewSize:CGSizeMake(image.size.width * factor, image.size.height * factor) interpolationQuality:kCGInterpolationHigh];
+                                                 }
+                                                 data = UIImageJPEGRepresentation(compressedImage, 1.0f);
+                                             }
+                                             
+                                             NSString *secId = [[NSUUID UUID] UUIDString];
+                                             NSString *imagePath = [[NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:secId];
+                                             [data writeToFile:imagePath atomically:YES];
+                                             
+                                             LFFetchImageCallbackBlock progress = self.info[kLFFetchImageTransactionInfoKeyProgressCallback];
+                                             if (progress) {
+                                                 progress(@{
+                                                            kLFFetchImageTransactionResultInfoKeyType:@"image",
+                                                            kLFFetchImageTransactionResultInfoKeyContent:[NSURL fileURLWithPath:imagePath]
+                                                            });
+                                             }
+                                             self.shouldWaiting = NO;
+                                         });
+                                     }];
+}
+
+- (void)videoOperation
+{
+    PHAsset *selectedAsset = self.info[kLFFetchImageTransactionInfoKeyAsset];
+    [self.cachingImageManager requestAVAssetForVideo:selectedAsset options:nil resultHandler:^(AVAsset * _Nullable originAsset, AVAudioMix * _Nullable audioMix, NSDictionary * _Nullable info) {
+        
+        NSString *fileName = [NSString stringWithFormat:@"%@.mp4", [[NSUUID UUID] UUIDString]];
+        NSString *outPutFilepath = [[NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:fileName];
+        NSURL *outputUrl = [NSURL fileURLWithPath:outPutFilepath];
+        
+        if ([originAsset isKindOfClass:[AVURLAsset class]]) {
+            [self normalVideoOperationWithAsset:(AVURLAsset *)originAsset outputUrl:outputUrl];
+        } else if ([originAsset isKindOfClass:[AVComposition class]]) {
+            [self slowMotionVideoOperationWithVideoAsset:(AVComposition *)originAsset outputUrl:outputUrl];
+        } else {
+            // 跳过不可识别的Video
+            LFFetchImageCallbackBlock progress = self.info[kLFFetchImageTransactionInfoKeyProgressCallback];
+            if (progress) {
+                progress(nil);
+            }
+            self.shouldWaiting = NO;
+        }
+    }];
+}
+
+- (void)slowMotionVideoOperationWithVideoAsset:(AVComposition *)videoAsset outputUrl:(NSURL *)outputUrl
+{
+    CGFloat seconds = CMTimeGetSeconds(videoAsset.duration);
+    if (seconds < 20) {
+        AVMutableComposition *mixComposition = [AVMutableComposition composition];
+        
+        AVMutableCompositionTrack *compositionVideoTrack = [mixComposition addMutableTrackWithMediaType:AVMediaTypeVideo
+                                                                                       preferredTrackID:kCMPersistentTrackID_Invalid];
+        NSError *videoInsertError = nil;
+        BOOL videoInsertResult = [compositionVideoTrack insertTimeRange:CMTimeRangeMake(kCMTimeZero, videoAsset.duration)
+                                                                ofTrack:[[videoAsset tracksWithMediaType:AVMediaTypeVideo] objectAtIndex:0]
+                                                                 atTime:kCMTimeZero
+                                                                  error:&videoInsertError];
+        if (!videoInsertResult || nil != videoInsertError) {
+            //handle error
+            self.shouldWaiting = NO;
+            return;
+        }
+        
+        //slow down whole video by 2.0
+        double videoScaleFactor = 2.0;
+        CMTime videoDuration = videoAsset.duration;
+        
+        [compositionVideoTrack scaleTimeRange:CMTimeRangeMake(kCMTimeZero, videoDuration)
+                                   toDuration:CMTimeMake(videoDuration.value*videoScaleFactor, videoDuration.timescale)];
+        
+        //export
+        NSArray *tracks = [mixComposition tracks];
+        float estimatedSize = 0.0 ;
+        for (AVAssetTrack * track in tracks) {
+            float rate = ([track estimatedDataRate] / 8); // convert bits per second to bytes per second
+            float seconds = CMTimeGetSeconds([track timeRange].duration);
+            estimatedSize += seconds * rate;
+        }
+        float sizeInMB = estimatedSize / 1024.0f / 1024.0f;
+        AVAssetExportSession *exportSession = [[AVAssetExportSession alloc] initWithAsset:mixComposition presetName:AVAssetExportPresetMediumQuality];
+        if (sizeInMB < 10) {
+            exportSession = [[AVAssetExportSession alloc] initWithAsset:mixComposition presetName:AVAssetExportPresetHighestQuality];
+        }
+        
+        exportSession.outputURL = outputUrl;
+        exportSession.outputFileType = AVFileTypeMPEG4;
+        [exportSession exportAsynchronouslyWithCompletionHandler:^(void) {
+            LFFetchImageCallbackBlock progress = self.info[kLFFetchImageTransactionInfoKeyProgressCallback];
+            if (progress) {
+                progress(@{
+                           kLFFetchImageTransactionResultInfoKeyType:@"video",
+                           kLFFetchImageTransactionResultInfoKeyContent:outputUrl
+                           });
+            }
+            self.shouldWaiting = NO;
+        }];
+    } else {
+        // 视频不能超过20秒
+        LFFetchImageCallbackBlock progress = self.info[kLFFetchImageTransactionInfoKeyProgressCallback];
+        if (progress) {
+            progress(nil);
+        }
+        self.shouldWaiting = NO;
+    }
+}
+
+- (void)normalVideoOperationWithAsset:(AVURLAsset *)urlAsset outputUrl:(NSURL *)outputUrl
+{
+    CGFloat seconds = CMTimeGetSeconds(urlAsset.duration);
+    if (seconds < 20) {
+        
+        NSArray *tracks = [urlAsset tracks];
+        float estimatedSize = 0.0 ;
+        for (AVAssetTrack * track in tracks) {
+            float rate = ([track estimatedDataRate] / 8); // convert bits per second to bytes per second
+            float seconds = CMTimeGetSeconds([track timeRange].duration);
+            estimatedSize += seconds * rate;
+        }
+        float sizeInMB = estimatedSize / 1024.0f / 1024.0f;
+        AVAssetExportSession *exportSession = [[AVAssetExportSession alloc] initWithAsset:urlAsset presetName:AVAssetExportPresetMediumQuality];
+        if (sizeInMB < 10) {
+            exportSession = [[AVAssetExportSession alloc] initWithAsset:urlAsset presetName:AVAssetExportPresetHighestQuality];
+        }
+        exportSession.outputURL = outputUrl;
+        exportSession.outputFileType = AVFileTypeMPEG4;
+        [exportSession exportAsynchronouslyWithCompletionHandler:^(void) {
+            LFFetchImageCallbackBlock progress = self.info[kLFFetchImageTransactionInfoKeyProgressCallback];
+            if (progress) {
+                progress(@{
+                           kLFFetchImageTransactionResultInfoKeyType:@"video",
+                           kLFFetchImageTransactionResultInfoKeyContent:outputUrl
+                           });
+            }
+            self.shouldWaiting = NO;
+        }];
+    } else {
+        // 视频不能超过20秒
+        LFFetchImageCallbackBlock progress = self.info[kLFFetchImageTransactionInfoKeyProgressCallback];
+        if (progress) {
+            progress(nil);
+        }
+        self.shouldWaiting = NO;
     }
 }
 
