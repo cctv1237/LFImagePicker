@@ -17,6 +17,7 @@ NSString * const kLFFetchImageTransactionInfoKeyAsset = @"kLFFetchImageTransacti
 
 NSString * const kLFFetchImageTransactionResultInfoKeyType = @"kLFFetchImageTransactionResultInfoKeyType";
 NSString * const kLFFetchImageTransactionResultInfoKeyContent = @"kLFFetchImageTransactionResultInfoKeyContent";
+NSString * const kLFFetchImageTransactionResultInfoKeyVideoImage = @"kLFFetchImageTransactionResultInfoKeyVideoImage";
 
 @interface LFFetchSelectedImageTransaction ()
 
@@ -51,12 +52,12 @@ NSString * const kLFFetchImageTransactionResultInfoKeyContent = @"kLFFetchImageT
     if (selectedAsset.mediaType == PHAssetMediaTypeVideo) {
         [self videoOperation];
     }
-
     
     while (self.shouldWaiting) {
     }
 }
 
+#pragma mark - private methods
 - (void)imageOperation
 {
     PHAsset *selectedAsset = self.info[kLFFetchImageTransactionInfoKeyAsset];
@@ -105,14 +106,15 @@ NSString * const kLFFetchImageTransactionResultInfoKeyContent = @"kLFFetchImageT
     PHAsset *selectedAsset = self.info[kLFFetchImageTransactionInfoKeyAsset];
     [self.cachingImageManager requestAVAssetForVideo:selectedAsset options:nil resultHandler:^(AVAsset * _Nullable originAsset, AVAudioMix * _Nullable audioMix, NSDictionary * _Nullable info) {
         
-        NSString *fileName = [NSString stringWithFormat:@"%@.mp4", [[NSUUID UUID] UUIDString]];
+        NSString *uuid = [[NSUUID UUID] UUIDString];
+        NSString *fileName = [NSString stringWithFormat:@"%@.mp4", uuid];
         NSString *outPutFilepath = [[NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:fileName];
         NSURL *outputUrl = [NSURL fileURLWithPath:outPutFilepath];
         
         if ([originAsset isKindOfClass:[AVURLAsset class]]) {
-            [self normalVideoOperationWithAsset:(AVURLAsset *)originAsset outputUrl:outputUrl];
+            [self normalVideoOperationWithAsset:(AVURLAsset *)originAsset outputUrl:outputUrl uuid:uuid];
         } else if ([originAsset isKindOfClass:[AVComposition class]]) {
-            [self slowMotionVideoOperationWithVideoAsset:(AVComposition *)originAsset outputUrl:outputUrl];
+            [self slowMotionVideoOperationWithVideoAsset:(AVComposition *)originAsset outputUrl:outputUrl uuid:uuid];
         } else {
             // 跳过不可识别的Video
             LFFetchImageCallbackBlock progress = self.info[kLFFetchImageTransactionInfoKeyProgressCallback];
@@ -124,7 +126,7 @@ NSString * const kLFFetchImageTransactionResultInfoKeyContent = @"kLFFetchImageT
     }];
 }
 
-- (void)slowMotionVideoOperationWithVideoAsset:(AVComposition *)videoAsset outputUrl:(NSURL *)outputUrl
+- (void)slowMotionVideoOperationWithVideoAsset:(AVComposition *)videoAsset outputUrl:(NSURL *)outputUrl uuid:(NSString *)uuid
 {
     CGFloat seconds = CMTimeGetSeconds(videoAsset.duration);
     if (seconds < 20) {
@@ -150,7 +152,7 @@ NSString * const kLFFetchImageTransactionResultInfoKeyContent = @"kLFFetchImageT
         [compositionVideoTrack scaleTimeRange:CMTimeRangeMake(kCMTimeZero, videoDuration)
                                    toDuration:CMTimeMake(videoDuration.value*videoScaleFactor, videoDuration.timescale)];
         
-        //export
+        // calculate vide size
         NSArray *tracks = [mixComposition tracks];
         float estimatedSize = 0.0 ;
         for (AVAssetTrack * track in tracks) {
@@ -159,6 +161,8 @@ NSString * const kLFFetchImageTransactionResultInfoKeyContent = @"kLFFetchImageT
             estimatedSize += seconds * rate;
         }
         float sizeInMB = estimatedSize / 1024.0f / 1024.0f;
+        
+        // export video
         AVAssetExportSession *exportSession = [[AVAssetExportSession alloc] initWithAsset:mixComposition presetName:AVAssetExportPresetMediumQuality];
         if (sizeInMB < 10) {
             exportSession = [[AVAssetExportSession alloc] initWithAsset:mixComposition presetName:AVAssetExportPresetHighestQuality];
@@ -169,9 +173,12 @@ NSString * const kLFFetchImageTransactionResultInfoKeyContent = @"kLFFetchImageT
         [exportSession exportAsynchronouslyWithCompletionHandler:^(void) {
             LFFetchImageCallbackBlock progress = self.info[kLFFetchImageTransactionInfoKeyProgressCallback];
             if (progress) {
+                AVURLAsset *videoAsset = [AVURLAsset assetWithURL:outputUrl];
+                NSURL *videoImageUrl = [self imageWithVideoAsset:videoAsset uuid:uuid];
                 progress(@{
                            kLFFetchImageTransactionResultInfoKeyType:@"video",
-                           kLFFetchImageTransactionResultInfoKeyContent:outputUrl
+                           kLFFetchImageTransactionResultInfoKeyContent:outputUrl,
+                           kLFFetchImageTransactionResultInfoKeyVideoImage:videoImageUrl
                            });
             }
             self.shouldWaiting = NO;
@@ -186,12 +193,13 @@ NSString * const kLFFetchImageTransactionResultInfoKeyContent = @"kLFFetchImageT
     }
 }
 
-- (void)normalVideoOperationWithAsset:(AVURLAsset *)urlAsset outputUrl:(NSURL *)outputUrl
+- (void)normalVideoOperationWithAsset:(AVURLAsset *)urlAsset outputUrl:(NSURL *)outputUrl uuid:(NSString *)uuid
 {
     CGFloat seconds = CMTimeGetSeconds(urlAsset.duration);
     if (seconds < 20) {
-        
         NSArray *tracks = [urlAsset tracks];
+        
+        // calculate vide size
         float estimatedSize = 0.0 ;
         for (AVAssetTrack * track in tracks) {
             float rate = ([track estimatedDataRate] / 8); // convert bits per second to bytes per second
@@ -199,6 +207,8 @@ NSString * const kLFFetchImageTransactionResultInfoKeyContent = @"kLFFetchImageT
             estimatedSize += seconds * rate;
         }
         float sizeInMB = estimatedSize / 1024.0f / 1024.0f;
+        
+        // export video
         AVAssetExportSession *exportSession = [[AVAssetExportSession alloc] initWithAsset:urlAsset presetName:AVAssetExportPresetMediumQuality];
         if (sizeInMB < 10) {
             exportSession = [[AVAssetExportSession alloc] initWithAsset:urlAsset presetName:AVAssetExportPresetHighestQuality];
@@ -208,9 +218,12 @@ NSString * const kLFFetchImageTransactionResultInfoKeyContent = @"kLFFetchImageT
         [exportSession exportAsynchronouslyWithCompletionHandler:^(void) {
             LFFetchImageCallbackBlock progress = self.info[kLFFetchImageTransactionInfoKeyProgressCallback];
             if (progress) {
+                AVURLAsset *videoAsset = [AVURLAsset assetWithURL:outputUrl];
+                NSURL *videoImageUrl = [self imageWithVideoAsset:videoAsset uuid:uuid];
                 progress(@{
                            kLFFetchImageTransactionResultInfoKeyType:@"video",
-                           kLFFetchImageTransactionResultInfoKeyContent:outputUrl
+                           kLFFetchImageTransactionResultInfoKeyContent:outputUrl,
+                           kLFFetchImageTransactionResultInfoKeyVideoImage:videoImageUrl
                            });
             }
             self.shouldWaiting = NO;
@@ -223,6 +236,27 @@ NSString * const kLFFetchImageTransactionResultInfoKeyContent = @"kLFFetchImageT
         }
         self.shouldWaiting = NO;
     }
+}
+
+- (NSURL *)imageWithVideoAsset:(AVAsset *)asset uuid:(NSString *)uuid;
+{
+    AVAssetImageGenerator *imageGenerator = [[AVAssetImageGenerator alloc] initWithAsset:asset];
+    CMTime startTime = kCMTimeZero;
+    CMTime actualTime;
+    NSError *error = nil;
+    CGImageRef videoImage = [imageGenerator copyCGImageAtTime:startTime actualTime:&actualTime error:&error];
+    NSURL *resultUrl = nil;
+    if (videoImage != NULL) {
+        UIImage *image = [UIImage imageWithCGImage:videoImage];
+        NSData *jpgData = UIImageJPEGRepresentation(image, 0.9f);
+        NSString *outPutFilepath = [[NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:uuid];
+        [jpgData writeToFile:outPutFilepath atomically:NO];
+        resultUrl = [NSURL fileURLWithPath:outPutFilepath isDirectory:NO];
+    } else {
+#warning todo 使用默认图片
+        resultUrl = [[NSURL alloc] init];
+    }
+    return resultUrl;
 }
 
 #pragma mark - getters and setters
