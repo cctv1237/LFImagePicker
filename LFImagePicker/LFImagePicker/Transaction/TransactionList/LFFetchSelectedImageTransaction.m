@@ -67,37 +67,39 @@ NSString * const kLFFetchImageTransactionResultInfoKeyVideoImage = @"kLFFetchIma
                                            options:nil
                                      resultHandler:^(UIImage * _Nullable image, NSDictionary * _Nullable info) {
                                          
-                                         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                                             BOOL shouldCompress = YES;
-                                             UIImage *compressedImage = image;
-                                             NSData *data = UIImageJPEGRepresentation(compressedImage, 1.0f);
-                                             NSUInteger length = [data length];
-                                             if (length / 1024.0f / 1024.0f < 1) {
-                                                 shouldCompress = NO;
-                                             }
-                                             
-                                             if (shouldCompress) {
-                                                 CGFloat preferredWidth = 1080.0f;
-                                                 CGFloat factor = preferredWidth / image.size.width;
-                                                 if (factor < 1) {
-                                                     compressedImage = [image lf_compressImageWithNewSize:CGSizeMake(image.size.width * factor, image.size.height * factor) interpolationQuality:kCGInterpolationHigh];
+                                         if ([info[PHImageResultIsDegradedKey] boolValue] == NO) {
+                                             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                                                 BOOL shouldCompress = YES;
+                                                 UIImage *compressedImage = image;
+                                                 NSData *data = UIImageJPEGRepresentation(compressedImage, 1.0f);
+                                                 NSUInteger length = [data length];
+                                                 if (length / 1024.0f / 1024.0f < 1) {
+                                                     shouldCompress = NO;
                                                  }
-                                                 data = UIImageJPEGRepresentation(compressedImage, 1.0f);
-                                             }
-                                             
-                                             NSString *secId = [[NSUUID UUID] UUIDString];
-                                             NSString *imagePath = [[NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:secId];
-                                             [data writeToFile:imagePath atomically:YES];
-                                             
-                                             LFFetchImageCallbackBlock progress = self.info[kLFFetchImageTransactionInfoKeyProgressCallback];
-                                             if (progress) {
-                                                 progress(@{
-                                                            kLFFetchImageTransactionResultInfoKeyType:@"image",
-                                                            kLFFetchImageTransactionResultInfoKeyContent:[NSURL fileURLWithPath:imagePath]
-                                                            });
-                                             }
-                                             self.shouldWaiting = NO;
-                                         });
+                                                 
+                                                 if (shouldCompress) {
+                                                     CGFloat preferredWidth = 1080.0f;
+                                                     CGFloat factor = preferredWidth / image.size.width;
+                                                     if (factor < 1) {
+                                                         compressedImage = [image lf_compressImageWithNewSize:CGSizeMake(image.size.width * factor, image.size.height * factor) interpolationQuality:kCGInterpolationHigh];
+                                                     }
+                                                     data = UIImageJPEGRepresentation(compressedImage, 1.0f);
+                                                 }
+                                                 
+                                                 NSString *secId = [[NSUUID UUID] UUIDString];
+                                                 NSString *imagePath = [[NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:secId];
+                                                 [data writeToFile:imagePath atomically:YES];
+                                                 
+                                                 LFFetchImageCallbackBlock progress = self.info[kLFFetchImageTransactionInfoKeyProgressCallback];
+                                                 if (progress) {
+                                                     progress(@{
+                                                                kLFFetchImageTransactionResultInfoKeyType:@"image",
+                                                                kLFFetchImageTransactionResultInfoKeyContent:[NSURL fileURLWithPath:imagePath]
+                                                                });
+                                                 }
+                                                 self.shouldWaiting = NO;
+                                             });
+                                         }
                                      }];
 }
 
