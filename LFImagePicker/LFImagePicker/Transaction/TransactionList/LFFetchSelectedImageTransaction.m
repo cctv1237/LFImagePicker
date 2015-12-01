@@ -255,7 +255,6 @@ NSString * const kLFFetchImageTransactionResultInfoKeyVideoImage = @"kLFFetchIma
         [jpgData writeToFile:outPutFilepath atomically:NO];
         resultUrl = [NSURL fileURLWithPath:outPutFilepath isDirectory:NO];
     } else {
-#warning todo 使用默认图片
         resultUrl = [[NSURL alloc] init];
     }
     return resultUrl;

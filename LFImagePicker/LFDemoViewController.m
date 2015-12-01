@@ -47,6 +47,11 @@
     [alertView show];
 }
 
+- (void)imagePicker:(LFImagePickerViewController *)picker didReachMaxVideoCount:(NSInteger)maxCount
+{
+    
+}
+
 #pragma mark - event response
 
 - (void)didTappedStartButton:(UIButton *)button
