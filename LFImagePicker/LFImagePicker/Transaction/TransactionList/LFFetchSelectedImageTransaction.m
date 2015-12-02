@@ -247,16 +247,16 @@ NSString * const kLFFetchImageTransactionResultInfoKeyVideoImage = @"kLFFetchIma
     CMTime actualTime;
     NSError *error = nil;
     CGImageRef videoImage = [imageGenerator copyCGImageAtTime:startTime actualTime:&actualTime error:&error];
-    NSURL *resultUrl = nil;
+    UIImage *image = nil;
     if (videoImage != NULL) {
-        UIImage *image = [UIImage imageWithCGImage:videoImage];
-        NSData *jpgData = UIImageJPEGRepresentation(image, 0.9f);
-        NSString *outPutFilepath = [[NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:uuid];
-        [jpgData writeToFile:outPutFilepath atomically:NO];
-        resultUrl = [NSURL fileURLWithPath:outPutFilepath isDirectory:NO];
+        image = [UIImage imageWithCGImage:videoImage];
     } else {
-        resultUrl = [[NSURL alloc] init];
+        image = [UIImage imageNamed:@"default_video_cover"];
     }
+    NSData *jpgData = UIImageJPEGRepresentation(image, 0.9f);
+    NSString *outPutFilepath = [[NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:uuid];
+    [jpgData writeToFile:outPutFilepath atomically:NO];
+    NSURL *resultUrl = [NSURL fileURLWithPath:outPutFilepath isDirectory:NO];
     return resultUrl;
 }
 
