@@ -132,7 +132,7 @@
         [_albumsButton addTarget:self action:@selector(didTappedAlbumsButton:) forControlEvents:UIControlEventTouchUpInside];
         [_albumsButton setTitle:NSLocalizedString(@"Albums", @"albumsButton") forState:UIControlStateNormal];
         _albumsButton.titleLabel.font = [UIFont systemFontOfSize:13 weight:UIFontWeightRegular];
-        [_albumsButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [_albumsButton setTitleColor:self.themeColor forState:UIControlStateNormal];
         [_albumsButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateHighlighted];
     }
     return _albumsButton;
