@@ -171,6 +171,7 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
     albumListTable.popoverPresentationController.sourceRect = self.topBar.bounds;
     albumListTable.popoverPresentationController.popoverLayoutMargins = UIEdgeInsetsMake(50, 50, 50, 50);
     albumListTable.smartAlbums = self.photoData.smartAlbums;
+    albumListTable.userAlbums = self.photoData.userAlbums;
     albumListTable.delegate = self;
     [self presentViewController:albumListTable animated:YES completion:nil];
 }

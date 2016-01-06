@@ -48,14 +48,18 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.smartAlbums.count;
+    return self.smartAlbums.count + self.userAlbums.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"AlbumListreuseIdentifier"];
-    cell.textLabel.text = [self.smartAlbums[indexPath.item] localizedTitle];
-//    cell.detailTextLabel.text = [NSString stringWithFormat:NSLocalizedString(@"%lu", @"albumCount"), (long)[self.smartAlbums[indexPath.item] estimatedAssetCount]];
+    if (indexPath.row < self.smartAlbums.count) {
+        cell.textLabel.text = [self.smartAlbums[indexPath.row] localizedTitle];
+    } else {
+        cell.textLabel.text = [self.userAlbums[indexPath.row - self.smartAlbums.count] localizedTitle];
+    }
+    
     return cell;
 }
 

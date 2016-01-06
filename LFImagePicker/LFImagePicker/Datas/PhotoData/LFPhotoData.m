@@ -25,9 +25,11 @@
         if (status == PHAuthorizationStatusAuthorized) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 PHFetchResult *smartAlbums = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum
-                                                                                      subtype:PHAssetCollectionSubtypeAlbumRegular
+                                                                                      subtype:PHAssetCollectionSubtypeAny
                                                                                       options:nil];
                 self.smartAlbums = smartAlbums;
+                PHFetchResult *userAlbums = [PHAssetCollection fetchTopLevelUserCollectionsWithOptions:nil];
+                self.userAlbums = userAlbums;
                 [self configAlbumByAlbums:smartAlbums];
                 complete();
             });
