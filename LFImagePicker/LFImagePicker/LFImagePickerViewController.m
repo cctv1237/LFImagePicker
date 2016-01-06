@@ -180,8 +180,14 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
 
 - (void)albumListViewController:(LFAlbumListViewController *)albumListViewController didSelectAlbumIndex:(NSInteger)index
 {
-    [self.photoData.smartAlbums enumerateObjectsUsingBlock:^(PHAssetCollection * _Nonnull collection, NSUInteger idx, BOOL * _Nonnull stop) {
-        if (idx == index) {
+    PHFetchResult *albums;
+    if (index < self.photoData.smartAlbums.count) {
+        albums = self.photoData.smartAlbums;
+    } else {
+        albums = self.photoData.userAlbums;
+    }
+    [albums enumerateObjectsUsingBlock:^(PHAssetCollection * _Nonnull collection, NSUInteger idx, BOOL * _Nonnull stop) {
+        if (idx == index || idx == index - self.photoData.smartAlbums.count) {
             self.photoData.album = collection;
             [self.topBar refreshAlbumsName:collection.localizedTitle];
             PHFetchResult *assetsFetchResult = [PHAsset fetchAssetsInAssetCollection:collection options:nil];
