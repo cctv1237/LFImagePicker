@@ -162,14 +162,14 @@ NSString * const kLFFetchImageTransactionResultInfoKeyVideoImage = @"kLFFetchIma
             float seconds = CMTimeGetSeconds([track timeRange].duration);
             estimatedSize += seconds * rate;
         }
-        float sizeInMB = estimatedSize / 1024.0f / 1024.0f;
+//        float sizeInMB = estimatedSize / 1024.0f / 1024.0f;
         
         // export video
-        AVAssetExportSession *exportSession = [[AVAssetExportSession alloc] initWithAsset:mixComposition presetName:AVAssetExportPresetMediumQuality];
-        if (sizeInMB < 10) {
-            exportSession = [[AVAssetExportSession alloc] initWithAsset:mixComposition presetName:AVAssetExportPresetHighestQuality];
-        }
-        
+        AVAssetExportSession *exportSession = [[AVAssetExportSession alloc] initWithAsset:mixComposition presetName:AVAssetExportPreset640x480];
+        exportSession.shouldOptimizeForNetworkUse = YES;
+//        if (sizeInMB < 10) {
+//            exportSession = [[AVAssetExportSession alloc] initWithAsset:mixComposition presetName:AVAssetExportPresetHighestQuality];
+//        }
         exportSession.outputURL = outputUrl;
         exportSession.outputFileType = AVFileTypeMPEG4;
         [exportSession exportAsynchronouslyWithCompletionHandler:^(void) {
@@ -210,7 +210,8 @@ NSString * const kLFFetchImageTransactionResultInfoKeyVideoImage = @"kLFFetchIma
         }
         
         // export video
-        AVAssetExportSession *exportSession = [[AVAssetExportSession alloc] initWithAsset:urlAsset presetName:AVAssetExportPresetMediumQuality];
+        AVAssetExportSession *exportSession = [[AVAssetExportSession alloc] initWithAsset:urlAsset presetName:AVAssetExportPreset640x480];
+        exportSession.shouldOptimizeForNetworkUse = YES;
         exportSession.outputURL = outputUrl;
         exportSession.outputFileType = AVFileTypeMPEG4;
         [exportSession exportAsynchronouslyWithCompletionHandler:^(void) {
@@ -243,6 +244,7 @@ NSString * const kLFFetchImageTransactionResultInfoKeyVideoImage = @"kLFFetchIma
     CMTime actualTime;
     NSError *error = nil;
     CGImageRef videoImage = [imageGenerator copyCGImageAtTime:startTime actualTime:&actualTime error:&error];
+    imageGenerator.appliesPreferredTrackTransform = YES;
     UIImage *image = nil;
     if (videoImage != NULL) {
         image = [UIImage imageWithCGImage:videoImage];
