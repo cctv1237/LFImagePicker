@@ -173,7 +173,6 @@
         _indexBadge.layer.cornerRadius = 8;
         _indexBadge.layer.shadowColor = [UIColor blackColor].CGColor;
         _indexBadge.layer.shadowOpacity = 0.5f;
-//        _indexBadge.layer.shadowRadius = 1.f;
     }
     return _indexBadge;
 }
