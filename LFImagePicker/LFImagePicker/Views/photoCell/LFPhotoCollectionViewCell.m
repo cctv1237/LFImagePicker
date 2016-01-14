@@ -34,7 +34,7 @@
         [self.contentImageView addSubview:self.cameraButton];
         [self.contentImageView addSubview:self.indexBadge];
         [self.contentImageView addSubview:self.videoLabel];
-        self.gap = 2.0f;
+        self.gap = 1.0f;
     }
     return self;
 }
@@ -114,7 +114,7 @@
 - (void)addSelectionSign
 {
     self.contentImageView.layer.borderColor = self.themeColor.CGColor;
-    self.contentImageView.layer.borderWidth = 2;
+    self.contentImageView.layer.borderWidth = 1;
     self.indexBadge.alpha = 1;
 }
 
@@ -169,8 +169,11 @@
         _indexBadge.backgroundColor = self.themeColor;
         _indexBadge.alpha = 0;
         _indexBadge.image = [UIImage imageNamed:@"content_btn_selected_40"];
-        _indexBadge.size = CGSizeMake(20, 20);
-        _indexBadge.layer.cornerRadius = 10;
+        _indexBadge.size = CGSizeMake(16, 16);
+        _indexBadge.layer.cornerRadius = 8;
+        _indexBadge.layer.shadowColor = [UIColor blackColor].CGColor;
+        _indexBadge.layer.shadowOpacity = 0.5f;
+//        _indexBadge.layer.shadowRadius = 1.f;
     }
     return _indexBadge;
 }

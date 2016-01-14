@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		AB4F5B1D1BCF5F7D0066BE2D /* content_btn_selected_40@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AB4F5B1B1BCF5F7D0066BE2D /* content_btn_selected_40@2x.png */; };
 		AB4F5B1E1BCF5F7D0066BE2D /* pictures_take-photo_209@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AB4F5B1C1BCF5F7D0066BE2D /* pictures_take-photo_209@2x.png */; };
 		AB633E451BC65866004818B4 /* LFDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AB633E441BC65866004818B4 /* LFDemoViewController.m */; };
 		AB633E5B1BC658DD004818B4 /* UIView+PickerLayoutMethods.m in Sources */ = {isa = PBXBuildFile; fileRef = AB633E4A1BC658DD004818B4 /* UIView+PickerLayoutMethods.m */; };
@@ -16,6 +15,8 @@
 		AB633E5E1BC658DD004818B4 /* LFAlbumListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AB633E541BC658DD004818B4 /* LFAlbumListViewController.m */; };
 		AB633E5F1BC658DD004818B4 /* LFPhotoCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AB633E571BC658DD004818B4 /* LFPhotoCollectionViewCell.m */; };
 		AB633E601BC658DD004818B4 /* LFImagePickerTopBar.m in Sources */ = {isa = PBXBuildFile; fileRef = AB633E5A1BC658DD004818B4 /* LFImagePickerTopBar.m */; };
+		AB85F36C1C47548400A70851 /* content_btn_selected_40@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AB85F36A1C47548400A70851 /* content_btn_selected_40@2x.png */; };
+		AB85F36D1C47548400A70851 /* content_btn_selected_40@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = AB85F36B1C47548400A70851 /* content_btn_selected_40@3x.png */; };
 		ABB34BDC1BB3D17A00C290A7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = ABB34BDB1BB3D17A00C290A7 /* main.m */; };
 		ABB34BDF1BB3D17A00C290A7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = ABB34BDE1BB3D17A00C290A7 /* AppDelegate.m */; };
 		ABB34BE51BB3D17B00C290A7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ABB34BE31BB3D17B00C290A7 /* Main.storyboard */; };
@@ -58,7 +59,6 @@
 		4A8442231BF1AD9F00321F33 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		4A8442241BF1ADB800321F33 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
 		4A8442251BF1ADB800321F33 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
-		AB4F5B1B1BCF5F7D0066BE2D /* content_btn_selected_40@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "content_btn_selected_40@2x.png"; sourceTree = "<group>"; };
 		AB4F5B1C1BCF5F7D0066BE2D /* pictures_take-photo_209@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pictures_take-photo_209@2x.png"; sourceTree = "<group>"; };
 		AB633E431BC65866004818B4 /* LFDemoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LFDemoViewController.h; sourceTree = "<group>"; };
 		AB633E441BC65866004818B4 /* LFDemoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LFDemoViewController.m; sourceTree = "<group>"; };
@@ -74,6 +74,8 @@
 		AB633E571BC658DD004818B4 /* LFPhotoCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LFPhotoCollectionViewCell.m; sourceTree = "<group>"; };
 		AB633E591BC658DD004818B4 /* LFImagePickerTopBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LFImagePickerTopBar.h; sourceTree = "<group>"; };
 		AB633E5A1BC658DD004818B4 /* LFImagePickerTopBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LFImagePickerTopBar.m; sourceTree = "<group>"; };
+		AB85F36A1C47548400A70851 /* content_btn_selected_40@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "content_btn_selected_40@2x.png"; sourceTree = "<group>"; };
+		AB85F36B1C47548400A70851 /* content_btn_selected_40@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "content_btn_selected_40@3x.png"; sourceTree = "<group>"; };
 		ABB34BD71BB3D17A00C290A7 /* LFImagePicker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LFImagePicker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ABB34BDB1BB3D17A00C290A7 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		ABB34BDD1BB3D17A00C290A7 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -134,7 +136,8 @@
 		AB4F5B1A1BCF5F7D0066BE2D /* LFImagePickerImage */ = {
 			isa = PBXGroup;
 			children = (
-				AB4F5B1B1BCF5F7D0066BE2D /* content_btn_selected_40@2x.png */,
+				AB85F36A1C47548400A70851 /* content_btn_selected_40@2x.png */,
+				AB85F36B1C47548400A70851 /* content_btn_selected_40@3x.png */,
 				AB4F5B1C1BCF5F7D0066BE2D /* pictures_take-photo_209@2x.png */,
 			);
 			path = LFImagePickerImage;
@@ -469,12 +472,13 @@
 				ABCFE5951BF1AFE60061E587 /* Main.strings in Resources */,
 				ABCFE5921BF1AFE60061E587 /* Main.strings in Resources */,
 				ABCFE5901BF1AFE60061E587 /* LaunchScreen.strings in Resources */,
-				AB4F5B1D1BCF5F7D0066BE2D /* content_btn_selected_40@2x.png in Resources */,
 				ABCFE5911BF1AFE60061E587 /* Localizable.strings in Resources */,
+				AB85F36D1C47548400A70851 /* content_btn_selected_40@3x.png in Resources */,
 				ABCFE5941BF1AFE60061E587 /* Localizable.strings in Resources */,
 				ABB34BEA1BB3D17B00C290A7 /* LaunchScreen.storyboard in Resources */,
 				ABB34BE71BB3D17B00C290A7 /* Assets.xcassets in Resources */,
 				ABCFE5931BF1AFE60061E587 /* LaunchScreen.strings in Resources */,
+				AB85F36C1C47548400A70851 /* content_btn_selected_40@2x.png in Resources */,
 				ABB34BE51BB3D17B00C290A7 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

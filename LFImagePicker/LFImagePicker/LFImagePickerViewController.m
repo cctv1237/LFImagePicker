@@ -95,7 +95,7 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
     [self.topBar topInContainer:0 shouldResize:NO];
     [self.topBar centerXEqualToView:self.view];
     
-    [self.bottomBar sizeEqualToView:self.topBar];
+    self.bottomBar.size = CGSizeMake(SCREEN_WIDTH, 50);
     [self.bottomBar bottomInContainer:0 shouldResize:NO];
     [self.bottomBar centerXEqualToView:self.view];
     
@@ -342,7 +342,7 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
     if (_collectionView == nil) {
         UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
         flowLayout.scrollDirection = UICollectionViewScrollDirectionVertical;
-        flowLayout.itemSize = CGSizeMake(SCREEN_WIDTH / 3, SCREEN_WIDTH / 3);
+        flowLayout.itemSize = CGSizeMake((SCREEN_WIDTH - 36) / 3, (SCREEN_WIDTH - 36) / 3);
         flowLayout.minimumInteritemSpacing = 0;
         flowLayout.minimumLineSpacing = 0;
         
@@ -352,7 +352,7 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
         _collectionView.showsHorizontalScrollIndicator = NO;
         _collectionView.showsVerticalScrollIndicator = NO;
         _collectionView.allowsMultipleSelection = YES;
-        _collectionView.contentInset = UIEdgeInsetsMake(44, 0, 44, 0);
+        _collectionView.contentInset = UIEdgeInsetsMake(62, 18, 68, 18);
         [_collectionView registerClass:[LFPhotoCollectionViewCell class] forCellWithReuseIdentifier:kLFPhotoCollectionViewCellIdentifier];
     }
     return _collectionView;
