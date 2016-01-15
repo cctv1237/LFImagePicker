@@ -11,7 +11,7 @@
 #import "LFImagePickerTopBar.h"
 #import "LFImagePickerBottomBar.h"
 #import "LFAlbumListViewController.h"
-#import "LFImageCompressView.h"
+#import "LFPickerProgressView.h"
 
 #import "UIView+PickerLayoutMethods.h"
 
@@ -21,7 +21,7 @@
 
 NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewCell";
 
-@interface LFImagePickerViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, LFImagePickerTopBarDelegate, LFAlbumListViewControllerDelegate, LFImageCompressViewDelegate>
+@interface LFImagePickerViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, LFImagePickerTopBarDelegate, LFAlbumListViewControllerDelegate, LFPickerProgressViewDelegate>
 
 @property (nonatomic, strong) LFPhotoData *photoData;
 @property (nonatomic, strong) NSMutableArray *selectedMedia;
@@ -32,7 +32,7 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) LFImagePickerTopBar *topBar;
 @property (nonatomic, strong) LFImagePickerBottomBar *bottomBar;
-@property (nonatomic, strong) LFImageCompressView *compressView;
+@property (nonatomic, strong) LFPickerProgressView *progressView;
 
 @end
 
@@ -84,7 +84,7 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
     [self.view addSubview:self.collectionView];
     [self.view addSubview:self.topBar];
     [self.view addSubview:self.bottomBar];
-    [self.view addSubview:self.compressView];
+    [self.view addSubview:self.progressView];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -101,7 +101,7 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
     
     [self.collectionView fill];
     
-    [self.compressView fill];
+    [self.progressView fill];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -126,7 +126,7 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
 {
     [UIView animateWithDuration:0.3f animations:^{
         self.navigationController.navigationBar.alpha = 0.0f;
-        self.compressView.alpha = 1.0f;
+        self.progressView.alpha = 1.0f;
     }];
     
     [[LFTransactionManager sharedInstance] fetchSelectedImage:self.selectedMedia
@@ -135,7 +135,7 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
                                                           if (self.delegate && [self.delegate respondsToSelector:@selector(imagePicker:didImportImages:)]) {
                                                               [self.delegate imagePicker:self didImportImages:info[@"processedImageList"]];
                                                               [self dismissViewControllerAnimated:YES completion:nil];
-                                                              self.compressView.alpha = 0.0f;
+                                                              self.progressView.alpha = 0.0f;
                                                           }
                                                       }
                                                          fail:^(NSDictionary *info) {
@@ -150,11 +150,11 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
                                                              [self presentViewController:fail animated:YES completion:nil];
                                                              
                                                              [UIView animateWithDuration:0.3f animations:^{
-                                                                 self.compressView.alpha = 0.0f;
+                                                                 self.progressView.alpha = 0.0f;
                                                              }];
                                                          }
                                                      progress:^(NSDictionary *info) {
-                                                         [self.compressView showCompressingProgress:info];
+                                                         [self.progressView startProgress:info];
                                                      }];
     
 }
@@ -223,18 +223,17 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
     [picker dismissViewControllerAnimated:YES completion:nil];
 }
 
-#pragma mark - BSImageCompressViewDelegate
-
-- (void)imageCompressViewController:(LFImageCompressView *)compressView didFinishedCompressedImage:(NSArray *)compressedImage
+#pragma mark = LFPickerProgressViewDelegate
+- (void)pickerProgressView:(LFPickerProgressView *)progressView didFinishedCompressedImage:(NSArray *)compressedImage
 {
     if ([self.delegate respondsToSelector:@selector(imagePicker:didImportImages:)]) {
         [self.delegate imagePicker:self didImportImages:compressedImage];
     }
     
     [UIView animateWithDuration:0.3f animations:^{
-        compressView.alpha = 0.0f;
+        progressView.alpha = 0.0f;
     } completion:^(BOOL finished) {
-        [compressView removeFromSuperview];
+        [progressView removeFromSuperview];
     }];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
@@ -376,14 +375,14 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
     return _bottomBar;
 }
 
-- (LFImageCompressView *)compressView
+- (LFPickerProgressView *)progressView
 {
-    if (_compressView == nil) {
-        _compressView = [[LFImageCompressView alloc] initWithThemeColor:self.tintColor];
-        _compressView.delegate = self;
-        _compressView.alpha = 0.0f;
+    if (_progressView == nil) {
+        _progressView = [[LFPickerProgressView alloc] init];
+        _progressView.delegate = self;
+        _progressView.alpha = 0.0f;
     }
-    return _compressView;
+    return _progressView;
 }
 
 - (LFPhotoData *)photoData
