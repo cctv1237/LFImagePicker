@@ -17,6 +17,8 @@
 		AB633E601BC658DD004818B4 /* LFImagePickerTopBar.m in Sources */ = {isa = PBXBuildFile; fileRef = AB633E5A1BC658DD004818B4 /* LFImagePickerTopBar.m */; };
 		AB85F36C1C47548400A70851 /* content_btn_selected_40@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AB85F36A1C47548400A70851 /* content_btn_selected_40@2x.png */; };
 		AB85F36D1C47548400A70851 /* content_btn_selected_40@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = AB85F36B1C47548400A70851 /* content_btn_selected_40@3x.png */; };
+		AB85F3881C493F8800A70851 /* BSLogoIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = AB85F3841C493F8800A70851 /* BSLogoIndicatorView.m */; };
+		AB85F3891C493F8800A70851 /* LFPickerProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = AB85F3871C493F8800A70851 /* LFPickerProgressView.m */; };
 		ABB34BDC1BB3D17A00C290A7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = ABB34BDB1BB3D17A00C290A7 /* main.m */; };
 		ABB34BDF1BB3D17A00C290A7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = ABB34BDE1BB3D17A00C290A7 /* AppDelegate.m */; };
 		ABB34BE51BB3D17B00C290A7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ABB34BE31BB3D17B00C290A7 /* Main.storyboard */; };
@@ -76,6 +78,10 @@
 		AB633E5A1BC658DD004818B4 /* LFImagePickerTopBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LFImagePickerTopBar.m; sourceTree = "<group>"; };
 		AB85F36A1C47548400A70851 /* content_btn_selected_40@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "content_btn_selected_40@2x.png"; sourceTree = "<group>"; };
 		AB85F36B1C47548400A70851 /* content_btn_selected_40@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "content_btn_selected_40@3x.png"; sourceTree = "<group>"; };
+		AB85F3831C493F8800A70851 /* BSLogoIndicatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSLogoIndicatorView.h; sourceTree = "<group>"; };
+		AB85F3841C493F8800A70851 /* BSLogoIndicatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSLogoIndicatorView.m; sourceTree = "<group>"; };
+		AB85F3861C493F8800A70851 /* LFPickerProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LFPickerProgressView.h; sourceTree = "<group>"; };
+		AB85F3871C493F8800A70851 /* LFPickerProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LFPickerProgressView.m; sourceTree = "<group>"; };
 		ABB34BD71BB3D17A00C290A7 /* LFImagePicker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LFImagePicker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ABB34BDB1BB3D17A00C290A7 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		ABB34BDD1BB3D17A00C290A7 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -195,6 +201,8 @@
 		AB633E511BC658DD004818B4 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				AB85F3821C493F8800A70851 /* LogoIndicator */,
+				AB85F3851C493F8800A70851 /* ProgressView */,
 				ABD782A61BC7A43900A3E49A /* ImageCompressView */,
 				AB633E521BC658DD004818B4 /* albumList */,
 				AB633E551BC658DD004818B4 /* photoCell */,
@@ -229,6 +237,24 @@
 				AB633E5A1BC658DD004818B4 /* LFImagePickerTopBar.m */,
 			);
 			path = topBar;
+			sourceTree = "<group>";
+		};
+		AB85F3821C493F8800A70851 /* LogoIndicator */ = {
+			isa = PBXGroup;
+			children = (
+				AB85F3831C493F8800A70851 /* BSLogoIndicatorView.h */,
+				AB85F3841C493F8800A70851 /* BSLogoIndicatorView.m */,
+			);
+			path = LogoIndicator;
+			sourceTree = "<group>";
+		};
+		AB85F3851C493F8800A70851 /* ProgressView */ = {
+			isa = PBXGroup;
+			children = (
+				AB85F3861C493F8800A70851 /* LFPickerProgressView.h */,
+				AB85F3871C493F8800A70851 /* LFPickerProgressView.m */,
+			);
+			path = ProgressView;
 			sourceTree = "<group>";
 		};
 		ABB34BCE1BB3D17A00C290A7 = {
@@ -513,10 +539,12 @@
 				AB633E5E1BC658DD004818B4 /* LFAlbumListViewController.m in Sources */,
 				AB633E601BC658DD004818B4 /* LFImagePickerTopBar.m in Sources */,
 				ABD782AC1BC7A43900A3E49A /* LFImageCompressView.m in Sources */,
+				AB85F3881C493F8800A70851 /* BSLogoIndicatorView.m in Sources */,
 				AB633E5D1BC658DD004818B4 /* LFImagePickerViewController.m in Sources */,
 				ABD782B51BC7B1BC00A3E49A /* LFTransactionManager.m in Sources */,
 				ABB34BDC1BB3D17A00C290A7 /* main.m in Sources */,
 				AB633E451BC65866004818B4 /* LFDemoViewController.m in Sources */,
+				AB85F3891C493F8800A70851 /* LFPickerProgressView.m in Sources */,
 				AB633E5B1BC658DD004818B4 /* UIView+PickerLayoutMethods.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
