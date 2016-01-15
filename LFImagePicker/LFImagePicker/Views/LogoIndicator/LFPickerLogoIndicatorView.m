@@ -6,10 +6,10 @@
 //  Copyright © 2016年 Beauty Sight Network Technology Co.,Ltd. All rights reserved.
 //
 
-#import "BSLogoIndicatorView.h"
+#import "LFPickerLogoIndicatorView.h"
 #import "UIView+PickerLayoutMethods.h"
 
-@interface BSLogoIndicatorView ()
+@interface LFPickerLogoIndicatorView ()
 
 @property (nonatomic, strong) UIVisualEffectView *blurBackground;
 @property (nonatomic, strong) UIView *animationView;
@@ -27,7 +27,7 @@
 
 @end
 
-@implementation BSLogoIndicatorView
+@implementation LFPickerLogoIndicatorView
 
 #pragma mark - life circle
 - (instancetype)initWithStyle:(BSLogoIndicatorViewStyle)style

@@ -14,7 +14,7 @@ typedef NS_ENUM(NSInteger, BSLogoIndicatorViewStyle) {
     BSLogoIndicatorViewStyleProgress,
 };
 
-@interface BSLogoIndicatorView : UIView
+@interface LFPickerLogoIndicatorView : UIView
 
 @property (nonatomic, assign) BSLogoIndicatorViewStyle logoIndicatorViewStyle; // default is BSLogoIndicatorViewStyleNormal
 @property (nonatomic, assign) BOOL hidesWhenStopped;           // default is YES. calls -setHidden when animating gets set to NO

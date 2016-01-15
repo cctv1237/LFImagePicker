@@ -7,7 +7,7 @@
 //
 
 #import "LFPickerProgressView.h"
-#import "BSLogoIndicatorView.h"
+#import "LFPickerLogoIndicatorView.h"
 
 #import "UIView+PickerLayoutMethods.h"
 
@@ -15,7 +15,7 @@
 
 @property (nonatomic, strong) UIView *backgroundView;
 @property (nonatomic, strong) UIView *centerView;
-@property (nonatomic, strong) BSLogoIndicatorView *logoIndicator;
+@property (nonatomic, strong) LFPickerLogoIndicatorView *logoIndicator;
 
 @property (nonatomic, strong) UIButton *doneButton;
 @property (nonatomic, strong) UIButton *exitButton;
@@ -128,10 +128,10 @@
     return _centerView;
 }
 
-- (BSLogoIndicatorView *)logoIndicator
+- (LFPickerLogoIndicatorView *)logoIndicator
 {
     if (_logoIndicator == nil) {
-        _logoIndicator = [[BSLogoIndicatorView alloc] initWithStyle:BSLogoIndicatorViewStyleProgress];
+        _logoIndicator = [[LFPickerLogoIndicatorView alloc] initWithStyle:BSLogoIndicatorViewStyleProgress];
         _logoIndicator.hidesWhenStopped = NO;
     }
     return _logoIndicator;
