@@ -129,12 +129,14 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
         self.progressView.alpha = 1.0f;
     }];
     
+    [self.progressView startProgress:@{@"finishedCount": @0, @"totalCount": @1}];
     [[LFTransactionManager sharedInstance] fetchSelectedImage:self.selectedMedia
                                                   cameraImage:self.captureImage
                                                       success:^(NSDictionary *info) {
                                                           if (self.delegate && [self.delegate respondsToSelector:@selector(imagePicker:didImportImages:)]) {
                                                               [self.delegate imagePicker:self didImportImages:info[@"processedImageList"]];
                                                               [self dismissViewControllerAnimated:YES completion:nil];
+                                                              [self.progressView startProgress:@{@"finishedCount": @1, @"totalCount": @1}];
                                                               self.progressView.alpha = 0.0f;
                                                           }
                                                       }
