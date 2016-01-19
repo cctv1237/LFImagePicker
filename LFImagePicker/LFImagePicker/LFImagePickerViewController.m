@@ -228,10 +228,6 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
 #pragma mark = LFPickerProgressViewDelegate
 - (void)pickerProgressView:(LFPickerProgressView *)progressView didFinishedCompressedImage:(NSArray *)compressedImage
 {
-    if ([self.delegate respondsToSelector:@selector(imagePicker:didImportImages:)]) {
-        [self.delegate imagePicker:self didImportImages:compressedImage];
-    }
-    
     [UIView animateWithDuration:0.3f animations:^{
         progressView.alpha = 0.0f;
     } completion:^(BOOL finished) {
