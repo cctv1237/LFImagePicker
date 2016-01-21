@@ -114,7 +114,7 @@
 - (void)addSelectionSign
 {
     self.contentImageView.layer.borderColor = self.themeColor.CGColor;
-    self.contentImageView.layer.borderWidth = 1;
+    self.contentImageView.layer.borderWidth = 2;
     self.indexBadge.alpha = 1;
 }
 
