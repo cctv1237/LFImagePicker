@@ -68,7 +68,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (self.delegate && [self.delegate respondsToSelector:@selector(albumListViewController:didSelectAlbumIndex:)]) {
-        [self.delegate albumListViewController:self didSelectAlbumIndex:indexPath.item];
+        [self.delegate albumListViewController:self didSelectAlbumIndex:indexPath.row];
     }
     [self dismissViewControllerAnimated:YES completion:nil];
 }

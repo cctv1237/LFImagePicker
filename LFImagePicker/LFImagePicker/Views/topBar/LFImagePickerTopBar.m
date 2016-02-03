@@ -100,7 +100,7 @@
     if (_importButton == nil) {
         _importButton = [UIButton buttonWithType:UIButtonTypeSystem];
         [_importButton addTarget:self action:@selector(didTappedImportButton:) forControlEvents:UIControlEventTouchUpInside];
-        [_importButton setTitle:NSLocalizedString(@"Import", @"importButton") forState:UIControlStateNormal];
+        [_importButton setTitle:NSLocalizedString(@"Import", @"导 入") forState:UIControlStateNormal];
         _importButton.titleLabel.font = [UIFont systemFontOfSize:13];
         _importButton.titleEdgeInsets = UIEdgeInsetsMake(13, 0, 13, 0);
         [_importButton setTitleColor:self.themeColor forState:UIControlStateNormal];
@@ -116,7 +116,7 @@
     if (_cancelButton == nil) {
         _cancelButton = [UIButton buttonWithType:UIButtonTypeSystem];
         [_cancelButton addTarget:self action:@selector(didTappedCancelButton:) forControlEvents:UIControlEventTouchUpInside];
-        [_cancelButton setTitle:NSLocalizedString(@"Cancel", @"cancelButton") forState:UIControlStateNormal];
+        [_cancelButton setTitle:NSLocalizedString(@"Cancel", @"取 消") forState:UIControlStateNormal];
         _cancelButton.titleLabel.font = [UIFont systemFontOfSize:13];
         _cancelButton.titleEdgeInsets = UIEdgeInsetsMake(13, 0, 13, 0);
         [_cancelButton setTitleColor:self.themeColor forState:UIControlStateNormal];
@@ -130,7 +130,7 @@
     if (_albumsButton == nil) {
         _albumsButton = [UIButton buttonWithType:UIButtonTypeSystem];
         [_albumsButton addTarget:self action:@selector(didTappedAlbumsButton:) forControlEvents:UIControlEventTouchUpInside];
-        [_albumsButton setTitle:NSLocalizedString(@"Albums", @"albumsButton") forState:UIControlStateNormal];
+        [_albumsButton setTitle:NSLocalizedString(@"Albums", @"相 册") forState:UIControlStateNormal];
         _albumsButton.titleLabel.font = [UIFont systemFontOfSize:13 weight:UIFontWeightRegular];
         [_albumsButton setTitleColor:self.themeColor forState:UIControlStateNormal];
         [_albumsButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateHighlighted];

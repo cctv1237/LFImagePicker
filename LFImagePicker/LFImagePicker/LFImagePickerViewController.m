@@ -142,10 +142,10 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
                                                       }
                                                          fail:^(NSDictionary *info) {
                                                              
-                                                             UIAlertController *fail = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Error", @"failed in pickerload")
-                                                                                                 message:NSLocalizedString(@"Video is Longer than 20s or Video type not support", @"failed in pickerload msg")
+                                                             UIAlertController *fail = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Error", @"错误")
+                                                                                                 message:NSLocalizedString(@"Video is Longer than 20s or Video type not support", @"视频太长或者无法被支持")
                                                                                           preferredStyle:UIAlertControllerStyleAlert];
-                                                             UIAlertAction *cancel = [UIAlertAction actionWithTitle:NSLocalizedString(@"OK", @"failed in pickerload cancel button")
+                                                             UIAlertAction *cancel = [UIAlertAction actionWithTitle:NSLocalizedString(@"OK", @"好")
                                                                                       style:UIAlertActionStyleCancel
                                                                                     handler:^(UIAlertAction * _Nonnull action) {}];
                                                              [fail addAction:cancel];
@@ -189,7 +189,8 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
         albums = self.photoData.userAlbums;
     }
     [albums enumerateObjectsUsingBlock:^(PHAssetCollection * _Nonnull collection, NSUInteger idx, BOOL * _Nonnull stop) {
-        if (idx == index || idx == index - self.photoData.smartAlbums.count) {
+        if ((idx == index && albums == self.photoData.smartAlbums) ||
+            (idx == index - self.photoData.smartAlbums.count && albums == self.photoData.userAlbums)) {
             self.photoData.album = collection;
             [self.topBar refreshAlbumsName:collection.localizedTitle];
             PHFetchResult *assetsFetchResult = [PHAsset fetchAssetsInAssetCollection:collection options:nil];
@@ -225,7 +226,7 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
     [picker dismissViewControllerAnimated:YES completion:nil];
 }
 
-#pragma mark = LFPickerProgressViewDelegate
+#pragma mark - LFPickerProgressViewDelegate
 - (void)pickerProgressView:(LFPickerProgressView *)progressView didFinishedCompressedImage:(NSArray *)compressedImage
 {
     [UIView animateWithDuration:0.3f animations:^{
