@@ -45,7 +45,7 @@
 #pragma mark - public
 - (void)refreshSelectedCount:(NSInteger)count
 {
-    self.selectedCountLabel.text = [NSString stringWithFormat:NSLocalizedString(@"selected:%lu   -better to choose more than 15 items", @"已选项目:   -选择15张以上效果更佳"), (long)count];
+    self.selectedCountLabel.text = [NSString stringWithFormat:NSLocalizedString(@"selected:%lu/50   -better to choose more than 15", @"已选项目:   -选择15张以上效果更佳"), (long)count];
     [self layoutSubviews];
 }
 
@@ -54,7 +54,7 @@
 {
     if (_selectedCountLabel == nil) {
         _selectedCountLabel = [[UILabel alloc] init];
-        _selectedCountLabel.text = NSLocalizedString(@"selected:0   -better to choose more than 15 items", @"已选项目:   -选择15张以上效果更佳");
+        _selectedCountLabel.text = NSLocalizedString(@"selected:0/50   -better to choose more than 15", @"已选项目:   -选择15张以上效果更佳");
         _selectedCountLabel.textColor = self.themeColor;
         _selectedCountLabel.font = [UIFont systemFontOfSize:13];
     }
