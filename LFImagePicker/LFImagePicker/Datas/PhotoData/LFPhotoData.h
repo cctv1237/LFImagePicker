@@ -13,6 +13,7 @@
 
 @property (nonatomic, strong) PHFetchResult *smartAlbums;
 @property (nonatomic, strong) PHFetchResult *userAlbums;
+@property (nonatomic, strong) PHFetchResult *syncedAlbums;
 @property (nonatomic, strong) PHAssetCollection *album;
 @property (nonatomic, strong) PHFetchResult *assets;
 

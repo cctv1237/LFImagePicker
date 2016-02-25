@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "LFImagePicker"
-  s.version      = "0.3.7"
+  s.version      = "0.3.8"
   s.summary      = "A iOS8+ PhotoKit Multiple Image Picker"
 
   s.description  = <<-DESC

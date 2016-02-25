@@ -174,6 +174,7 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
     albumListTable.popoverPresentationController.popoverLayoutMargins = UIEdgeInsetsMake(50, 50, 50, 50);
     albumListTable.smartAlbums = self.photoData.smartAlbums;
     albumListTable.userAlbums = self.photoData.userAlbums;
+    albumListTable.syncedAlbums = self.photoData.syncedAlbums;
     albumListTable.delegate = self;
     [self presentViewController:albumListTable animated:YES completion:nil];
 }
@@ -185,12 +186,16 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
     PHFetchResult *albums;
     if (index < self.photoData.smartAlbums.count) {
         albums = self.photoData.smartAlbums;
-    } else {
+    } else if (index < self.photoData.smartAlbums.count + self.photoData.userAlbums.count) {
         albums = self.photoData.userAlbums;
+    } else {
+        albums = self.photoData.syncedAlbums;
     }
+    
     [albums enumerateObjectsUsingBlock:^(PHAssetCollection * _Nonnull collection, NSUInteger idx, BOOL * _Nonnull stop) {
         if ((idx == index && albums == self.photoData.smartAlbums) ||
-            (idx == index - self.photoData.smartAlbums.count && albums == self.photoData.userAlbums)) {
+            (idx == index - self.photoData.smartAlbums.count && albums == self.photoData.userAlbums) ||
+            (idx == index - self.photoData.smartAlbums.count - self.photoData.userAlbums.count && albums == self.photoData.syncedAlbums)) {
             self.photoData.album = collection;
             [self.topBar refreshAlbumsName:collection.localizedTitle];
             PHFetchResult *assetsFetchResult = [PHAsset fetchAssetsInAssetCollection:collection options:nil];

@@ -17,6 +17,7 @@
 
 @property (nonatomic, weak) PHFetchResult *smartAlbums;
 @property (nonatomic, weak) PHFetchResult *userAlbums;
+@property (nonatomic, strong) PHFetchResult *syncedAlbums;
 
 @end
 

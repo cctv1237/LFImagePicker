@@ -30,6 +30,10 @@
                 self.smartAlbums = smartAlbums;
                 PHFetchResult *userAlbums = [PHAssetCollection fetchTopLevelUserCollectionsWithOptions:nil];
                 self.userAlbums = userAlbums;
+                PHFetchResult *syncedAlbums = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeAlbum
+                                                                                      subtype:PHAssetCollectionSubtypeAlbumSyncedAlbum
+                                                                                      options:nil];
+                self.syncedAlbums = syncedAlbums;
                 [self configAlbumByAlbums:smartAlbums];
                 complete();
             });
