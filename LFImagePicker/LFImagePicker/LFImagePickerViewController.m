@@ -23,6 +23,8 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
 
 @interface LFImagePickerViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, LFImagePickerTopBarDelegate, LFAlbumListViewControllerDelegate, LFPickerProgressViewDelegate>
 
+@property (nonatomic, assign) LFImagePickerThemeType themeType;
+
 @property (nonatomic, strong) LFPhotoData *photoData;
 @property (nonatomic, strong) NSMutableArray *selectedMedia;
 @property (nonatomic, assign) NSInteger selectedVideoCount;
@@ -68,10 +70,13 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
     return self;
 }
 
-- (instancetype)initWithThemeColor:(UIColor *)color
+- (instancetype)initWithThemeColor:(UIColor *)color themeType:(LFImagePickerThemeType)type
 {
     if (self = [super init]) {
         self.maxSelectedCount = 10;
+        self.maxVideoCount = 10;
+        self.selectedVideoCount = 0;
+        self.themeType = type;
         self.tintColor = color;
         self.videoAvailable = NO;
         self.audioAvailable = NO;
@@ -91,7 +96,11 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
 {
     [super viewWillAppear:animated];
     
-    self.topBar.size = CGSizeMake(SCREEN_WIDTH, 44);
+    if (self.themeType == LFImagePickerThemeTypeYuJian) {
+        self.topBar.size = CGSizeMake(SCREEN_WIDTH, 50);
+    } else {
+        self.topBar.size = CGSizeMake(SCREEN_WIDTH, 44);
+    }
     [self.topBar topInContainer:0 shouldResize:NO];
     [self.topBar centerXEqualToView:self.view];
     
@@ -252,13 +261,23 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     LFPhotoCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kLFPhotoCollectionViewCellIdentifier forIndexPath:indexPath];
+    if (self.themeType == LFImagePickerThemeTypeYuJian) {
+        cell.gap = 9.0;
+        cell.contentView.backgroundColor = [UIColor colorWithRed:43.0/255.0 green:43.0/255.0 blue:43.0/255.0 alpha:1];
+        cell.indexBadge.image = [UIImage imageNamed:@"content_btn_selected_40_gold"];
+    }
+    
     if (indexPath.item == 0) {
         [cell isCameraButton];
         if (self.captureImage) {
             [cell configDataWithImage:self.captureImage themeColor:self.tintColor];
             [cell addSelectionSign];
         } else {
-            [cell configDataWithImage:[UIImage imageNamed:@"pictures_take-photo_209"] themeColor:self.tintColor];
+            if (self.themeType == LFImagePickerThemeTypeYuJian) {
+                [cell configDataWithImage:[UIImage imageNamed:@"pictures_take-photo_purple"] themeColor:self.tintColor];
+            } else {
+                [cell configDataWithImage:[UIImage imageNamed:@"pictures_take-photo_209"] themeColor:self.tintColor];
+            }
         }
     } else {
         [cell configDataWithAsset:self.photoData.assets[[self.photoData.assets count] - indexPath.item] themeColor:self.tintColor];
@@ -345,7 +364,11 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
     if (_collectionView == nil) {
         UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
         flowLayout.scrollDirection = UICollectionViewScrollDirectionVertical;
-        flowLayout.itemSize = CGSizeMake((SCREEN_WIDTH - 36) / 3, (SCREEN_WIDTH - 36) / 3);
+        if (self.themeType == LFImagePickerThemeTypeYuJian) {
+            flowLayout.itemSize = CGSizeMake((SCREEN_WIDTH - 9) / 3, (SCREEN_WIDTH - 9) / 3);
+        } else {
+            flowLayout.itemSize = CGSizeMake((SCREEN_WIDTH - 36) / 3, (SCREEN_WIDTH - 36) / 3);
+        }
         flowLayout.minimumInteritemSpacing = 0;
         flowLayout.minimumLineSpacing = 0;
         
@@ -355,7 +378,12 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
         _collectionView.showsHorizontalScrollIndicator = NO;
         _collectionView.showsVerticalScrollIndicator = NO;
         _collectionView.allowsMultipleSelection = YES;
-        _collectionView.contentInset = UIEdgeInsetsMake(62, 18, 68, 18);
+        if (self.themeType == LFImagePickerThemeTypeYuJian) {
+            _collectionView.contentInset = UIEdgeInsetsMake(57.5, 4.5, 57.5, 4.5);
+            _collectionView.backgroundColor = [UIColor colorWithRed:43.0/255.0 green:43.0/255.0 blue:43.0/255.0 alpha:1];
+        } else {
+            _collectionView.contentInset = UIEdgeInsetsMake(62, 18, 68, 18);
+        }
         [_collectionView registerClass:[LFPhotoCollectionViewCell class] forCellWithReuseIdentifier:kLFPhotoCollectionViewCellIdentifier];
     }
     return _collectionView;
@@ -366,6 +394,9 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
     if (_topBar == nil) {
         _topBar = [[LFImagePickerTopBar alloc] initWithThemeColor:self.tintColor];
         _topBar.delegate = self;
+        if (self.themeType == LFImagePickerThemeTypeYuJian) {
+            [_topBar.cancelButton setTitleColor:[UIColor colorWithRed:134.0/255.0 green:73.0/255.0 blue:199.0/255.0 alpha:1] forState:UIControlStateNormal];
+        }
     }
     return _topBar;
 }
@@ -373,8 +404,8 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
 - (LFImagePickerBottomBar *)bottomBar
 {
     if (_bottomBar == nil) {
-        _bottomBar = [[LFImagePickerBottomBar alloc] initWithThemeColor:self.tintColor];
-        
+        _bottomBar = [[LFImagePickerBottomBar alloc] initWithThemeColor:self.tintColor maxCount:self.maxSelectedCount];
+        _bottomBar.infoLabel.text = NSLocalizedString(@"Video should no more than 10s", @"仅支持上传长度小于10秒的视频");
     }
     return _bottomBar;
 }

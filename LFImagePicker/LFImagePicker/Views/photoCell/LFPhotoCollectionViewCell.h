@@ -11,6 +11,10 @@
 
 @interface LFPhotoCollectionViewCell : UICollectionViewCell
 
+@property (nonatomic, assign) CGFloat gap;
+
+@property (nonatomic, strong, readonly) UIImageView *indexBadge;
+
 - (void)configDataWithAsset:(PHAsset *)asset themeColor:(UIColor *)color;
 - (void)configDataWithImage:(UIImage *)image themeColor:(UIColor *)color;
 - (void)bounceAnimation;

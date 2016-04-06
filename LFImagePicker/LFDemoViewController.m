@@ -64,7 +64,9 @@
 - (LFImagePickerViewController *)picker
 {
     if (_picker == nil) {
-        _picker = [[LFImagePickerViewController alloc] init];
+        _picker = [[LFImagePickerViewController alloc] initWithThemeColor:[UIColor colorWithRed:1 green:211.0/255.0 blue:105.0/255.0 alpha:1]
+                                                                themeType:LFImagePickerThemeTypeYuJian];
+//        _picker = [[LFImagePickerViewController alloc] init];
         _picker.maxSelectedCount = 12;
         _picker.delegate = self;
         _picker.videoAvailable = YES;

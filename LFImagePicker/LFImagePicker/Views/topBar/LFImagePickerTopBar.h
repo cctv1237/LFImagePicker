@@ -13,6 +13,7 @@
 @interface LFImagePickerTopBar : UIView
 
 @property (nonatomic, strong) UIButton *importButton;
+@property (nonatomic, strong) UIButton *cancelButton;
 
 @property (nonatomic, weak) id<LFImagePickerTopBarDelegate> delegate;
 

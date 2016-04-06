@@ -10,7 +10,9 @@
 
 @interface LFImagePickerBottomBar : UIView
 
-- (instancetype)initWithThemeColor:(UIColor *)color;
+@property (nonatomic, strong) UILabel *infoLabel;
+
+- (instancetype)initWithThemeColor:(UIColor *)color maxCount:(NSInteger)count;
 - (void)refreshSelectedCount:(NSInteger)count;
 
 @end

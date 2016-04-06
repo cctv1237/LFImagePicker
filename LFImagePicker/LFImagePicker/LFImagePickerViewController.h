@@ -13,6 +13,11 @@ typedef NS_ENUM(NSUInteger, LFImagePickerTargetType) {
     LFImagePickerTargetTypeItemImage
 };
 
+typedef NS_ENUM(NSUInteger, LFImagePickerThemeType) {
+    LFImagePickerThemeTypePlayPlus,
+    LFImagePickerThemeTypeYuJian
+};
+
 @protocol LFimagePickerDelegate, LFImagePickerCompressorProtocol;
 
 @interface LFImagePickerViewController : UIViewController
@@ -28,7 +33,7 @@ typedef NS_ENUM(NSUInteger, LFImagePickerTargetType) {
 
 @property (nonatomic, weak) id<LFimagePickerDelegate> delegate;
 
-- (instancetype)initWithThemeColor:(UIColor *)color;
+- (instancetype)initWithThemeColor:(UIColor *)color themeType:(LFImagePickerThemeType)type;
 
 @end
 

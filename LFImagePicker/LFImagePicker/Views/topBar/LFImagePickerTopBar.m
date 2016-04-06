@@ -15,7 +15,6 @@
 
 @property (nonatomic, weak) UIColor *themeColor;
 
-@property (nonatomic, strong) UIButton *cancelButton;
 @property (nonatomic, strong) UIButton *albumsButton;
 
 @end

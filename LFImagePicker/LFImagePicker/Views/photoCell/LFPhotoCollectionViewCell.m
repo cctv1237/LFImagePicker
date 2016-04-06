@@ -14,11 +14,10 @@
 @property (nonatomic, strong) PHCachingImageManager *cachingImageManager;
 
 @property (nonatomic, strong) UIImageView *contentImageView;
-@property (nonatomic, strong) UIImageView *indexBadge;
+@property (nonatomic, strong, readwrite) UIImageView *indexBadge;
 @property (nonatomic, strong) UIImageView *cameraButton;
 @property (nonatomic, strong) UILabel *videoLabel;
 
-@property (nonatomic, assign) CGFloat gap;
 @property (nonatomic, strong) UIColor *themeColor;
 
 @end
