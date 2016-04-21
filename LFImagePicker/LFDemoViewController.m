@@ -43,7 +43,7 @@
 }
 - (void)imagePicker:(LFImagePickerViewController *)picker didReachMaxSelectedCount:(NSInteger)maxCount
 {
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Notice", @"提醒") message:[NSString stringWithFormat:NSLocalizedString(@"You can select no more than %lu images", @"你最多只能选择 {number} 张图片"), maxCount] delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", nil) otherButtonTitles:nil];
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Notice", @"提醒") message:[NSString stringWithFormat:NSLocalizedString(@"You can select no more than %lu media", @"你最多只能选择 {number} 个媒体"), maxCount] delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", nil) otherButtonTitles:nil];
     [alertView show];
 }
 
@@ -67,7 +67,7 @@
         _picker = [[LFImagePickerViewController alloc] initWithThemeColor:[UIColor colorWithRed:1 green:211.0/255.0 blue:105.0/255.0 alpha:1]
                                                                 themeType:LFImagePickerThemeTypeYuJian];
 //        _picker = [[LFImagePickerViewController alloc] init];
-        _picker.maxSelectedCount = 12;
+        _picker.maxSelectedCount = 1;
         _picker.delegate = self;
         _picker.videoAvailable = YES;
     }

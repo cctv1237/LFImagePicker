@@ -131,7 +131,7 @@ NSString * const kLFFetchImageTransactionResultInfoKeyVideoImage = @"kLFFetchIma
 - (void)slowMotionVideoOperationWithVideoAsset:(AVComposition *)videoAsset outputUrl:(NSURL *)outputUrl uuid:(NSString *)uuid
 {
     CGFloat seconds = CMTimeGetSeconds(videoAsset.duration);
-    if (seconds < 20) {
+    if (seconds < 11) {
         AVMutableComposition *mixComposition = [AVMutableComposition composition];
         
         AVMutableCompositionTrack *compositionVideoTrack = [mixComposition addMutableTrackWithMediaType:AVMediaTypeVideo
@@ -186,7 +186,7 @@ NSString * const kLFFetchImageTransactionResultInfoKeyVideoImage = @"kLFFetchIma
             self.shouldWaiting = NO;
         }];
     } else {
-        // 视频不能超过20秒
+        // 视频不能超过10秒
         LFFetchImageCallbackBlock progress = self.info[kLFFetchImageTransactionInfoKeyProgressCallback];
         if (progress) {
             progress(nil);
@@ -198,7 +198,7 @@ NSString * const kLFFetchImageTransactionResultInfoKeyVideoImage = @"kLFFetchIma
 - (void)normalVideoOperationWithAsset:(AVURLAsset *)urlAsset outputUrl:(NSURL *)outputUrl uuid:(NSString *)uuid
 {
     CGFloat seconds = CMTimeGetSeconds(urlAsset.duration);
-    if (seconds < 20) {
+    if (seconds < 11) {
         NSArray *tracks = [urlAsset tracks];
         
         // calculate vide size
@@ -228,7 +228,7 @@ NSString * const kLFFetchImageTransactionResultInfoKeyVideoImage = @"kLFFetchIma
             self.shouldWaiting = NO;
         }];
     } else {
-        // 视频不能超过20秒
+        // 视频不能超过11秒
         LFFetchImageCallbackBlock progress = self.info[kLFFetchImageTransactionInfoKeyProgressCallback];
         if (progress) {
             progress(nil);

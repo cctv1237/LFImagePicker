@@ -88,7 +88,9 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
     [super viewDidLoad];
     [self.view addSubview:self.collectionView];
     [self.view addSubview:self.topBar];
-    [self.view addSubview:self.bottomBar];
+    if (self.themeType != LFImagePickerThemeTypeYuJian) {
+        [self.view addSubview:self.bottomBar];
+    }
     [self.view addSubview:self.progressView];
 }
 
@@ -152,7 +154,7 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
                                                          fail:^(NSDictionary *info) {
                                                              
                                                              UIAlertController *fail = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Error", @"错误")
-                                                                                                 message:NSLocalizedString(@"Video is Longer than 20s or Video type not support", @"视频太长或者无法被支持")
+                                                                                                 message:NSLocalizedString(@"Video is Longer than 10s or Video type not support", @"视频太过10s或者无法被支持")
                                                                                           preferredStyle:UIAlertControllerStyleAlert];
                                                              UIAlertAction *cancel = [UIAlertAction actionWithTitle:NSLocalizedString(@"OK", @"好")
                                                                                       style:UIAlertActionStyleCancel
