@@ -52,6 +52,11 @@
     
 }
 
+- (void)imagePicker:(LFImagePickerViewController *)picker didTappedImportButton:(UIButton *)button
+{
+    
+}
+
 #pragma mark - event response
 
 - (void)didTappedStartButton:(UIButton *)button
@@ -67,7 +72,7 @@
         _picker = [[LFImagePickerViewController alloc] initWithThemeColor:[UIColor colorWithRed:1 green:211.0/255.0 blue:105.0/255.0 alpha:1]
                                                                 themeType:LFImagePickerThemeTypeYuJian];
 //        _picker = [[LFImagePickerViewController alloc] init];
-        _picker.maxSelectedCount = 1;
+        _picker.maxSelectedCount = 12;
         _picker.delegate = self;
         _picker.videoAvailable = YES;
     }

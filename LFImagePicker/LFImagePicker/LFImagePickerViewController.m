@@ -135,10 +135,16 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
 
 - (void)topBar:(LFImagePickerTopBar *)bar didTappedImportButton:(UIButton *)button
 {
-    [UIView animateWithDuration:0.3f animations:^{
-        self.navigationController.navigationBar.alpha = 0.0f;
-        self.progressView.alpha = 1.0f;
-    }];
+    if (self.themeType == LFImagePickerThemeTypePlayPlus) {
+        [UIView animateWithDuration:0.3f animations:^{
+            self.navigationController.navigationBar.alpha = 0.0f;
+            self.progressView.alpha = 1.0f;
+        }];
+    }
+    
+    if (self.delegate && [self.delegate respondsToSelector:@selector(imagePicker:didTappedImportButton:)]) {
+        [self.delegate imagePicker:self didTappedImportButton:button];
+    }
     
     [self.progressView startProgress:@{@"finishedCount": @0, @"totalCount": @1}];
     [[LFTransactionManager sharedInstance] fetchSelectedImage:self.selectedMedia
