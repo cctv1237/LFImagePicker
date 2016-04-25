@@ -30,6 +30,8 @@
 		ABB34BEA1BB3D17B00C290A7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ABB34BE81BB3D17B00C290A7 /* LaunchScreen.storyboard */; };
 		ABB34BF51BB3D17B00C290A7 /* LFImagePickerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = ABB34BF41BB3D17B00C290A7 /* LFImagePickerTests.m */; };
 		ABB34C001BB3D17B00C290A7 /* LFImagePickerUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = ABB34BFF1BB3D17B00C290A7 /* LFImagePickerUITests.m */; };
+		ABC9EB981CCE1A6600566709 /* AVAsset+VideoUrlCoverImage.m in Sources */ = {isa = PBXBuildFile; fileRef = ABC9EB971CCE1A6600566709 /* AVAsset+VideoUrlCoverImage.m */; };
+		ABC9EB9A1CCE1F0000566709 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABC9EB991CCE1F0000566709 /* MobileCoreServices.framework */; };
 		ABCFE5901BF1AFE60061E587 /* LaunchScreen.strings in Resources */ = {isa = PBXBuildFile; fileRef = ABCFE5831BF1AFE60061E587 /* LaunchScreen.strings */; };
 		ABCFE5911BF1AFE60061E587 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = ABCFE5851BF1AFE60061E587 /* Localizable.strings */; };
 		ABCFE5921BF1AFE60061E587 /* Main.strings in Resources */ = {isa = PBXBuildFile; fileRef = ABCFE5871BF1AFE60061E587 /* Main.strings */; };
@@ -103,6 +105,9 @@
 		ABB34BFB1BB3D17B00C290A7 /* LFImagePickerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LFImagePickerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		ABB34BFF1BB3D17B00C290A7 /* LFImagePickerUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LFImagePickerUITests.m; sourceTree = "<group>"; };
 		ABB34C011BB3D17B00C290A7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		ABC9EB961CCE1A6600566709 /* AVAsset+VideoUrlCoverImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AVAsset+VideoUrlCoverImage.h"; sourceTree = "<group>"; };
+		ABC9EB971CCE1A6600566709 /* AVAsset+VideoUrlCoverImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AVAsset+VideoUrlCoverImage.m"; sourceTree = "<group>"; };
+		ABC9EB991CCE1F0000566709 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		ABCFE5841BF1AFE60061E587 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = LaunchScreen.strings; sourceTree = "<group>"; };
 		ABCFE5861BF1AFE60061E587 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = Localizable.strings; sourceTree = "<group>"; };
 		ABCFE5881BF1AFE60061E587 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = Main.strings; sourceTree = "<group>"; };
@@ -124,6 +129,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ABC9EB9A1CCE1F0000566709 /* MobileCoreServices.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -177,6 +183,7 @@
 			children = (
 				ABD782AE1BC7AE3B00A3E49A /* Images */,
 				AB633E481BC658DD004818B4 /* Views */,
+				ABC9EB951CCE19CF00566709 /* AVAsset */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -268,6 +275,7 @@
 		ABB34BCE1BB3D17A00C290A7 = {
 			isa = PBXGroup;
 			children = (
+				ABC9EB991CCE1F0000566709 /* MobileCoreServices.framework */,
 				ABB34BD91BB3D17A00C290A7 /* LFImagePicker */,
 				ABB34BF31BB3D17B00C290A7 /* LFImagePickerTests */,
 				ABB34BFE1BB3D17B00C290A7 /* LFImagePickerUITests */,
@@ -328,6 +336,15 @@
 				ABB34C011BB3D17B00C290A7 /* Info.plist */,
 			);
 			path = LFImagePickerUITests;
+			sourceTree = "<group>";
+		};
+		ABC9EB951CCE19CF00566709 /* AVAsset */ = {
+			isa = PBXGroup;
+			children = (
+				ABC9EB961CCE1A6600566709 /* AVAsset+VideoUrlCoverImage.h */,
+				ABC9EB971CCE1A6600566709 /* AVAsset+VideoUrlCoverImage.m */,
+			);
+			path = AVAsset;
 			sourceTree = "<group>";
 		};
 		ABCFE5821BF1AFE60061E587 /* en.lproj */ = {
@@ -544,6 +561,7 @@
 				AB85F3881C493F8800A70851 /* LFPickerLogoIndicatorView.m in Sources */,
 				AB633E5D1BC658DD004818B4 /* LFImagePickerViewController.m in Sources */,
 				ABD782B51BC7B1BC00A3E49A /* LFTransactionManager.m in Sources */,
+				ABC9EB981CCE1A6600566709 /* AVAsset+VideoUrlCoverImage.m in Sources */,
 				ABB34BDC1BB3D17A00C290A7 /* main.m in Sources */,
 				AB633E451BC65866004818B4 /* LFDemoViewController.m in Sources */,
 				AB85F3891C493F8800A70851 /* LFPickerProgressView.m in Sources */,

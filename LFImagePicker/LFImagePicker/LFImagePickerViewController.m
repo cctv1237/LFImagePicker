@@ -14,10 +14,12 @@
 #import "LFPickerProgressView.h"
 
 #import "UIView+PickerLayoutMethods.h"
+#import "AVAsset+VideoUrlCoverImage.h"
 
 #import <Photos/Photos.h>
 #import "LFTransactionManager.h"
 #import "LFPhotoData.h"
+#import <MobileCoreServices/MobileCoreServices.h>
 
 NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewCell";
 
@@ -239,13 +241,41 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(nonnull NSDictionary<NSString *,id> *)info
 {
-    self.captureImage = [info objectForKey:UIImagePickerControllerEditedImage];
-    if (!self.captureImage) {
-        self.captureImage = [info objectForKey:UIImagePickerControllerOriginalImage];
+    if (self.themeType == LFImagePickerThemeTypeYuJian) {
+        if (self.delegate && [self.delegate respondsToSelector:@selector(imagePicker:didTappedImportButton:)]) {
+            [self.delegate imagePicker:self didTappedImportButton:nil];
+        }
+        
+        AVURLAsset *videoAsset = [AVURLAsset assetWithURL:info[UIImagePickerControllerMediaURL]];
+        NSString *uuid = [[NSUUID UUID] UUIDString];
+        NSString *fileName = [NSString stringWithFormat:@"%@.mp4", uuid];
+        NSString *outPutFilepath = [[NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:fileName];
+        NSURL *outputUrl = [NSURL fileURLWithPath:outPutFilepath];
+        
+        [[NSFileManager defaultManager] copyItemAtURL:info[UIImagePickerControllerMediaURL] toURL:outputUrl error:NULL];
+        NSURL *videoImageUrl = [videoAsset imageUrlWithUUID:uuid];
+        
+        NSDictionary *item = @{@"kLFFetchImageTransactionResultInfoKeyType": @"video",
+                               @"kLFFetchImageTransactionResultInfoKeyContent": outputUrl,
+                               @"kLFFetchImageTransactionResultInfoKeyVideoImage": videoImageUrl};
+        
+        NSArray *processedList = @[item];
+        
+        if (self.delegate && [self.delegate respondsToSelector:@selector(imagePicker:didImportImages:)]) {
+            [self.delegate imagePicker:self didImportImages:processedList];
+        }
+        [picker dismissViewControllerAnimated:YES completion:nil];
+        [self dismissViewControllerAnimated:YES completion:nil];
+    } else {
+        self.captureImage = [info objectForKey:UIImagePickerControllerEditedImage];
+        if (!self.captureImage) {
+            self.captureImage = [info objectForKey:UIImagePickerControllerOriginalImage];
+        }
+        [self.collectionView reloadData];
+        [self.bottomBar refreshSelectedCount:self.selectedMedia.count + 1];
+        [picker dismissViewControllerAnimated:YES completion:nil];
     }
-    [self.collectionView reloadData];
-    [self.bottomBar refreshSelectedCount:self.selectedMedia.count + 1];
-    [picker dismissViewControllerAnimated:YES completion:nil];
+    
 }
 
 #pragma mark - LFPickerProgressViewDelegate
@@ -306,6 +336,12 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
         picker.delegate = self;
         picker.allowsEditing = YES;
         picker.sourceType = UIImagePickerControllerSourceTypeCamera;
+        if (self.themeType == LFImagePickerThemeTypeYuJian) {
+            picker.mediaTypes = [[NSArray alloc] initWithObjects:(NSString *)kUTTypeMovie, nil];
+            picker.cameraCaptureMode = UIImagePickerControllerCameraCaptureModeVideo;
+            picker.videoQuality = UIImagePickerControllerQualityTypeMedium;
+            picker.videoMaximumDuration = 10;
+        }
         [self presentViewController:picker animated:YES completion:nil];
     } else {
         PHAsset *asset = (PHAsset *)self.photoData.assets[[self.photoData.assets count] - indexPath.item];

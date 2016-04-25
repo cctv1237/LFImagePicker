@@ -9,6 +9,7 @@
 #import "LFFetchSelectedImageTransaction.h"
 #import <Photos/Photos.h>
 #import "UIImage+PickerCompress.h"
+#import "AVAsset+VideoUrlCoverImage.h"
 
 NSString * const kLFFetchImageTransactionInfoKeySuccessCallback = @"kLFFetchImageTransactionInfoKeySuccessCallback";
 NSString * const kLFFetchImageTransactionInfoKeyFailCallback = @"kLFFetchImageTransactionInfoKeyFailCallback";
@@ -176,7 +177,7 @@ NSString * const kLFFetchImageTransactionResultInfoKeyVideoImage = @"kLFFetchIma
             LFFetchImageCallbackBlock progress = self.info[kLFFetchImageTransactionInfoKeyProgressCallback];
             if (progress) {
                 AVURLAsset *videoAsset = [AVURLAsset assetWithURL:outputUrl];
-                NSURL *videoImageUrl = [self imageWithVideoAsset:videoAsset uuid:uuid];
+                NSURL *videoImageUrl = [videoAsset imageUrlWithUUID:uuid];
                 progress(@{
                            kLFFetchImageTransactionResultInfoKeyType:@"video",
                            kLFFetchImageTransactionResultInfoKeyContent:outputUrl,
@@ -210,7 +211,7 @@ NSString * const kLFFetchImageTransactionResultInfoKeyVideoImage = @"kLFFetchIma
         }
         
         // export video
-        AVAssetExportSession *exportSession = [[AVAssetExportSession alloc] initWithAsset:urlAsset presetName:AVAssetExportPreset640x480];
+        AVAssetExportSession *exportSession = [[AVAssetExportSession alloc] initWithAsset:urlAsset presetName:AVAssetExportPreset1280x720];
         exportSession.shouldOptimizeForNetworkUse = YES;
         exportSession.outputURL = outputUrl;
         exportSession.outputFileType = AVFileTypeMPEG4;
@@ -218,7 +219,7 @@ NSString * const kLFFetchImageTransactionResultInfoKeyVideoImage = @"kLFFetchIma
             LFFetchImageCallbackBlock progress = self.info[kLFFetchImageTransactionInfoKeyProgressCallback];
             if (progress) {
                 AVURLAsset *videoAsset = [AVURLAsset assetWithURL:outputUrl];
-                NSURL *videoImageUrl = [self imageWithVideoAsset:videoAsset uuid:uuid];
+                NSURL *videoImageUrl = [videoAsset imageUrlWithUUID:uuid];
                 progress(@{
                            kLFFetchImageTransactionResultInfoKeyType:@"video",
                            kLFFetchImageTransactionResultInfoKeyContent:outputUrl,
@@ -235,27 +236,6 @@ NSString * const kLFFetchImageTransactionResultInfoKeyVideoImage = @"kLFFetchIma
         }
         self.shouldWaiting = NO;
     }
-}
-
-- (NSURL *)imageWithVideoAsset:(AVAsset *)asset uuid:(NSString *)uuid;
-{
-    AVAssetImageGenerator *imageGenerator = [[AVAssetImageGenerator alloc] initWithAsset:asset];
-    CMTime startTime = kCMTimeZero;
-    CMTime actualTime;
-    NSError *error = nil;
-    CGImageRef videoImage = [imageGenerator copyCGImageAtTime:startTime actualTime:&actualTime error:&error];
-    imageGenerator.appliesPreferredTrackTransform = YES;
-    UIImage *image = nil;
-    if (videoImage != NULL) {
-        image = [UIImage imageWithCGImage:videoImage];
-    } else {
-        image = [UIImage imageNamed:@"default_video_cover"];
-    }
-    NSData *jpgData = UIImageJPEGRepresentation(image, 0.9f);
-    NSString *outPutFilepath = [[NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:uuid];
-    [jpgData writeToFile:outPutFilepath atomically:NO];
-    NSURL *resultUrl = [NSURL fileURLWithPath:outPutFilepath isDirectory:NO];
-    return resultUrl;
 }
 
 #pragma mark - getters and setters
