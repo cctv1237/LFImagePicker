@@ -40,6 +40,7 @@ typedef NS_ENUM(NSUInteger, LFImagePickerThemeType) {
 @protocol LFimagePickerDelegate <NSObject>
 
 - (void)imagePicker:(LFImagePickerViewController *)picker didImportImages:(NSArray *)imageList;
+- (void)imagePicker:(LFImagePickerViewController *)picker didImportFailedInfo:(NSDictionary *)info;
 - (void)imagePicker:(LFImagePickerViewController *)picker didReachMaxSelectedCount:(NSInteger)maxCount;
 - (void)imagePicker:(LFImagePickerViewController *)picker didReachMaxVideoCount:(NSInteger)maxCount;
 

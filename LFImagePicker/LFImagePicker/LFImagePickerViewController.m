@@ -161,6 +161,10 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
                                                       }
                                                          fail:^(NSDictionary *info) {
                                                              
+                                                             if (self.delegate && [self.delegate respondsToSelector:@selector(imagePicker:didImportFailedInfo:)]) {
+                                                                 [self.delegate imagePicker:self didImportFailedInfo:info];
+                                                             }
+                                                             
                                                              UIAlertController *fail = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Error", @"错误")
                                                                                                  message:NSLocalizedString(@"Video is Longer than 10s or Video type not support", @"视频太过10s或者无法被支持")
                                                                                           preferredStyle:UIAlertControllerStyleAlert];
