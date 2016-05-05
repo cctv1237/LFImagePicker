@@ -316,7 +316,7 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
             [cell addSelectionSign];
         } else {
             if (self.themeType == LFImagePickerThemeTypeYuJian) {
-                [cell configDataWithImage:[UIImage imageNamed:@"pictures_take-photo_purple"] themeColor:self.tintColor];
+                [cell configDataWithImage:[UIImage imageNamed:@"pictures_take-video_purple"] themeColor:self.tintColor];
             } else {
                 [cell configDataWithImage:[UIImage imageNamed:@"pictures_take-photo_209"] themeColor:self.tintColor];
             }
