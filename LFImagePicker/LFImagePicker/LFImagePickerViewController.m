@@ -148,15 +148,20 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
         [self.delegate imagePicker:self didTappedImportButton:button];
     }
     
-    [self.progressView startProgress:@{@"finishedCount": @0, @"totalCount": @1}];
+    if (self.themeType == LFImagePickerThemeTypePlayPlus) {
+        [self.progressView startProgress:@{@"finishedCount": @0, @"totalCount": @1}];
+    }
+    
     [[LFTransactionManager sharedInstance] fetchSelectedImage:self.selectedMedia
                                                   cameraImage:self.captureImage
                                                       success:^(NSDictionary *info) {
                                                           if (self.delegate && [self.delegate respondsToSelector:@selector(imagePicker:didImportImages:)]) {
                                                               [self.delegate imagePicker:self didImportImages:info[@"processedImageList"]];
                                                               [self dismissViewControllerAnimated:YES completion:nil];
-                                                              [self.progressView startProgress:@{@"finishedCount": @1, @"totalCount": @1}];
-                                                              self.progressView.alpha = 0.0f;
+                                                              if (self.themeType == LFImagePickerThemeTypePlayPlus) {
+                                                                  [self.progressView startProgress:@{@"finishedCount": @1, @"totalCount": @1}];
+                                                                  self.progressView.alpha = 0.0f;
+                                                              }
                                                           }
                                                       }
                                                          fail:^(NSDictionary *info) {
@@ -174,12 +179,17 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
                                                              [fail addAction:cancel];
                                                              [self presentViewController:fail animated:YES completion:nil];
                                                              
-                                                             [UIView animateWithDuration:0.3f animations:^{
-                                                                 self.progressView.alpha = 0.0f;
-                                                             }];
+                                                             if (self.themeType == LFImagePickerThemeTypePlayPlus) {
+                                                                 [UIView animateWithDuration:0.3f animations:^{
+                                                                     self.progressView.alpha = 0.0f;
+                                                                 }];
+                                                             }
+                                                             
                                                          }
                                                      progress:^(NSDictionary *info) {
-                                                         [self.progressView startProgress:info];
+                                                         if (self.themeType == LFImagePickerThemeTypePlayPlus) {
+                                                             [self.progressView startProgress:info];
+                                                         }
                                                      }];
     
 }
@@ -343,7 +353,7 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
         if (self.themeType == LFImagePickerThemeTypeYuJian) {
             picker.mediaTypes = [[NSArray alloc] initWithObjects:(NSString *)kUTTypeMovie, nil];
             picker.cameraCaptureMode = UIImagePickerControllerCameraCaptureModeVideo;
-            picker.videoQuality = UIImagePickerControllerQualityTypeMedium;
+            picker.videoQuality = UIImagePickerControllerQualityTypeIFrame1280x720;
             picker.videoMaximumDuration = 10;
         }
         [self presentViewController:picker animated:YES completion:nil];
