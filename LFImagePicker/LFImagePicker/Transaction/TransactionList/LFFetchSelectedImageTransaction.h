@@ -18,6 +18,8 @@ extern NSString * const kLFFetchImageTransactionInfoKeyAsset;
 extern NSString * const kLFFetchImageTransactionResultInfoKeyType;
 extern NSString * const kLFFetchImageTransactionResultInfoKeyContent;
 extern NSString * const kLFFetchImageTransactionResultInfoKeyVideoImage;
+extern NSString * const kLFFetchImageTransactionResultInfoKeyVideoLatitude;
+extern NSString * const kLFFetchImageTransactionResultInfoKeyVideoLongitude;
 
 @interface LFFetchSelectedImageTransaction : NSObject
 

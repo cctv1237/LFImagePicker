@@ -19,6 +19,8 @@ NSString * const kLFFetchImageTransactionInfoKeyAsset = @"kLFFetchImageTransacti
 NSString * const kLFFetchImageTransactionResultInfoKeyType = @"kLFFetchImageTransactionResultInfoKeyType";
 NSString * const kLFFetchImageTransactionResultInfoKeyContent = @"kLFFetchImageTransactionResultInfoKeyContent";
 NSString * const kLFFetchImageTransactionResultInfoKeyVideoImage = @"kLFFetchImageTransactionResultInfoKeyVideoImage";
+NSString * const kLFFetchImageTransactionResultInfoKeyVideoLatitude = @"kLFFetchImageTransactionResultInfoKeyVideoLatitude";
+NSString * const kLFFetchImageTransactionResultInfoKeyVideoLongitude = @"kLFFetchImageTransactionResultInfoKeyVideoLongitude";
 
 @interface LFFetchSelectedImageTransaction ()
 
@@ -114,10 +116,23 @@ NSString * const kLFFetchImageTransactionResultInfoKeyVideoImage = @"kLFFetchIma
         NSString *outPutFilepath = [[NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:fileName];
         NSURL *outputUrl = [NSURL fileURLWithPath:outPutFilepath];
         
+        CGFloat latitude = 0.0f;
+        CGFloat longitude = 0.0f;
+        for (AVMetadataItem *metadataItem in originAsset.metadata) {
+            if ([metadataItem.commonKey isEqualToString:@"location"]) {
+                NSArray *location = [[[metadataItem.stringValue stringByReplacingOccurrencesOfString:@"+" withString:@",+"] stringByReplacingOccurrencesOfString:@"-" withString:@",-"] componentsSeparatedByString:@","];
+                if (location.count > 2) {
+                    latitude = [location[1] doubleValue];
+                    longitude = [location[2] doubleValue];
+                }
+                break;
+            }
+        }
+        
         if ([originAsset isKindOfClass:[AVURLAsset class]]) {
-            [self normalVideoOperationWithAsset:(AVURLAsset *)originAsset outputUrl:outputUrl uuid:uuid];
+            [self normalVideoOperationWithAsset:(AVURLAsset *)originAsset outputUrl:outputUrl uuid:uuid latitude:latitude longitude:longitude];
         } else if ([originAsset isKindOfClass:[AVComposition class]]) {
-            [self slowMotionVideoOperationWithVideoAsset:(AVComposition *)originAsset outputUrl:outputUrl uuid:uuid];
+            [self slowMotionVideoOperationWithVideoAsset:(AVComposition *)originAsset outputUrl:outputUrl uuid:uuid latitude:latitude longitude:longitude];
         } else {
             // 跳过不可识别的Video
             LFFetchImageCallbackBlock progress = self.info[kLFFetchImageTransactionInfoKeyProgressCallback];
@@ -129,7 +144,7 @@ NSString * const kLFFetchImageTransactionResultInfoKeyVideoImage = @"kLFFetchIma
     }];
 }
 
-- (void)slowMotionVideoOperationWithVideoAsset:(AVComposition *)videoAsset outputUrl:(NSURL *)outputUrl uuid:(NSString *)uuid
+- (void)slowMotionVideoOperationWithVideoAsset:(AVComposition *)videoAsset outputUrl:(NSURL *)outputUrl uuid:(NSString *)uuid latitude:(CGFloat)latitude longitude:(CGFloat)longitude
 {
     CGFloat seconds = CMTimeGetSeconds(videoAsset.duration);
     if (seconds < 11) {
@@ -181,7 +196,9 @@ NSString * const kLFFetchImageTransactionResultInfoKeyVideoImage = @"kLFFetchIma
                 progress(@{
                            kLFFetchImageTransactionResultInfoKeyType:@"video",
                            kLFFetchImageTransactionResultInfoKeyContent:outputUrl,
-                           kLFFetchImageTransactionResultInfoKeyVideoImage:videoImageUrl
+                           kLFFetchImageTransactionResultInfoKeyVideoImage:videoImageUrl,
+                           kLFFetchImageTransactionResultInfoKeyVideoLatitude:@(latitude),
+                           kLFFetchImageTransactionResultInfoKeyVideoLongitude:@(longitude)
                            });
             }
             self.shouldWaiting = NO;
@@ -196,7 +213,7 @@ NSString * const kLFFetchImageTransactionResultInfoKeyVideoImage = @"kLFFetchIma
     }
 }
 
-- (void)normalVideoOperationWithAsset:(AVURLAsset *)urlAsset outputUrl:(NSURL *)outputUrl uuid:(NSString *)uuid
+- (void)normalVideoOperationWithAsset:(AVURLAsset *)urlAsset outputUrl:(NSURL *)outputUrl uuid:(NSString *)uuid latitude:(CGFloat)latitude longitude:(CGFloat)longitude
 {
     CGFloat seconds = CMTimeGetSeconds(urlAsset.duration);
     if (seconds < 11) {
@@ -223,7 +240,9 @@ NSString * const kLFFetchImageTransactionResultInfoKeyVideoImage = @"kLFFetchIma
                 progress(@{
                            kLFFetchImageTransactionResultInfoKeyType:@"video",
                            kLFFetchImageTransactionResultInfoKeyContent:outputUrl,
-                           kLFFetchImageTransactionResultInfoKeyVideoImage:videoImageUrl
+                           kLFFetchImageTransactionResultInfoKeyVideoImage:videoImageUrl,
+                           kLFFetchImageTransactionResultInfoKeyVideoLatitude:@(latitude),
+                           kLFFetchImageTransactionResultInfoKeyVideoLongitude:@(longitude)
                            });
             }
             self.shouldWaiting = NO;
