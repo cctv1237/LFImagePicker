@@ -173,7 +173,7 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
                                                              }
                                                              
                                                              UIAlertController *fail = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Error", @"错误")
-                                                                                                 message:NSLocalizedString(@"Video is Longer than 10s or Video type not support", @"视频超过10s或者无法被支持")
+                                                                                                 message:NSLocalizedString(@"Video is Longer than 20s or Video type not support", @"视频超过20s或者无法被支持")
                                                                                           preferredStyle:UIAlertControllerStyleAlert];
                                                              UIAlertAction *cancel = [UIAlertAction actionWithTitle:NSLocalizedString(@"OK", @"好")
                                                                                       style:UIAlertActionStyleCancel
