@@ -24,6 +24,7 @@ typedef NS_ENUM(NSUInteger, LFImagePickerThemeType) {
 
 @property (nonatomic, assign) NSInteger maxSelectedCount;
 @property (nonatomic, assign) NSInteger maxVideoCount;
+@property (nonatomic, assign) NSInteger maxVideoDuration;
 @property (nonatomic, strong) UIColor *tintColor;
 
 @property (nonatomic, assign) LFImagePickerTargetType targetType;
