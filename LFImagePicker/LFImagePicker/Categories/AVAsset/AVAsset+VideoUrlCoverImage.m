@@ -13,11 +13,11 @@
 - (NSURL *)imageUrlWithUUID:(NSString *)uuid
 {
     AVAssetImageGenerator *imageGenerator = [[AVAssetImageGenerator alloc] initWithAsset:self];
+    imageGenerator.appliesPreferredTrackTransform = YES;
     CMTime startTime = kCMTimeZero;
     CMTime actualTime;
     NSError *error = nil;
     CGImageRef videoImage = [imageGenerator copyCGImageAtTime:startTime actualTime:&actualTime error:&error];
-    imageGenerator.appliesPreferredTrackTransform = YES;
     UIImage *image = nil;
     if (videoImage != NULL) {
         image = [UIImage imageWithCGImage:videoImage];
