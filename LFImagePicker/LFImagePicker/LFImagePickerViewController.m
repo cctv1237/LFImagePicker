@@ -355,8 +355,7 @@ NSString * const kLFPhotoCollectionViewCellIdentifier = @"LFPhotoCollectionViewC
         if (self.themeType == LFImagePickerThemeTypeYuJian) {
             picker.mediaTypes = [[NSArray alloc] initWithObjects:(NSString *)kUTTypeMovie, nil];
             picker.cameraCaptureMode = UIImagePickerControllerCameraCaptureModeVideo;
-            picker.videoQuality = UIImagePickerControllerQualityTypeIFrame1280x720;
-            picker.videoMaximumDuration = 10;
+            picker.videoQuality = UIImagePickerControllerQualityTypeIFrame960x540;
         }
         [self presentViewController:picker animated:YES completion:nil];
     } else {
